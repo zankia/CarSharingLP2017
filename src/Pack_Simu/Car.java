@@ -2,64 +2,55 @@ package Pack_Simu;
 
 import java.util.ArrayList;
 
-
 //La classe des voitures
 public class Car
 {
-	private int id;
-	private Point pos;
-	//parcoursList contient les Ã©tapes du parcours
-	private ArrayList<ParcoursStep> parcoursList = new ArrayList<ParcoursStep>();
+	private int idCar;
+	private Point posCar;
+	//parcoursList contient les étapes du parcours
+	private ArrayList<ParcoursStep> parcoursList;
 	//occupantList contient les clients dans la voiture
-	private ArrayList<Client> occupantList = new ArrayList<Client>();
-	//indique le numÃ©ro de la rue dans laquelle la voiture se trouve
+	private ArrayList<Client> occupantList;
+	//indique le numéro de la rue dans laquelle la voiture se trouve
 	int streetId;
 	private boolean isDoingCarSharing;
+	private static int cptIdCar = 0;
 
-	Car(int k, int x, int y){
-		setId(k);
-		setPos(new Point(x, y));
-		streetId = -1;
-		setDoingCarSharing(true);
+	Car(int coordX, int coordY){
+		this.idCar = cptIdCar;
+		this.posCar = new Point(coordX,coordY);
+		this.parcoursList = new ArrayList<ParcoursStep>();
+		this.occupantList = new ArrayList<Client>();
+		this.streetId = -1;
+		this.isDoingCarSharing = true;
+		cptIdCar++;
 	}
 
-	public boolean isDoingCarSharing() {
-		return isDoingCarSharing;
+	public boolean getIsDoingCarSharing() {
+		return this.isDoingCarSharing;
+	}
+	
+	public void setIsDoingCarSharing(boolean newIsDoingCarSharing) {
+		this.isDoingCarSharing = newIsDoingCarSharing;
 	}
 
-	public void setDoingCarSharing(boolean isDoingCarSharing) {
-		this.isDoingCarSharing = isDoingCarSharing;
+	public Point getPosCar() {
+		return this.posCar;
 	}
 
-	public ArrayList<Client> getOccupantList() {
-		return occupantList;
+	public int getIdCar() {
+		return this.idCar;
 	}
 
-	public void setOccupantList(ArrayList<Client> occupantList) {
-		this.occupantList = occupantList;
+	public ArrayList<Client> getOccupantListCar() {
+		return this.occupantList;
 	}
-
-	public int getId() {
-		return id;
+	
+	public ArrayList<ParcoursStep> getParcoursListCar() {
+		return this.parcoursList;
 	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Point getPos() {
-		return pos;
-	}
-
-	public void setPos(Point pos) {
-		this.pos = pos;
-	}
-
-	public ArrayList<ParcoursStep> getParcoursList() {
-		return parcoursList;
-	}
-
-	public void setParcoursList(ArrayList<ParcoursStep> parcoursList) {
-		this.parcoursList = parcoursList;
+	
+	public void setParcoursList(ArrayList<ParcoursStep> newParcoursList) {
+		this.parcoursList = newParcoursList;
 	}
 }

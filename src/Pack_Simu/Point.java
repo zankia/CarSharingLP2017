@@ -1,35 +1,26 @@
 package Pack_Simu;
+// Java.awt.Point
+public class Point {
+	
+	private int coordX;
+	private int coordY;
 
-//Cette classe représente un doublet d'entier
-public class Point
-{   
-	private int x;
-	private int y;
-
-	Point(int xCons,int yCons){
-		setX(xCons);
-		setY(yCons);
+	Point(int coordX,int coordY) {
+		this.coordX = coordX;
+		this.coordY = coordY;
 	}
-
-	public void set(int xCons, int yCons)
+	
+	public void updatePoint(int newCoordX, int newCoordY)
 	{
-		setX(xCons);
-		setY(yCons);
+		this.coordX = newCoordX;
+		this.coordY = newCoordY;
 	}
-
-	public int getX() {
-		return x;
+	
+	public int getCoordX() {
+		return this.coordX;
 	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
+	
+	public int getCoordY() {
+		return this.coordY;
 	}
 }

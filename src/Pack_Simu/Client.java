@@ -1,69 +1,63 @@
 package Pack_Simu;
 
 
-//La classe client reprÃ©sente un voyageur
+//La classe client représente un voyageur
 public class Client
 {
-	private int id;
+	private int idClient;
 	int appearanceMoment;
-	private Point[] pos;
+	private Point[] posClient;
 	//Index de pos :
 	//0 position du client
 	//1 destination du client
-	int state;
+	int stateClient;
 	//state :
 	//0 sur le trottoir
 	//1 dans la voiture
-	//2 arrivÃ©
-	private Car car;
+	//2 arrivé
+	private Car carClient;
 	private boolean isUsingCarSharing;
+	private static int idcptClient=0; 
 
-	Client(int l, int time, int x, int y){
-		setId(l);
-		appearanceMoment = time;
-		setPos(new Point[2]);
-		getPos()[0] = new Point(x,y);
-		setState(0);
-		setUsingCarSharing(true);
+	Client(int time, int coordX, int coordY){
+		this.idClient = idcptClient;
+		this.appearanceMoment = time;
+		this.posClient = new Point[2];
+		this.posClient[0] = new Point(coordX,coordY);
+		this.stateClient = 0;
+		this.isUsingCarSharing = true;
+		idcptClient++;
+	}
+	
+	public int getStateClient () {
+		return this.stateClient;
+	}
+	
+	public void setStateClient(int newStateClient) {
+		this.stateClient = newStateClient;
 	}
 
-	public int getId() {
-		return id;
+	public void setIsUsingCarSharing(boolean newIsUsingCarSharing) {
+		this.isUsingCarSharing = newIsUsingCarSharing;
+	}
+	
+	public boolean getIsUsingCarSharing () {
+		return this.isUsingCarSharing;
+	}
+	
+	public Point[] getPosClient () {
+		return this.posClient;
+	}
+	
+	public Car getCarClient () {
+		return this.carClient;
+	}
+	
+	public void setCarClient (Car newCar) {
+		this.carClient = newCar;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public int getState() {
-		return state;
-	}
-
-	public void setState(int state) {
-		this.state = state;
-	}
-
-	public Point[] getPos() {
-		return pos;
-	}
-
-	public void setPos(Point[] pos) {
-		this.pos = pos;
-	}
-
-	public boolean isUsingCarSharing() {
-		return isUsingCarSharing;
-	}
-
-	public void setUsingCarSharing(boolean isUsingCarSharing) {
-		this.isUsingCarSharing = isUsingCarSharing;
-	}
-
-	public Car getCar() {
-		return car;
-	}
-
-	public void setCar(Car car) {
-		this.car = car;
+	public int getIdClient() {
+		return this.idClient;
 	}
 }
