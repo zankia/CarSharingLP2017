@@ -1,6 +1,7 @@
 package Pack_Simu;
 
 import java.util.ArrayList;
+import java.awt.Point;
 
 //La classe des voitures
 public class Car

@@ -8,11 +8,17 @@ import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import Pack_Simu.*;
-import Pack_Fenetre.*;
+
+import Pack_Fenetre.Fenetre_Appli;
+import Pack_Fenetre.SideWindow;
+import Pack_Simu.Car;
+import Pack_Simu.Client;
+import Pack_Simu.ParcoursStep;
+import Pack_Simu.Simulation;
 
 public class Application implements ActionListener, MouseListener, ItemListener, ChangeListener, KeyEventDispatcher
 {

@@ -1,5 +1,7 @@
 package Pack_Simu;
 
+import java.awt.Point;
+
 
 //La classe client représente un voyageur
 public class Client

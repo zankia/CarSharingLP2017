@@ -3,6 +3,7 @@ package Pack_Simu;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+
 //Modele POur TAille des Rues et Tailles des Voitures
 
 public class Simulation{
@@ -16,16 +17,11 @@ public class Simulation{
 	private Client notTargettedYet;
 	private Car carSimulation;
 	private Client selectedClient;
-	int carLength; // City ??
-	int streetLength; // City ??
-	int cityWidth; //City
-	int cityHeight; //City
-	int[][][] streetArray; //City
 	private double carSpeedMean;
 	double clientSpeedSum;
 	int arrivedClient;
-	private double clientSpeedMean;
-	private double clientRealSpeedMean;
+	private double clientSpeedMean; //Simulation
+	private double clientRealSpeedMean; //Simulation
 	private double arrivedRate;
 	private int distSum;
 	private int consumption;
@@ -33,6 +29,8 @@ public class Simulation{
 	//Initialisation des variables
 	public Simulation(int cLength, int sLength, int width, int height)
 	{
+		Model model = new Model();
+		City city = new City();
 		setTime(0);
 		setNeedAlgorithme(false);
 		setCarList(new ArrayList<Car>());
@@ -42,11 +40,11 @@ public class Simulation{
 		setNotTargettedYet(null);
 		setCarSimulation(null);
 		setSelectedClient(null);
-		carLength = cLength;
-		streetLength = sLength;
-		cityWidth = width/streetLength+1;
-		cityHeight = height/streetLength+1;
-		streetArray = new int[cityWidth][cityHeight][2];
+		model.setCarLength(cLength);
+		model.setStreetLength(sLength);
+		city.setCityWidth(width/model.getStreetLength()+1);
+		city.setCityHeight(height/model.getStreetLength()+1);
+		city.setStreetArray(new int [city.getCityWidth()][city.getCityHeight()][2]);
 		setCarSpeedMean(0);
 		clientSpeedSum = 0;
 		arrivedClient = 0;
