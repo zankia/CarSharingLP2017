@@ -148,7 +148,7 @@ public class Fenetre_Appli extends JFrame{
 		
 		/** OBJETS RELATIFS AU NOMBRE DE PASSAGERS **/
 		JLabel occupantLabel = new JLabel("Capacités des voitures :");
-		setOccupantSpinner(new JSpinner(new SpinnerNumberModel(5,1,999,1)));
+		setOccupantSpinner(new JSpinner(new SpinnerNumberModel(5,1,5,1)));
 		JPanel occupantLayout = new JPanel();
 		occupantLayout.setLayout(new BoxLayout(occupantLayout,BoxLayout.PAGE_AXIS));
 		occupantLayout.add(occupantLabel);
