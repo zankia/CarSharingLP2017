@@ -7,14 +7,12 @@ import java.awt.Point;
 
 public class Simulation{
 
-	private int time; //Keep Simulation
-	private boolean needAlgorithme; //Keep Simulation
-	
+	private int time;
+	private boolean needAlgorithme;
 	private ArrayList<Car> ListeVoitures; 
 	private ArrayList<Client> ListeClients;
-	
 	private int nbVoituresSimulation;
-	
+	private int nbClientsSimulation;
 	private Client notTargettedYet;
 	private Car carSimulation;
 	private Client selectedClient;
@@ -28,113 +26,106 @@ public class Simulation{
 	private int inconnu;
 
 	//Initialisation des variables
-	public Simulation(int cLength, int sLength, int width, int height)
-	{
+	public Simulation(int cLength, int sLength, int width, int height) {
+		
 		Model model = new Model();
 		City city = new City();
-		
 		this.time = 0;
 		this.needAlgorithme = false;
+		this.ListeVoitures = new ArrayList<Car>();
+		this.ListeClients = new ArrayList<Client>();
 		this.nbVoituresSimulation = 0;
-		
-		setCarList(new ArrayList<Car>());
-		setClientList(new ArrayList<Client>());
-		clientTotalNumber = 0;
-		setNotTargettedYet(null);
-		setCarSimulation(null);
-		setSelectedClient(null);
+		this.nbClientsSimulation = 0;
+		this.notTargettedYet = null;
+		this.carSimulation = null;
+		this.selectedClient = null;
 		model.setCarLength(cLength);
 		model.setStreetLength(sLength);
 		city.setCityWidth(width/model.getStreetLength()+1);
 		city.setCityHeight(height/model.getStreetLength()+1);
 		city.setStreetArray(new int [city.getCityWidth()][city.getCityHeight()][2]);
-		setCarSpeedMean(0);
-		clientSpeedSum = 0;
-		arrivedClient = 0;
-		setClientSpeedMean(0);
-		setClientRealSpeedMean(0);
-		setArrivedRate(0);
-		setDistSum(0);
-		setInconnu(0);
-
-		System.out.println();
-		System.out.println("Nouvelle simulation");
+		this.carSpeedMean = 0;
+		this.clientSpeedSum = 0;
+		this.arrivedClient = 0;
+		this.clientSpeedMean = 0;
+		this.clientRealSpeedMean = 0;
+		this.arrivedRate = 0;
+		this.distSum = 0;
+		this.inconnu = 0;
 	}
 
 	public void ajouterVoitureSimulation (int CoordX, int CoordY) {
 		this.ListeVoitures.add(new Car(CoordX,CoordY));
 		nbVoituresSimulation++;
-		setCarSimulation(this.ListeVoitures.get(nbVoituresSimulation-1));
+		this.carSimulation = (this.ListeVoitures.get(nbVoituresSimulation-1));
 		this.needAlgorithme = true;
 	}
 
-	public void ajouterClientSimulation(int x,int y)
-	{
+	public void ajouterClientSimulation(int x,int y) {
 		//S'il y a un client dont la destination n'est pas encore définie
-		if(getNotTargettedYet() != null){
-			getNotTargettedYet().getPosClient()[1] = new Point(x, y);
-			getClientList().add(getNotTargettedYet());
-			clientTotalNumber++;
-			setSelectedClient(getNotTargettedYet());
-			setNotTargettedYet(null);
-			if(dist(getSelectedClient().getPosClient()[0],getSelectedClient().getPosClient()[1])==0) deleteClient();
-			else setNeedAlgorithme(true);
-		} else {
-			//Sinon on crée un nouveau client
-			setNotTargettedYet(new Client(this.time,x,y));
-		} 
+		if(this.notTargettedYet != null){
+			this.notTargettedYet.getPosClient()[1] = new Point(x, y);
+			this.ListeClients.add(this.notTargettedYet);
+			this.nbClientsSimulation++;
+			this.selectedClient = this.notTargettedYet;
+			this.notTargettedYet = null;
+			if(dist(this.selectedClient.getPosClient()[0],this.selectedClient.getPosClient()[1])==0) {
+				deleteClient();
+			} else {
+				//Sinon on crée un nouveau client
+				this.needAlgorithme = true;
+				this.notTargettedYet = new Client(this.time,x,y);
+			} 
+		}
 	}
 
 	public void deleteCar(){
-		getCarList().remove(getCarSimulation());
-		carNumber--;
-		setCarSimulation(null);
-		setNeedAlgorithme(true);
+		this.ListeVoitures.remove(this.carSimulation);
+		this.nbVoituresSimulation--;
+		this.carSimulation = null;
+		this.needAlgorithme = true;
 	}
 
 	public void deleteClient(){
-		if(getSelectedClient() == getNotTargettedYet()){
-			setNotTargettedYet(null);
-		}
-		else {
-			if(getSelectedClient().getStateClient() == 1){
-				getSelectedClient().getCarClient().getOccupantListCar().remove(getSelectedClient());
+		if(this.selectedClient == this.notTargettedYet){
+			this.notTargettedYet = null;
+		} else {
+			if(this.selectedClient.getStateClient() == 1){
+				this.selectedClient.getCarClient().getOccupantListCar().remove(this.selectedClient);
 			}
-			getClientList().remove(getSelectedClient());
-			clientTotalNumber--;
+			this.ListeClients.remove(this.selectedClient);
+			this.nbClientsSimulation--;
 		}
-		setSelectedClient(null);
-		setNeedAlgorithme(true);
+		this.selectedClient = null;
+		this.needAlgorithme = true;
 	}
 
 	//Renvoie un tableau contenant les coordonnées des voitures
 	public int[] getCoordoneeDesVoitures()
 	{
-		int[] t = new int[carNumber*2];
-		for(int k=0;k<carNumber;k++)
+		int[] t = new int[nbVoituresSimulation*2];
+		for(int k=0;k<nbVoituresSimulation;k++)
 		{
-			t[2*k]=(int) getCarList().get(k).getPosCar().getX();
-			t[2*k+1]=(int) getCarList().get(k).getPosCar().getY();
+			t[2*k]=(int) this.ListeVoitures.get(k).getPosCar().getX();
+			t[2*k+1]=(int) this.ListeVoitures.get(k).getPosCar().getY();
 		}
 		return t;
 	}
 
 	//Renvoie un tableau contenant les coordonnées des clients
-	public int[] getCoordoneeDesClients()
-	{
-		int[] t = new int[clientTotalNumber*4 + 2*((getNotTargettedYet()!=null)?1:0)];
-		for(int l=0;l<clientTotalNumber;l++)
-		{
-			t[4*l]=(int) getClientList().get(l).getPosClient()[0].getX();
-			t[4*l+1]=(int) getClientList().get(l).getPosClient()[0].getY();
-			t[4*l+2]=(int) getClientList().get(l).getPosClient()[1].getX();
-			t[4*l+3]=(int) getClientList().get(l).getPosClient()[1].getY();
+	public int[] getCoordoneeDesClients() {
+		int[] coord = new int[this.nbClientsSimulation*4 + 2*((this.notTargettedYet!=null)?1:0)];
+		for(int l=0;l<this.nbClientsSimulation;l++) {
+			coord[4*l]=(int) this.ListeClients.get(l).getPosClient()[0].getX();
+			coord[4*l+1]=(int) this.ListeClients.get(l).getPosClient()[0].getY();
+			coord[4*l+2]=(int) this.ListeClients.get(l).getPosClient()[1].getX();
+			coord[4*l+3]=(int) this.ListeClients.get(l).getPosClient()[1].getY();
 		}
-		if(getNotTargettedYet()!=null){
-			t[4*clientTotalNumber]=getNotTargettedYet().getPosClient()[0].getCoordX();
-			t[4*clientTotalNumber+1]=getNotTargettedYet().getPosClient()[0].getCoordY();	
+		if(this.notTargettedYet!=null) {
+			coord[4*nbClientsSimulation]=(int) this.notTargettedYet.getPosClient()[0].getX();
+			coord[4*nbClientsSimulation+1]=(int) this.notTargettedYet.getPosClient()[0].getY();	
 		}
-		return t;
+		return coord;
 	}
 
 
