@@ -50,9 +50,9 @@ public class CityBoard extends JPanel
 					g.fillRect(i*getSquareSize(),j*getSquareSize(),getSquareSize(),getSquareSize());
 		g.setFont(new Font(g.getFont().getFontName(),Font.BOLD,2*getSquareSize()/3));
 		//On dessine toutes les voitures
-		for(Car car: app.getSimu().getCarList()) drawCar(g,car);
+		for(Car car: app.getSimu().getListeVoitures()) drawCar(g,car);
 		if(app.getSimu().getNotTargettedYet() != null) drawClientPos(g,app.getSimu().getNotTargettedYet());
-		for(Client cli: app.getSimu().getClientList()){
+		for(Client cli: app.getSimu().getListeClients()){
 			//On dessine les positions des clients non embarqués
 			if(cli.getStateClient() == 0) drawClientPos(g,cli);
 			//On dessine les destinations des clients définis et non arrivés
@@ -64,8 +64,8 @@ public class CityBoard extends JPanel
 	void drawCar(Graphics g, Car car)
 	{
 		g.setColor((car.getIsDoingCarSharing())?Color.RED:Color.GREEN);
-		int x = car.getPosCar().getCoordX()/getSquareSize()*getSquareSize();
-		int y = car.getPosCar().getCoordY()/getSquareSize()*getSquareSize();
+		int x = (int) (car.getPosCar().getX()/getSquareSize()*getSquareSize());
+		int y = (int) (car.getPosCar().getY()/getSquareSize()*getSquareSize());
 		g.fillPolygon(
 				new int[]{x, x + getSquareSize()/4, x + getSquareSize()/2, x + 3*getSquareSize()/4, x + getSquareSize(),
 						x + getSquareSize(), x},
@@ -79,8 +79,8 @@ public class CityBoard extends JPanel
 	//Dessine la position d'un client sur le trottoir
 	void drawClientPos(Graphics g, Client cli){
 		g.setColor(Color.BLUE);
-		int x = cli.getPosClient()[0].getCoordX()/getSquareSize()*getSquareSize();
-		int y = cli.getPosClient()[0].getCoordY()/getSquareSize()*getSquareSize();
+		int x = (int) (cli.getPosClient()[0].getX()/getSquareSize()*getSquareSize());
+		int y = (int) (cli.getPosClient()[0].getY()/getSquareSize()*getSquareSize());
 		g.drawPolygon( new int[]{ x + getSquareSize()/4, x + 3*getSquareSize()/4, x + 3*getSquareSize()/4,
 						x + getSquareSize()/2, x + getSquareSize()/4},
 						new int[]{ y + getSquareSize()/4, y + getSquareSize()/4, y + getSquareSize(),
@@ -93,8 +93,8 @@ public class CityBoard extends JPanel
 	void drawClientTarget(Graphics g, Client cli)
 	{
 		g.setColor((cli.getIsUsingCarSharing())?Color.BLUE:Color.CYAN);
-		int x = cli.getPosClient()[1].getCoordX()/getSquareSize()*getSquareSize();
-		int y = cli.getPosClient()[1].getCoordY()/getSquareSize()*getSquareSize();
+		int x = (int) (cli.getPosClient()[1].getX()/getSquareSize()*getSquareSize());
+		int y = (int) (cli.getPosClient()[1].getY()/getSquareSize()*getSquareSize());
 		g.fillPolygon(
 				new int[]{x + getSquareSize()/4, x + 3*getSquareSize()/4, x + getSquareSize()/4},
 						new int[]{ y, y + getSquareSize()/4, y + getSquareSize()/2}, 3);

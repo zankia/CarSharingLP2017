@@ -6,7 +6,25 @@ public class Model {
 	private int streetLength;
 	private double carSpeedMean;
 	private double clientSpeedSum;
+	private double clientSpeedMean;
+	private double clientRealSpeedMean;
 	
+	public double getClientRealSpeedMean() {
+		return clientRealSpeedMean;
+	}
+
+	public void setClientRealSpeedMean(double clientRealSpeedMean) {
+		this.clientRealSpeedMean = clientRealSpeedMean;
+	}
+
+	public double getClientSpeedMean() {
+		return clientSpeedMean;
+	}
+
+	public void setClientSpeedMean(double clientSpeedMean) {
+		this.clientSpeedMean = clientSpeedMean;
+	}
+
 	public int getCarLength() {
 		return carLength;
 	}

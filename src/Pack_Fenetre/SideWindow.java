@@ -24,16 +24,16 @@ public class SideWindow extends JDialog{
 	public void setDataLabel(Simulation simu){
 		String text ="<html>";
 		text += "Time : "+simu.getTime()+"<br><br>";
-		text += "Nombre de voyageurs : "+simu.getClientList().size()+"<br><br>";
-		text += "Nombre de voitures : "+simu.getCarList().size()+"<br><br>";
+		text += "Nombre de voyageurs : "+simu.getListeClients().size()+"<br><br>";
+		text += "Nombre de voitures : "+simu.getListeVoitures().size()+"<br><br>";
 		text += "Moyenne des vitesses instantanées :<br>"+simu.getCarSpeedMean()+"<br><br>";
 		text += "Moyenne des vitesses des trajets terminés :<br>"+simu.getClientSpeedMean()+"<br><br>";
 		text += "Moyenne des vitesses des trajets en cours :<br>"+simu.getClientRealSpeedMean()+"<br><br>";
 		text += "Taux de voyageurs arrivés :<br>"+simu.getArrivedRate()+"<br><br>";
 		text += "Somme des distances parcourues :<br>"+simu.getDistSum()+"<br><br>";
-		text += "Consommation de carburant :<br>"+simu.getConsumption()+"<br><br>";
+		text += "Consommation de carburant :<br>"+simu.getCarbu()+"<br><br>";
 		text += "Voitures participant au covoiturage :<br>";
-		for(Car car: simu.getCarList())
+		for(Car car: simu.getListeVoitures())
 		{
 			if(car.getIsDoingCarSharing()){
 				text +="Voiture n° "+car.getIdCar()+"<br> Occupants : ";

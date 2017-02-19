@@ -203,7 +203,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 				if(getSimu().getSelectedClient() != null && Math.random()*100>window.getProbabilitySlider().getValue()){
 					getSimu().getSelectedClient().setStateClient(1);
 					getSimu().getSelectedClient().setIsUsingCarSharing(false);
-					getSimu().ajouterVoitureSimulation(getSimu().getSelectedClient().getPosClient()[0].getCoordX(), getSimu().getSelectedClient().getPosClient()[0].getCoordY());
+					getSimu().ajouterVoitureSimulation((int) getSimu().getSelectedClient().getPosClient()[0].getX(),(int) getSimu().getSelectedClient().getPosClient()[0].getY());
 					getSimu().getSelectedClient().setCarClient(getSimu().getCarSimulation());
 					getSimu().getCarSimulation().setIsDoingCarSharing(false);
 					getSimu().getCarSimulation().getParcoursListCar().add(new ParcoursStep(getSimu().getSelectedClient(),1));
@@ -250,9 +250,9 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 				if (event.getButton()==MouseEvent.BUTTON3) getSimu().ajouterVoitureSimulation(x,y);
 			}
 			//Si un client est sélectionné
-			else if (dragType == 0 || dragType == 1) getSimu().getSelectedClient().getPosClient()[dragType].updatePoint(x,y);
+			else if (dragType == 0 || dragType == 1) getSimu().getSelectedClient().getPosClient()[dragType].setLocation(x,y);
 			//Si une voiture est sélectionnée
-			else if (dragType == 2) getSimu().getCarSimulation().getPosCar().updatePoint(x,y);
+			else if (dragType == 2) getSimu().getCarSimulation().getPosCar().setLocation(x,y);
 		}
 		//Si on est à l'extérieur du cityBoard, on supprime la sélection
 		else {
@@ -271,28 +271,28 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	//Renvoie le client le plus récent aux coordonnées (i,j)
 	Client selectClient(int i, int j){
 		if(getSimu().getNotTargettedYet() != null
-				&& getSimu().getNotTargettedYet().getPosClient()[0].getCoordX()/window.getBoard().getSquareSize() == i
-				&& getSimu().getNotTargettedYet().getPosClient()[0].getCoordY()/window.getBoard().getSquareSize() == j){
+				&& getSimu().getNotTargettedYet().getPosClient()[0].getX()/window.getBoard().getSquareSize() == i
+				&& getSimu().getNotTargettedYet().getPosClient()[0].getY()/window.getBoard().getSquareSize() == j){
 			dragType = 0;
 			return getSimu().getNotTargettedYet();
 		}	
-		for(int l = getSimu().getClientList().size()-1;l >=0; l--)
+		for(int l = getSimu().getListeClients().size()-1;l >=0; l--)
 			for(int type = 1; type >= 0; type--)
-				if(getSimu().getClientList().get(l).getPosClient()[type].getCoordX()/window.getBoard().getSquareSize() == i
-				&& getSimu().getClientList().get(l).getPosClient()[type].getCoordY()/window.getBoard().getSquareSize() == j){
+				if(getSimu().getListeClients().get(l).getPosClient()[type].getX()/window.getBoard().getSquareSize() == i
+				&& getSimu().getListeClients().get(l).getPosClient()[type].getY()/window.getBoard().getSquareSize() == j){
 					dragType = type;
-					return getSimu().getClientList().get(l);
+					return getSimu().getListeClients().get(l);
 				}
 		return null;
 	}
 	
 	//Renvoie la voiture la plus récente aux coordonnées (i,j)
 	Car selectCar(int i, int j){
-		for(int k = getSimu().getCarList().size()-1;k>=0; k--)
-			if(getSimu().getCarList().get(k).getPosCar().getCoordX()/window.getBoard().getSquareSize() == i
-			&& getSimu().getCarList().get(k).getPosCar().getCoordY()/window.getBoard().getSquareSize() == j){
+		for(int k = getSimu().getListeVoitures().size()-1;k>=0; k--)
+			if(getSimu().getListeVoitures().get(k).getPosCar().getX()/window.getBoard().getSquareSize() == i
+			&& getSimu().getListeVoitures().get(k).getPosCar().getY()/window.getBoard().getSquareSize() == j){
 				dragType = 2;
-				return getSimu().getCarList().get(k);
+				return getSimu().getListeVoitures().get(k);
 			}
 		return null;
 	}
