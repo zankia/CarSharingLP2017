@@ -3,7 +3,7 @@ package Pack_Simu;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Algo_Deterministe implements I_Algorithme{
+public class Algo_Deterministe implements I_Algorithme {
 	
 	int clientWaitingNumber;
 	int carAlgoNumber;
