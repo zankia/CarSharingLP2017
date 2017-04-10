@@ -20,17 +20,39 @@ import Pack_Simu.Client;
 import Pack_Simu.ParcoursStep;
 import Pack_Simu.Simulation;
 
+/**
+ * Classe qui génére 
+ * 
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ */
 public class Application implements ActionListener, MouseListener, ItemListener, ChangeListener, KeyEventDispatcher
 {
+	/**
+	 * Simulation
+	 * 
+	 */
 	private Simulation simu;
+	/**
+	 * Fenetre de l'Application
+	 */
 	Fenetre_Appli window;
-	//Par défaut la fenêtre de données n'est pas affichée
+	/** 
+	 * Déclare si la Fenetre est affiché. Par défaut, elle ne l'est pas.
+	 */
 	SideWindow dataWindow = null;
-	//Taille des blocs de la ville
+	/**
+	 * Taille des blocs de la ville.
+	 */
 	private int blockSize;
 
-	//initialise la simulation et crée et ouvre la fenêtre
-	Application()
+	/**
+	 * initialise la simulation et crée et ouvre la fenêtre
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	protected Application()
 	{
 		setSimu(new Simulation(0,1,0,0));
 		window = new Fenetre_Appli(this);
@@ -38,23 +60,55 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		window.getSavedSimuComboBox().setSelectedIndex(0);
 	}
 
+	
+	
+	
+	
 
-	/** AFFICHAGE DE SIMULATIONS ENREGISTREES **/
-	//Active ou désactive le bouton "Afficher"
-	void setDisplaySavedSimuButton()
+	/*
+	 * 
+	 * 
+	 * 
+	 *  
+	 *  AFFICHAGE DE SIMULATIONS ENREGISTREES 
+	 *  
+	 *  
+	 *  
+	 * 
+	 */
+	
+	
+	
+	
+	
+	
+	/**
+	 * Active ou désactive le bouton "Afficher"
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	protected void setDisplaySavedSimuButton()
 	{
 		window.getDisplaySavedSimuButton().setEnabled(
 				window.getSavedSimuComboBox().getSelectedIndex()!=0 || lastSimuArray!=null);
 	}
 
-	//Active ou désactive le bouton "Supprimer"
-	void setDeleteSavedSimuButton()
+	/**
+	 * Active ou désactive le bouton "Supprimer"
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	protected void setDeleteSavedSimuButton()
 	{
 		window.getDeleteSavedSimuButton().setEnabled(window.getSavedSimuComboBox().getSelectedIndex()!=0);
 	}
 
-	//Affiche sur le cityboard la simulation enregistrée sélectionnée
-	void displaySavedSimu()
+	/** 
+	 * Affiche sur le cityboard la simulation enregistrée sélectionnée
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	protected void displaySavedSimu()
 	{
 		clear();
 		//On récupêre le numéro de la simulation enregistrée
@@ -84,23 +138,51 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		for(int l=0;l<t[2].length;l=l+2)
 			getSimu().ajouterClientSimulation(t[2][l],t[2][l+1]);
 	}
-	
+	/**
+	 * On récupêre le numéro de la simulation enregistrée
+	 * Si aucune simulation enregistrée n'est sélectionnée il s'agit d'une nouvelle
+	 * Sinon on modifie la simulation enregistrée
+	 * 
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void newSavedSimulation()
 	{
-		//On récupêre le numéro de la simulation enregistrée
 		int n = window.getSavedSimuComboBox().getSelectedIndex();
-		//Si aucune simulation enregistrée n'est sélectionnée il s'agit d'une nouvelle
 		if(n==0) Saving.newSavedSimu(simuArray(),window);
-		//Sinon on modifie la simulation enregistrée
 		else Saving.editSavedSimu(simuArray(),n-1,window);
 	}
 
+	
+	
 
-	/** LANCEMENT ET REMISE A ZERO DE LA SIMULATION **/
-	//Ce tableau sauvegarde la simulation précédente
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 *  LANCEMENT ET REMISE A ZERO DE LA SIMULATION 
+	 *  
+	 *  
+	 *  
+	 *  
+	 */
+	
+	
+	
+	
+	
+	/**
+	 * sauvegarde de la simulation précédente
+	 */
 	int[][] lastSimuArray;
 
-	//renvoie le tableau de sauvegarde asocié aux paramètres et à simu
+	/** 
+	 * tableau de sauvegarde asocié aux paramètres et à simu
+	 * @return int[][] 
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	int[][] simuArray()
 	{
 		return new int[][]{{window.getAlgorithmeId(),
@@ -115,7 +197,11 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 			window.getProbabilitySlider().getValue()},
 			getSimu().getCoordoneeDesVoitures(),getSimu().getCoordoneeDesClients()};
 	}
-	
+	/**
+	 * Sauvegarde, informe la simulation des paramètres de l'algorithme et le lance.
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void doAlgorithme()
 	{
 		//on sauvegarde la simulation avant de la modifier
@@ -132,7 +218,11 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		getSimu().algorithmeParcoursMoinsCouteux();
 	}
 	
-	//Arrete et efface la simulation
+	/**
+	 * Arrete et efface la simulation
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void clear()
 	{
 		//arrête le timer
@@ -147,9 +237,30 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 
 	
-	/** TIMER : DEMARRAGE, PAUSE ET EVENEMENTS **/
+	
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 *  TIMER : DEMARRAGE, PAUSE ET EVENEMENTS 
+	 *  
+	 *  
+	 *  
+	 *  
+	*/
+	
+	
+	
 	Timer timer = new Timer(0,this);
-	//Crée le timer à partir de la valeur du slideur et démarre
+	
+	/**
+	 * Crée le timer à partir de la valeur du slideur et démarre
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void timerStart()
 	{
 		window.getStartButton().setText("Pause");
@@ -157,14 +268,22 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		timer.start();
 	}
 	
-	//Arrête le timer
+	/**
+	 * Arrête le timer
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void timerStop()
 	{
 		timer.stop();
 		window.getStartButton().setText("Start");
 	}
 
-	//actions aux échéances du timer
+	/**
+	 * actions aux échéances du timer
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void timerEvent()
 	{
 		//On rajoute un client automatiquement si demandé
@@ -177,7 +296,11 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		refresh();
 	}
 
-	//Mise à jour de la fenêtre
+	/** 
+	 * Mise à jour de la fenêtre
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void refresh()
 	{
 		//On redessine le cityBoard
@@ -186,9 +309,16 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		if(dataWindow != null) dataWindow.setDataLabel(getSimu());
 	}
 	
-	//Compte à rebours
+	/**
+	 * Compte à rebours
+	 */
 	int addClientTime = -1;
-	//Cette fonction gêre l'ajout automatique d'un client aléatoire
+	
+	/**
+	 * Cette fonction gêre l'ajout automatique d'un client aléatoire
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void addClient(){
 		//Si la case d'ajout automatique est sélectionnée on réinitialise le compte à rebours
 		if(window.getAddClientCheckBox().isSelected() && addClientTime == -1)
@@ -214,13 +344,48 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		}
 }
 	
-	//Ces fonctions génèrent des coordonnées aléatoirement
+	/**
+	 * Ces fonctions génèrent des coordonnées aléatoirement
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	int randomWidth(){return blockModulo((int) (window.getBoard().getWidth()*Math.random()));}
+	/**
+	 * Ces fonctions génèrent des coordonnées aléatoirement
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	int randomHeight(){return blockModulo((int) (window.getBoard().getHeight()*Math.random()));}
 	
 	
-	/** EVENEMENTS SOURIS, BOUTONS, TIMER, LISTE, SLIDER ET CLAVIER **/
-	//Actions lorsque l'on appuie sur un des bouttons de la souris
+	
+	
+	/*
+	 * 
+	 *  
+	 *  
+	 *  
+	 *  EVENEMENTS SOURIS, BOUTONS, TIMER, LISTE, SLIDER ET CLAVIER 
+	 *  
+	 *  
+	 *  
+	 *  
+	 *  
+	 *  
+	 */
+	
+	
+	
+	
+	
+	
+	/**
+	 * Actions lorsque l'on appuie sur un des bouttons de la souris
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public void mousePressed(MouseEvent event){
 		int i = event.getX()/window.getBoard().getSquareSize();
 		int j = event.getY()/window.getBoard().getSquareSize();
@@ -230,13 +395,24 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		if (event.getButton()==MouseEvent.BUTTON3) getSimu().setCarSimulation(selectCar(i,j));
 	}
 	
-	//fonction qui à une coordonnée sur le board associe la coordonnée du carrefour proche
+	/**
+	 * fonction qui à une coordonnée sur le board associe la coordonnée du carrefour proche
+	 * @param x
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	int blockModulo(int x){
 		return (x/window.getBoard().getSquareSize())/(getBlockSize()+1)*(getBlockSize()+1)*window.getBoard().getSquareSize();
 	}
 	
 	int dragType = -1;
-	//Actions lorsque la souris est relachée
+	
+	/**
+	 * Actions lorsque la souris est relachée
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public void mouseReleased(MouseEvent event){
 		int x = blockModulo(event.getX());
 		int y = blockModulo(event.getY());
@@ -268,7 +444,14 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	public void mouseExited(MouseEvent event){}
 	public void mouseClicked(MouseEvent arg0) {}
 
-	//Renvoie le client le plus récent aux coordonnées (i,j)
+	/**
+	 * Renvoie le client le plus récent aux coordonnées (i,j)
+	 * @param i
+	 * @param j
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	Client selectClient(int i, int j){
 		if(getSimu().getNotTargettedYet() != null
 				&& getSimu().getNotTargettedYet().getPosClient()[0].getX()/window.getBoard().getSquareSize() == i
@@ -286,7 +469,14 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		return null;
 	}
 	
-	//Renvoie la voiture la plus récente aux coordonnées (i,j)
+	/**
+	 * Renvoie la voiture la plus récente aux coordonnées (i,j)
+	 * @param i
+	 * @param j
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	Car selectCar(int i, int j){
 		for(int k = getSimu().getListeVoitures().size()-1;k>=0; k--)
 			if(getSimu().getListeVoitures().get(k).getPosCar().getX()/window.getBoard().getSquareSize() == i
@@ -298,8 +488,29 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 	
 	
-	/** EVENEMENTS BOUTONS, TIMER, LISTE, SLIDER ET CLAVIER **/
-	//Actions au clic des boutons et aux échéances du timer
+	
+	
+	/*
+	 * 
+	 *  
+	 *  
+	 *  
+	 *  EVENEMENTS BOUTONS, TIMER, LISTE, SLIDER ET CLAVIER 
+	 *  
+	 *  
+	 *  
+	 *  
+	 *  */
+	
+	
+	
+	
+	
+	/**
+	 * Actions au clic des boutons et aux échéances du timer
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public void actionPerformed(ActionEvent evt)
 	{
 		if(evt.getSource() == window.getQuitButton())
@@ -324,14 +535,23 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 			timerEvent();
 	}
 
-	//Actions lorsque la case d'ajout de clients est cochée ou décochée
+	/**
+	 * Actions lorsque la case d'ajout de clients est cochée ou décochée
+	 * @param isChecked
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	void addClientEvent(boolean isChecked){
 		window.getAddClientSpinner().setEnabled(isChecked);
 		window.getIntervalSpinner().setEnabled(isChecked);
 		window.getProbabilitySlider().setEnabled(isChecked);
 	}
 	
-	//Actions lorsqu'un élément de la liste des simulations enregistrÃ©es est sÃ©lectionnÃ©
+	/**
+	 * Actions lorsqu'un élément de la liste des simulations enregistrÃ©es est sÃ©lectionnÃ©
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public void itemStateChanged(ItemEvent arg0)
 	{
 		if(arg0.getStateChange() == ItemEvent.SELECTED)
@@ -343,10 +563,13 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 			if(window.getDisplaySavedSimuButton().isEnabled()) displaySavedSimu();
 		}
 	}
-
+	/**
+	 * Actions lorsque le curseur du slideur a bougé
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public void stateChanged(ChangeEvent arg0)
 	{
-		//Actions lorsque le curseur du slideur a bougé
 		//si le timer est en route, on le modifie sinon on ne fait rien
 		if(arg0.getSource() == window.getSpeedSlider() && timer.isRunning()){
 			timer.stop();
@@ -359,7 +582,11 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		}
 	}
 
-	//Actions aux événements claviers
+	/**
+	 * Actions aux événements claviers
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public boolean dispatchKeyEvent(KeyEvent arg0) {
 		if (arg0.getID() == KeyEvent.KEY_PRESSED)
 			if(arg0.getKeyCode() == KeyEvent.VK_F1){window.getStartButton().doClick();}
@@ -377,7 +604,12 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		return false;
 	}
 
-
+	/**
+	 * Retourne la taille des blocks.
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public int getBlockSize() {
 		return blockSize;
 	}
@@ -387,7 +619,12 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		this.blockSize = blockSize;
 	}
 
-
+	/**
+	 * Retourne la simulation en cours.
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public Simulation getSimu() {
 		return simu;
 	}

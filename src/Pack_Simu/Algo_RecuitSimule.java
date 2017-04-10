@@ -2,6 +2,13 @@ package Pack_Simu;
 
 import java.util.ArrayList;
 
+/**
+ * Classe de l'Algorithme RecuitSimule.
+ * 
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ */
 public class Algo_RecuitSimule implements I_Algorithme{
 	
 	int clientWaitingNumber;
@@ -16,27 +23,45 @@ public class Algo_RecuitSimule implements I_Algorithme{
 	int etape1;
 	double temperature1;
 	
+	/** on a deux compteurs qui évoluent au cours du temps et qui
+	 * peuvent servir de condition d'arrêt du while : <br>
+	 * le numero de l'étape en cours et une "température"
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public Algo_RecuitSimule () {
-		/* on a deux compteurs qui évoluent au cours du temps et qui
-		 * peuvent servir de condition d'arrêt du while :
-		 * le numero de l'étape en cours et une "température"
-		 */
+		
 		this.etape1 = 0;
 		this.temperature1 = 1000;
 	}
-	
+	/**
+	 * Copie de la matrice courante
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	private int[][] copieMatrice() {
-		//Copie de la matrice courante
 		return this.simu.copyMatrix(this.matriceDePassage);
 	}
 	
+	/**
+	 * Selection de Client/Passager au hasard.
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 * @return
+	 */
 	private int clientRandom() {
-		//on choisit un client au hasard
 		return (int)Math.floor(this.clientAlgoNumber *Math.random());
 	}
 	
+	/**
+	 * Trouve la voiture qui le transporte.
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 * @param copy
+	 * @param clientRandom
+	 * @return
+	 */
 	private int getVoitureClient(int[][] copy, int clientRandom) {
-		//on trouve quelle est la voiture qui le transporte
 		int car = 0;
 		for(int k=0; k<carAlgoNumber; k++){
 			if(copy[k][2*clientRandom+1]!=-1){
@@ -46,6 +71,9 @@ public class Algo_RecuitSimule implements I_Algorithme{
 		return car;
 	}
 	
+	/** 
+	 * Fiesta.
+	 */
 	{
 		Algo_RecuitSimule algoa = new Algo_RecuitSimule();
 		

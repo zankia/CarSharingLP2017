@@ -1,5 +1,12 @@
 package Pack_Simu;
 
+/**
+ * Classe Model
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ *
+ */
 public class Model {
 	
 	private int carLength;

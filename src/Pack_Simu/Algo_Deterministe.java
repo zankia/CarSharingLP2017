@@ -3,6 +3,14 @@ package Pack_Simu;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Classe de l'Algorithme Déterministe, qui test tout 1 à 1.
+ * 
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ */
+
 public class Algo_Deterministe implements I_Algorithme {
 	
 	int clientWaitingNumber;
@@ -18,21 +26,21 @@ public class Algo_Deterministe implements I_Algorithme {
 	
 	
 	
-	
+	/**
+	 *  Deux étapes dans l'algorithme déterministe : 
+	 * 1. On génère tous les parcours possibles d'une voiture, ayant :<br>
+	 *     toBeToken clients à prendre et déposer <br>
+	 *     occupantNumber clients déjà embarqués à déposer <br>
+	 *    Ces parcours seront stockÃ©s dans le tableau possibleParcoursArray <br>
+	 * 2. On répartit les clients dans les voitures de toutes les façons possibles <br>
+	 *     Pour chaque possibilité, on attribue aux voitures tous les parcours possibles <br>
+	 *     selon le nombre d'occupants et de clients Ã  charge <br><br>
+	 * Les parcours seront stockés dans le tableau ci-dessous : <br>
+	 * 1) possibleParcours[nombre de clients à chercher][nombre d'occupants à déposer] <br>
+	 * 2) liste de parcours de type int[] de taille 2*(nombre de à chercher) + nombre d'occupants <br>
+	 */
 	public Algo_Deterministe() {
-		/* Deux étapes dans l'algorithme déterministe :
-		 * 1. On génère tous les parcours possibles d'une voiture, ayant :
-		 *     toBeToken clients à prendre et déposer
-		 *     occupantNumber clients déjà embarqués à déposer
-		 *    Ces parcours seront stockÃ©s dans le tableau possibleParcoursArray
-		 * 2. On répartit les clients dans les voitures de toutes les façons possibles
-		 *     Pour chaque possibilité, on attribue aux voitures tous les parcours possibles
-		 *     selon le nombre d'occupants et de clients Ã  charge
-		 */
-
-		//Les parcours seront stockés dans le tableau ci-dessous :
-		//possibleParcours[nombre de clients à chercher][nombre d'occupants à déposer]
-		// -> liste de parcours de type int[] de taille 2*(nombre de à chercher) + nombre d'occupants
+		
 
 		ArrayList<Integer[]>[][] possibleParcours = new ArrayList[clientWaitingNumber+1][];
 		int toBeToken = -1;
@@ -46,40 +54,45 @@ public class Algo_Deterministe implements I_Algorithme {
 			possibleParcours[toBeToken] = new ArrayList[occupantMax+1];
 			for(int occupantNumber = 0; occupantNumber<occupantMax+1;occupantNumber++)
 			{
-				//Dans la boucle, on permute un tableau skipArray de façon lexicographique
-				//Exemple toBeToken = 2, occupantNumber = 3,
-				//Les quatre premières cases correspondent à toBeToken
-				//Les trois derniÃ¨res Ã  occupantNumber
-				//[0,0,0,0,0,0,0] qWhile = 6
-				//[0,0,0,0,0,0,0] qWhile = 5
-				//[0,0,0,0,0,1,0] qWhile = 6
-				//[0,0,0,0,0,1,0] qWhile = 5
-				//[0,0,0,0,0,0,0] qWhile = 4
-				//[0,0,0,0,1,0,0] qWhile = 6
-				//[0,0,0,0,1,0,0] qWhile = 5
-				//[0,0,0,0,1,1,0] qWhile = 6
-				//...
-				//[0,0,0,0,2,1,0] qWhile = 6
-				//[0,0,0,0,2,1,0] qWhile = 5
-				//[0,0,0,0,2,0,0] qWhile = 4
-				//[0,0,0,0,0,0,0] qWhile = 3
-				//[0,0,0,1,0,0,0] qWhile = 6
-				//...
-				//[0,0,0,3,2,1,0] qWhile = 6
-				//...
-				//[0,0,0,0,0,0,0] qWhile = 2
-				//[0,0,1,1,0,0,0] qWhile = 6
-				//...
-				//[0,0,3,3,2,1,0]
-				//...
-				//[0,0,3,3,0,0,0] qWhile = 3
-				//[0,0,3,0,0,0,0] qWhile = 2
-				//[0,0,0,0,0,0,0] qWhile = 1
-				//[0,1,0,0,0,0,0] qWhile = 6
-				//...
-				//[5,5,3,3,2,1,0] qWhile = 6
-				//...
-				//[0,0,0,0,0,0,0] qWhile = -1
+				/*
+				 * Dans la boucle, on permute un tableau skipArray de façon lexicographique
+				 * 
+				 * Exemple toBeToken = 2, occupantNumber = 3,
+				 * Les quatre premières cases correspondent à toBeToken
+				 * Les trois derniÃ¨res Ã  occupantNumber
+				 * 
+				 * [0,0,0,0,0,0,0] qWhile = 6
+				 * [0,0,0,0,0,0,0] qWhile = 5
+				 * [0,0,0,0,0,1,0] qWhile = 6
+				 * [0,0,0,0,0,1,0] qWhile = 5
+				 * [0,0,0,0,0,0,0] qWhile = 4
+				 * [0,0,0,0,1,0,0] qWhile = 6
+				 * [0,0,0,0,1,0,0] qWhile = 5
+				 * [0,0,0,0,1,1,0] qWhile = 6
+				 * ...
+				 * [0,0,0,0,2,1,0] qWhile = 6
+				 * [0,0,0,0,2,1,0] qWhile = 5
+				 * [0,0,0,0,2,0,0] qWhile = 4
+				 * [0,0,0,0,0,0,0] qWhile = 3
+				 * [0,0,0,1,0,0,0] qWhile = 6
+				 * ...
+				 * [0,0,0,3,2,1,0] qWhile = 6
+				 * ...
+				 * [0,0,0,0,0,0,0] qWhile = 2
+				 * ...
+				 * [0,0,1,1,0,0,0] qWhile = 6
+				 * ...
+				 * [0,0,3,3,2,1,0]
+				 * ...
+				 * [0,0,3,3,0,0,0] qWhile = 3
+				 * [0,0,3,0,0,0,0] qWhile = 2
+				 * [0,0,0,0,0,0,0] qWhile = 1
+				 * [0,1,0,0,0,0,0] qWhile = 6
+				 * ...
+				 * [5,5,3,3,2,1,0] qWhile = 6
+				 * ...
+				 * [0,0,0,0,0,0,0] qWhile = -1
+				 */
 
 				//skipArray[q] représente le numéro des possibilités restantes que l'on prend dans
 				//parcoursRefList initialisé à [0,1,2,...,2*toBeToken+occupantNumber-1]

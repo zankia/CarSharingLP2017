@@ -21,7 +21,12 @@ import javax.swing.SwingConstants;
 
 import Pack_Appli.Application;
 import Pack_Appli.Saving;
-
+/**
+ * Classe qui créé la fenetre.
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ */
 public class Fenetre_Appli extends JFrame{
 	private static final long serialVersionUID = -3022785407645996324L;
 	//On déclare les variables pour pouvoir récupèrer leur valeur et les modifier
@@ -31,7 +36,7 @@ public class Fenetre_Appli extends JFrame{
 	private JButton dataButton;
 	private JButton helpButton;
 	private JButton quitButton;
-	private JComboBox savedSimuComboBox;
+	private JComboBox<String> savedSimuComboBox;
 	private JButton displaySavedSimuButton;
 	private JButton deleteSavedSimuButton;
 	private JButton newSavedSimuButton;
@@ -48,14 +53,25 @@ public class Fenetre_Appli extends JFrame{
 	
 	private RadioButton[] algorithmeArray;
 	ButtonGroup algorithme;
-	//Cette fonction permet de récupèrer le numéro de l'algorithme sélectioné
+	
+	/**
+	 * Cette fonction permet de récupèrer le numéro de l'algorithme sélectioné
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public int getAlgorithmeId(){
 		int algoId = 0;
 		while(!getAlgorithmeArray()[algoId].isSelected()){algoId++;}
 		return algoId;
 	}
 	
-	//Initialisation de la fenêtre
+	/**
+	 * Initialisation de la fenêtre
+	 * @param app
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
 	public Fenetre_Appli(Application app){
 		//Initialisation du cityBoard (voir classe correspondante)
 		setBoard(new CityBoard(app));
@@ -68,10 +84,10 @@ public class Fenetre_Appli extends JFrame{
 		setQuitButton(new Button("Quitter",app,true));
 		
 		
-		/** OBJETS RELATIFS A L'AFFICHAGE DE SIMULATIONS ENREGISTREES **/
+		/* OBJETS RELATIFS A L'AFFICHAGE DE SIMULATIONS ENREGISTREES */
 		Saving.setSavedSimuList();
 		JLabel savedSimuLabel = new JLabel("Simulations enregistrées :");
-		setSavedSimuComboBox(new JComboBox());
+		setSavedSimuComboBox(new JComboBox<String>());
 		getSavedSimuComboBox().addItem("Dernière simulation");
 		for(String s:Saving.getSavedSimuList())
 			getSavedSimuComboBox().addItem(Saving.savedSimuNameOfSavedSimuString(s));
@@ -93,7 +109,7 @@ public class Fenetre_Appli extends JFrame{
 		savedSimuLayout.add(savedSimuButtonLayout);
 		
 		
-		/** OBJETS RELATIFS AU PARAMETRE DE LA FONCTION DE COUT **/
+		/* OBJETS RELATIFS AU PARAMETRE DE LA FONCTION DE COUT */
 		JLabel costLabel = new JLabel("Préférence pour la satisfaction du client :");
 		setCostSlider(new JSlider(SwingConstants.HORIZONTAL,0,100,0));
 		getCostSlider().setMajorTickSpacing(50);
@@ -108,7 +124,7 @@ public class Fenetre_Appli extends JFrame{
 			
 		Dimension h1 = new Dimension(20,0);
 		
-		/** OBJETS RELATIFS AU CHOIX DE L'ALGORITHME **/
+		/* OBJETS RELATIFS AU CHOIX DE L'ALGORITHME */
 		JLabel algorithmeLabel = new JLabel("Algorithme :");
 		algorithme = new ButtonGroup();
 		JPanel algorithmeLayout = new JPanel();
@@ -133,7 +149,7 @@ public class Fenetre_Appli extends JFrame{
 		algorithmeLayout.add(stepLayout);
 		
 		
-		/** OBJETS RELATIFS AU CHOIX DE LA VITESSE **/
+		/* OBJETS RELATIFS AU CHOIX DE LA VITESSE */
 		JLabel speedLabel = new JLabel("Vitesse de la simulation :");
 		setSpeedSlider(new JSlider(SwingConstants.HORIZONTAL,1,10,1));
 		getSpeedSlider().setMinorTickSpacing(1);
@@ -146,7 +162,7 @@ public class Fenetre_Appli extends JFrame{
 		speedLayout.add(getSpeedSlider());
 		
 		
-		/** OBJETS RELATIFS AU NOMBRE DE PASSAGERS **/
+		/* OBJETS RELATIFS AU NOMBRE DE PASSAGERS */
 		JLabel occupantLabel = new JLabel("Capacités des voitures :");
 		setOccupantSpinner(new JSpinner(new SpinnerNumberModel(5,1,5,1)));
 		JPanel occupantLayout = new JPanel();
@@ -155,7 +171,7 @@ public class Fenetre_Appli extends JFrame{
 		occupantLayout.add(getOccupantSpinner());
 		occupantLayout.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		/** OBJETS RELATIFS A LA TAILLE DES BLOCKS **/
+		/* OBJETS RELATIFS A LA TAILLE DES BLOCKS */
 		JLabel blockSizeLabel = new JLabel("Taille des blocks :");
 		setBlockSizeSpinner(new JSpinner(new SpinnerNumberModel(0,0,getBoard().getBoardHeight(),1)));
 		getBlockSizeSpinner().addChangeListener(app);
@@ -165,7 +181,7 @@ public class Fenetre_Appli extends JFrame{
 		blockSizeLayout.add(getBlockSizeSpinner());
 		blockSizeLayout.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
-		/** OBJETS RELATIFS A L'AJOUT AUTOMATIQUE DES CLIENTS **/
+		/* OBJETS RELATIFS A L'AJOUT AUTOMATIQUE DES CLIENTS */
 		setAddClientCheckBox(new JCheckBox("Ajouter "));
 		getAddClientCheckBox().addActionListener(app);
 		setAddClientSpinner(new JSpinner(new SpinnerNumberModel(1,1,999999,1)));
@@ -190,7 +206,7 @@ public class Fenetre_Appli extends JFrame{
 		
 		
 		
-		/** GEOMETRIE DE LA FENETRE **/
+		/* GEOMETRIE DE LA FENETRE */
 		//Colonne de gauche
 		JPanel leftColumn = new JPanel();
 		leftColumn.setLayout(new BoxLayout(leftColumn,BoxLayout.PAGE_AXIS));
@@ -242,11 +258,11 @@ public class Fenetre_Appli extends JFrame{
 	  	setVisible(true);
 	}
 
-	public JComboBox getSavedSimuComboBox() {
+	public JComboBox<String> getSavedSimuComboBox() {
 		return savedSimuComboBox;
 	}
 
-	public void setSavedSimuComboBox(JComboBox savedSimuComboBox) {
+	public void setSavedSimuComboBox(JComboBox<String> savedSimuComboBox) {
 		this.savedSimuComboBox = savedSimuComboBox;
 	}
 

@@ -13,14 +13,25 @@ import Pack_Simu.Car;
 import Pack_Simu.Client;
 import Pack_Simu.Simulation;
 
-//SideWindow est ou bien la fenêtre de données ou bien la fenêtre d'instructions
+/**
+ * SideWindow est ou bien la fenêtre de données ou bien la fenêtre d'instructions
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ */
 public class SideWindow extends JDialog{
 	private static final long serialVersionUID = -8863025054299250887L;
 	
-	//contient le texte affiché si fenêtre de data
+	/**
+	 * contient le texte affiché si fenêtre de data
+	 */
 	JLabel dataLabel;
 	
-	//l'appel de cette fonction met à  jour les données affichées
+	/**
+	 * l'appel de cette fonction met à  jour les données affichées
+	 * @param simu
+	 * 
+	 */
 	public void setDataLabel(Simulation simu){
 		String text ="<html>";
 		text += "Time : "+simu.getTime()+"<br><br>";
@@ -46,7 +57,13 @@ public class SideWindow extends JDialog{
 		dataLabel.setText(text);
 	}
 	
-	//Initialisation de la fenÃªtre de cÃ´tÃ©
+	/**
+	 * Initialisation de la fenÃªtre de cÃ´tÃ© (???)
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 * @param window
+	 * @param title
+	 */
 	public SideWindow(Fenetre_Appli window, String title){
 		//dÃ©finit window comme la fenÃªtre parente
 		super(window,title);

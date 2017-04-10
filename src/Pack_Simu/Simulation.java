@@ -5,6 +5,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.awt.Point;
 
+/**
+ * Classe simulation
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ *
+ */
 public class Simulation{
 
 	private int time;
@@ -27,21 +34,35 @@ public class Simulation{
 	private Model model;
 	private City city;
 	
-	/** ALGORITHME : DETERMINATION DU PARCOURS **/
-	private //Numero de l'algorithme sélectionné
-	int algoId;
-	//Numero de la fonction de coût sélectionnée
+	/**
+	 * Algorithme sélectionné
+	 */
+	private int algoId;
+	/**
+	 * Numero de la fonction de coût sélectionnée
+	 */
 	private int costRate;
-	//booléen indiquant si le crible diviser pour mieux régner doit être effectué
+	/**
+	 * booléen indiquant si le crible diviser pour mieux régner doit être effectué
+	 */
 	private boolean divide;
-	//Nombre d'étapes maximum sélectionné
+	/**
+	 * Nombre d'étapes maximum sélectionné
+	 */
 	private int stepMax;
-	//Nombre de passagers maximum
+	/**
+	 * Nombre de passagers maximum
+	 */
 	private int occupantCapacity;
 
-	//Initialisation des variables
+	/**
+	 * Initialisation des variables
+	 * @param cLength
+	 * @param sLength
+	 * @param width
+	 * @param height
+	 */
 	public Simulation(int cLength, int sLength, int width, int height) {
-		
 		this.model = new Model();
 		this.city = new City();
 		this.time = 0;
@@ -67,7 +88,12 @@ public class Simulation{
 		this.distSum = 0;
 		this.carbu = 0;
 	}
-
+	
+	/**
+	 * Ajout d'une voiture dans la simulation.
+	 * @param CoordX
+	 * @param CoordY
+	 */
 	public void ajouterVoitureSimulation (int CoordX, int CoordY) {
 		this.ListeVoitures.add(new Car(CoordX,CoordY));
 		nbVoituresSimulation++;
@@ -75,6 +101,11 @@ public class Simulation{
 		this.needAlgorithme = true;
 	}
 
+	/**
+	 * Ajout d'un client dans la simulation
+	 * @param x
+	 * @param y
+	 */
 	public void ajouterClientSimulation(int x,int y) {
 		//S'il y a un client dont la destination n'est pas encore définie
 		if(this.notTargettedYet != null){
@@ -92,14 +123,19 @@ public class Simulation{
 			} 
 		}
 	}
-
+	
+	/** 
+	 * Suppression d'une voiture.
+	 */
 	public void deleteCar(){
 		this.ListeVoitures.remove(this.carSimulation);
 		this.nbVoituresSimulation--;
 		this.carSimulation = null;
 		this.needAlgorithme = true;
 	}
-
+	/**
+	 * Suppression d'un passager
+	 */
 	public void deleteClient(){
 		if(this.selectedClient == this.notTargettedYet){
 			this.notTargettedYet = null;
@@ -114,7 +150,9 @@ public class Simulation{
 		this.needAlgorithme = true;
 	}
 
-	//Renvoie un tableau contenant les coordonnées des voitures
+	/**
+	 * Renvoie un tableau contenant les coordonnées des voitures
+	 */
 	public int[] getCoordoneeDesVoitures()
 	{
 		int[] t = new int[nbVoituresSimulation*2];
@@ -126,7 +164,10 @@ public class Simulation{
 		return t;
 	}
 
-	//Renvoie un tableau contenant les coordonnées des clients
+	/**
+	 * Renvoie un tableau contenant les coordonnées des clients
+	 * @return
+	 */
 	public int[] getCoordoneeDesClients() {
 		int[] coord = new int[this.nbClientsSimulation*4 + 2*((this.notTargettedYet!=null)?1:0)];
 		for(int l=0;l<this.nbClientsSimulation;l++) {
@@ -142,7 +183,9 @@ public class Simulation{
 		return coord;
 	}
 
-	//Fonction algorithme déterminant le parcours le moins couteux
+	/**
+	 * Fonction algorithme déterminant le parcours le moins couteux
+	 */
 	public void algorithmeParcoursMoinsCouteux(){
 		//1. DEFINITION DU CADRE D'ETUDE
 		//On ne sélectionne que les voitures qui participent au covoiturage
@@ -174,18 +217,26 @@ public class Simulation{
 		this.needAlgorithme = false;
 	}
 
-	//fonction déterminant la matrice de passage la moins couteuse
-	//Une matrice de passage est définie de la manière suivante
-	//taille : carNumber lignes, 2*clientAlgoNumber colonnes
-	//dans la case (k,2*l) : l'ordre de passage de la voiture k quand elle prend le client l
-	//dans la case (k,2*l+1) : l'ordre de passage de la voiture k quand elle depose le client l
-	//si la voiture k ne prend ni ne depose le client l, -1 dans les cases (k,2*l) et (k,2*l+1)
-	//Exemple :
-	//voiture 0 : prend 1, prend 0, depose 0, depose 1
-	//voiture 1 : prend 2, depose 2
-	//matriceDePassage :
-	//| 1| 2| 0| 3|-1|-1|
-	//|-1|-1|-1|-1| 0| 1|
+	/**
+	 * fonction déterminant la matrice de passage la moins couteuse <br><br>
+	 * Une matrice de passage est définie de la manière suivante : <br>
+	 * taille : carNumber lignes, 2*clientAlgoNumber colonnes <br>
+	 * dans la case (k,2*l) : l'ordre de passage de la voiture k quand elle prend le client l <br>
+	 * dans la case (k,2*l+1) : l'ordre de passage de la voiture k quand elle depose le client l <br>
+	 * si la voiture k ne prend ni ne depose le client l, -1 dans les cases (k,2*l) et (k,2*l+1) <br>
+	 * <i>Exemple : </li> <br>
+	 * voiture 0 : prend 1, prend 0, depose 0, depose 1 <br>
+	 * voiture 1 : prend 2, depose 2 <br>
+	 * matriceDePassage : <br>
+	 * | 1| 2| 0| 3|-1|-1| <br>
+	 * |-1|-1|-1|-1| 0| 1| <br>
+	 * 
+	 * @param carAlgoList
+	 * @param clientAlgoList
+	 * @param clientWaitingNumber
+	 * @return
+	 */
+	
 	int[][] searchMatriceDePassage(ArrayList<Car> carAlgoList,
 			ArrayList<Client> clientAlgoList, int clientWaitingNumber)
 	{
@@ -194,8 +245,7 @@ public class Simulation{
 		int clientAlgoNumber = clientAlgoList.size();
 		//S'il n'y a pas de voiture ou pas de client dans le cadre d'Ã©tude, on ne lance pas l'algorithme
 		if(carAlgoNumber == 0 || clientAlgoNumber == 0) return new int[carAlgoNumber][0];
-
-		/** CREATION DE LA MATRICE DE PASSAGE INITIALE **/
+		/* CREATION DE LA MATRICE DE PASSAGE INITIALE */
 		int[][] matriceDePassage = new int[carAlgoNumber][2*clientAlgoNumber];
 		//On crée dans le même temps le tableau des occupants de la voiture renumérotés
 		int[][] carOccupantArray = new int[carAlgoNumber][];
@@ -245,7 +295,7 @@ public class Simulation{
 
 
 
-	/* la fonction suivante détermine, pour un indice d'un point,
+	/** la fonction suivante détermine, pour un indice d'un point,
 	 * le nombre de clients dans la voiture juste avant d'atteindre ce point
 	 */
 	public int passagers ( int[] t, int indice) {
@@ -271,7 +321,7 @@ public class Simulation{
 		return pass;
 	}
 	
-	/* nombreDeMoinsUn détermine le nombre de cases
+	/** nombreDeMoinsUn détermine le nombre de cases
 	 * qui sont des -1 dans un tableau d'entiers
 	 */
 	public int nombreDeMoinsUn(int[] t){
@@ -281,7 +331,11 @@ public class Simulation{
 		return compteur;
 	}
 
-	// copyMatrix copie une matrice dans une nouvelle matrice
+	/** copyMatrix copie une matrice dans une nouvelle matrice
+	 * 
+	 * @param m
+	 * @return
+	 */
 	public int[][] copyMatrix(int[][] m){
 		int n = m.length;
 		int[][] mat= new int[n][m[0].length];
@@ -290,22 +344,33 @@ public class Simulation{
 		return mat;
 	}
 
-	// printMatrix affiche une matrice dans la console
+	/** printMatrix affiche une matrice dans la console
+	 * 
+	 * @param m
+	 */
 	public void printMatrix(int[][] m){
 		System.out.print("[");
 		for(int x=0;x<m.length;x++)
 			System.out.println(Arrays.toString(m[x]));
 	}
 
-	
-	/** FONCTIONS RELATIVES AU CALCUL DU COUT **/
-	//il s'agit de la distance en norme 1, nous sommes à Manhattan
+	/**
+	 * il s'agit de la distance en norme 1, nous sommes à Manhattan
+	 * @param p1
+	 * @param p2
+	 * @return
+	 */
 	public int dist( Point p1, Point p2)
 	{
 		return (int) (Math.abs(p1.getX()-p2.getX()) + Math.abs(p1.getY()-p2.getY()));
 	}
 
-	//recherche d'index d'une valeur dans un tableau
+	/**
+	 * recherche d'index d'une valeur dans un tableau
+	 * @param a
+	 * @param t
+	 * @return
+	 */
 	public int searchInArray(int a, int[] t)
 	{
 		for(int z = 0; z<t.length; z++)
@@ -313,7 +378,13 @@ public class Simulation{
 		return -1;
 	}
 
-	//Cette fonction calcule le cout d'un parcours défini par une matrice de passage
+	/**
+	 * Cette fonction calcule le cout d'un parcours défini par une matrice de passage
+	 * @param matriceDePassage
+	 * @param carAlgoList
+	 * @param clientAlgoList
+	 * @return
+	 */
 	public int cost(int[][] matriceDePassage, ArrayList<Car> carAlgoList, ArrayList<Client> clientAlgoList)
 	{
 		int carAlgoNumber = carAlgoList.size();
@@ -351,8 +422,11 @@ public class Simulation{
 		return cost;
 	}
 
-	//Cette fonction remplit les listes parcoursList des voitures à partir d'une matriceDePassage
-	//Logiquement cette fonction est appelée lorsqu'on a trouvé la matriceDePassage qui minimise le cout
+	/**
+	 * Cette fonction remplit les listes parcoursList des voitures à partir d'une matriceDePassage
+	 
+	* Logiquement cette fonction est appelée lorsqu'on a trouvé la matriceDePassage qui minimise le cout
+	* */
 	public void setParcours(int[][] matriceDePassage,ArrayList<Car> carAlgoList, ArrayList<Client> clientAlgoList)
 	{
 		int carAlgoNumber = carAlgoList.size();
@@ -373,8 +447,9 @@ public class Simulation{
 	}
 
 
-	/** MOUVEMENTS ELEMENTAIRES **/
-	//avance les Car d'une case vers leur prochaine étape
+	/**
+	 * avance les Car d'une case vers leur prochaine étape
+	 */
 	public void OneMove() {
 		//On incrémente le temps de la simulation
 		this.time = this.time+1;

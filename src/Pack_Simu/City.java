@@ -1,5 +1,12 @@
 package Pack_Simu;
 
+/**
+ * Classe de la ville (qui est en fait un tableau)
+ * @author Romain Duret
+ * @version Build III -  v0.0
+ * @since Build III -  v0.0
+ *
+ */
 public class City {
 
 	private int cityWidth;
