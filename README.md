@@ -1,24 +1,91 @@
-# CarSharingLP2017
+# CarShare
 
-## Sous la direction de Christophe Coillot
+Blablabla.
 
-#### Le Pack Application :
+## Getting Started
 
-Permet de Lancer et Sauvegarder une Simulation
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
-#### Le Pack Simulation :
+### Prerequisites
 
-Possede tout les ï¿½lï¿½ments d'une Simulation
+Avoir Java.
 
-#### Le Pack Fenetre :
+What things you need to install the software and how to install them
 
-Regroupe tout les ï¿½lements de l'interface graphique
+```
+Give examples
+```
 
-#### Le Pack Gï¿½nï¿½tique :
+### Installing
 
-Il s'agit de l'algorithme Gï¿½nï¿½tique fonctionnel
+A step by step series of examples that tell you have to get a development env running
 
-#### Que Faire Maintenant ?
+Say what the step will be
 
-- Refactorer les Algorithmes Deterministe et RecuitSimule pour les appeller
-de la classe Simulation
+```
+Give the example
+```
+
+And repeat
+
+```
+until finished
+```
+
+End with an example of getting some data out of the system or using it for a little demo
+
+## Running the tests
+
+Explain how to run the automated tests for this system
+
+### Break down into end to end tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+### And coding style tests
+
+Explain what these tests test and why
+
+```
+Give an example
+```
+
+## Built With
+
+* [Eclipse](https://eclipse.org/)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+
+
+## Authors
+
+* **Christophe Coillot** - *Tutor, algorithms* - 
+* **Etienne Callies** - *École Polytechnique* - 
+* **Guillermo Durand** - *École Polytechnique* - 
+* **Corentin Lecomte** - *École Polytechnique* - 
+* **Clément Choukroun** - *École Polytechnique* - 
+* **Thibault Ferber** - *École Polytechnique* - 
+* **
+* **
+* **
+* **
+* **Romain Duret** - *Dut Informatique* - [Personal Website](http://airdur.eu)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for details
+
+## Acknowledgments
+
+* Hat tip to anyone who's code was used
+* Inspiration
+* etc
+
