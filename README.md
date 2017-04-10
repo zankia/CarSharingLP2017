@@ -1,22 +1,24 @@
 # CarSharingLP2017
 
-Le Pack Application :
+## Sous la direction de Christophe Coillot
+
+#### Le Pack Application :
 
 Permet de Lancer et Sauvegarder une Simulation
 
-Le Pack Simulation :
+#### Le Pack Simulation :
 
-Possede tout les éléments d'une Simulation
+Possede tout les ï¿½lï¿½ments d'une Simulation
 
-Le Pack Fenetre :
+#### Le Pack Fenetre :
 
-Regroupe tout les élements de l'interface graphique
+Regroupe tout les ï¿½lements de l'interface graphique
 
-Le Pack Génétique :
+#### Le Pack Gï¿½nï¿½tique :
 
-Il s'agit de l'algorithme Génétique fonctionnel
+Il s'agit de l'algorithme Gï¿½nï¿½tique fonctionnel
 
-Que Faire Maintenant ?
+#### Que Faire Maintenant ?
 
 - Refactorer les Algorithmes Deterministe et RecuitSimule pour les appeller
 de la classe Simulation
