@@ -13,16 +13,16 @@ public class Algo_RecuitSimule implements I_Algorithme{
 	int costMin;
 	int [][] matriceDePassage;
 	Simulation simu;
-	int etape;
-	double temperature;
+	int etape1;
+	double temperature1;
 	
 	public Algo_RecuitSimule () {
 		/* on a deux compteurs qui évoluent au cours du temps et qui
 		 * peuvent servir de condition d'arrêt du while :
 		 * le numero de l'étape en cours et une "température"
 		 */
-		this.etape = 0;
-		this.temperature = 1000;
+		this.etape1 = 0;
+		this.temperature1 = 1000;
 	}
 	
 	private int[][] copieMatrice() {
@@ -50,7 +50,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 		Algo_RecuitSimule algoa = new Algo_RecuitSimule();
 		
 		// DEBUT DES ITERATIONS
-		while (algoa.etape < algoa.simu.getStepMax() ){
+		while (algoa.etape1 < algoa.simu.getStepMax() ){
 			
 			/* on commence par créer une copie de la matrice de passage,
 			 * sur laquelle on va effectuer des modifications aléatoires,
@@ -235,27 +235,27 @@ public class Algo_RecuitSimule implements I_Algorithme{
 			else{
 				int diffDeCout = coutDeCopy-costMin;
 				double r = Math.random();
-				if (r<Math.exp(-((double)diffDeCout/temperature))){
+				if (r<Math.exp(-((double)diffDeCout/temperature1))){
 					matriceDePassage=copy;
 					costMin=coutDeCopy;
 				}
 			}
 			// pour finir on incrémente les compteurs
-			etape=etape+1;
-			this.temperature=0.99*this.temperature;
+			etape1=etape1+1;
+			this.temperature1=0.99*this.temperature1;
 		}
 	} 
 }
 
 
 //La Poubelle de l'algo :
-
+/*
 case 1:
 {
 	/* on a deux compteurs qui évoluent au cours du temps et qui
 	 * peuvent servir de condition d'arrêt du while :
 	 * le numero de l'étape en cours et une "température"
-	 */
+	 
 	int etape = 0;
 	double temperature = 1000;
 	// DEBUT DES ITERATIONS
@@ -264,7 +264,7 @@ case 1:
 		 * sur laquelle on va effectuer des modifications aléatoires,
 		 * Ã  caractère élémentaire,
 		 * pour ensuite la comparer avec la matrice courante
-		 */
+		 
 		int[][] copy = copyMatrix(matriceDePassage);
 		//on choisit un client au hasard
 		int clientRandom = (int)Math.floor(clientAlgoNumber *Math.random());
@@ -278,13 +278,13 @@ case 1:
 		/* 2 cas dans l'état actuel des choses :
 		 * soit le client est toujours sur le trottoir,
 		 * soit il est dans une voiture
-		 */
+		 
 		if (clientRandom < clientWaitingNumber) {
 			/* si le client est toujours sur le trottoir,
 			 * l'idée est de le sortir de la matrice
 			 * et de le réinjecter dedans à un endroit aléatoire
 			 * mais néanmoins compatible avec occupantMax
-			 */
+			 
 			// on le retire de la matrice de passage
 			int pos = copy[car][2*clientRandom];
 			int target = copy[car][2*clientRandom+1];
@@ -306,7 +306,7 @@ case 1:
 			int quelleCar = (int)Math.floor(Math.random()*carAlgoNumber);
 			/* on détermine p le nombre d'entiers positifs sur la ligne,
 			 * ils vont de 0 à p-1
-			 */
+			 
 			int m = nombreDeMoinsUn(copy[quelleCar]);
 			int p = 2*clientAlgoNumber-m;
 			/* on choisit un ordre de passage aléatoire pour
@@ -316,7 +316,7 @@ case 1:
 			 */
 			/* on commence donc par lister les indices entre 0 et p
 			 * compatibles avec occupantCapacity
-			 */
+			 
 			ArrayList<Integer> compatiblePos = new ArrayList<Integer>();
 			for (int x=0 ; x<=p ; x++){
 				if (passagers(copy[quelleCar],x)+carOccupantArray[quelleCar].length<getOccupantCapacity()){
@@ -325,12 +325,12 @@ case 1:
 			}
 			/* une fois la liste faite,
 			 * il reste à y prendre un élément aléatoire
-			 */
+			 
 			int lenPos = compatiblePos.size();
 			int randPos = compatiblePos.get((int)Math.floor(lenPos*Math.random()));
 			/* on décale d'un cran les ordres de passage
 			 * supérieurs Ã  randPos
-			 */
+			 
 			for(int q =0 ; q<2*clientAlgoNumber ; q++){
 				if(copy[quelleCar][q]>=randPos){
 					copy[quelleCar][q]=copy[quelleCar][q]+1;
@@ -346,7 +346,7 @@ case 1:
 			 * indices compatibles dans l'ordre croissant
 			 * jusqu'à trouver un indice incompatible ou
 			 * jusqu'à arriver à p+1
-			 */
+			 
 			boolean critere = true;
 			ArrayList<Integer> compatibleTarget = new ArrayList<Integer>();
 			for (int z = randPos+1 ; z <= p+1 ; z++){
@@ -362,12 +362,12 @@ case 1:
 			}
 			/* une fois la liste faite,
 			 * il reste à y prendre un élément aléatoire
-			 */
+			 
 			int lenTarget = compatibleTarget.size();
 			int randTarget = compatibleTarget.get((int)Math.floor(lenTarget*Math.random()));
 			/* on décale d'un cran les ordres de passage
 			 * supérieurs à randTarget
-			 */
+			 
 			for(int q =0 ; q<2*clientAlgoNumber ; q++){
 				if(copy[quelleCar][q]>=randTarget){
 					copy[quelleCar][q]=copy[quelleCar][q]+1;
@@ -381,7 +381,7 @@ case 1:
 			 * a alors été sorti de clientArray),
 			 * alors il ne bouge pas de voiture, on change simplement sa
 			 * destination d'indice
-			 */
+			 
 			//on retire sa destination de la matrice de passage
 			int target = copy[car][2*clientRandom+1];
 			copy[car][2*clientRandom+1]=-1;
@@ -394,7 +394,7 @@ case 1:
 			// Ã  présent on réinjecte la destination
 			/* on détermine p le nombre d'entiers positifs sur la ligne,
 			 * ils vont de 0 à p-1
-			 */
+			 
 			int m = nombreDeMoinsUn(copy[car]);
 			int p = 2*clientAlgoNumber-m;
 			/* on choisit un ordre de passage aléatoire pour
@@ -406,7 +406,7 @@ case 1:
 			 * indices compatibles dans l'ordre croissant
 			 * jusqu'à trouver un indice incompatible ou
 			 * jusqu'à arriver Ã  p
-			 */
+			 
 			boolean critere = true;
 			ArrayList<Integer> compatibleTarget = new ArrayList<Integer>();
 			for (int z = 0 ; z <= p ; z++){
@@ -421,12 +421,12 @@ case 1:
 			}
 			/* une fois la liste faite,
 			 * il reste à y prendre un élément aléatoire
-			 */
+			 
 			int lenTarget = compatibleTarget.size();
 			int randTarget = compatibleTarget.get((int)Math.floor(lenTarget*Math.random()));
 			/* on dÃ©cale d'un cran les ordres de passage
 			 * supérieurs à randTarget
-			 */
+			 
 			for(int q =0 ; q<2*clientAlgoNumber ; q++){
 				if(copy[car][q]>=randTarget){
 					copy[car][q]=copy[car][q]+1;
@@ -439,7 +439,7 @@ case 1:
 		 * si le nouveau coût est plus faible, on accepte la solution ;
 		 * sinon on l'accepte avec une probabilité de
 		 * exp(-(le module de la différence des coûts)/la température)
-		 */
+		 
 		if (coutDeCopy<=costMin){
 			matriceDePassage=copy;
 			costMin=coutDeCopy;
@@ -457,3 +457,4 @@ case 1:
 		temperature=0.99*temperature;
 	}
 } break;
+*/

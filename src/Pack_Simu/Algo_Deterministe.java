@@ -19,7 +19,7 @@ public class Algo_Deterministe implements I_Algorithme {
 	
 	
 	
-	{
+	public Algo_Deterministe() {
 		/* Deux étapes dans l'algorithme déterministe :
 		 * 1. On génère tous les parcours possibles d'une voiture, ayant :
 		 *     toBeToken clients à prendre et déposer
@@ -306,11 +306,11 @@ public class Algo_Deterministe implements I_Algorithme {
 }
 
 
-//-------------------------------
 
 //La Poubelle de l'algo :
 	
-	/** ALGORITHME DETERMINISTE **/
+
+/*
 case 0:
 {
 	/* Deux étapes dans l'algorithme déterministe :
@@ -321,7 +321,7 @@ case 0:
 	 * 2. On répartit les clients dans les voitures de toutes les façons possibles
 	 *     Pour chaque possibilité, on attribue aux voitures tous les parcours possibles
 	 *     selon le nombre d'occupants et de clients Ã  charge
-	 */
+	 
 
 	//Les parcours seront stockés dans le tableau ci-dessous :
 	//possibleParcours[nombre de clients à chercher][nombre d'occupants à déposer]
@@ -537,7 +537,7 @@ case 0:
 	 * [2, 2] lWhile = 1
 	 * [2, 2] lWhile = 2
 	 * lWhile = -1
-	 */
+	 
 	
 	int[] clientCar = new int[clientWaitingNumber];
 	//ce tableau stocke les indexes des ensembles de clients associé à chaque voiture
@@ -596,3 +596,4 @@ case 0:
 		}
 	}
 } break;
+*/
