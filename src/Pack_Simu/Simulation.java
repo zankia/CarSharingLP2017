@@ -8,7 +8,7 @@ import java.awt.Point;
 /**
  * Classe simulation
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.1
  * @since Build III -  v0.0
  *
  */
@@ -87,6 +87,8 @@ public class Simulation{
 	 * Ajout d'une voiture dans la simulation.
 	 * @param CoordX
 	 * @param CoordY
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
 	 */
 	public void ajouterVoitureSimulation (int CoordX, int CoordY) {
 		this.ListeVoitures.add(new Car(CoordX,CoordY));
@@ -102,28 +104,51 @@ public class Simulation{
 	 * Soit le client a déjà une destination donc on créer un client.
 	 * @param x
 	 * @param y
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
 	 */
 	public void ajouterClientSimulation(int x,int y) {
-		//S'il y a un client dont la destination n'est pas encore définie
 		if(this.notTargettedYet != null){
-			this.notTargettedYet.getPosClient()[1] = new Point(x, y);
-			this.ListeClients.add(this.notTargettedYet);
-			this.nbClientsSimulation++;
-			this.selectedClient = this.notTargettedYet;
-			this.notTargettedYet = null;
-			if(dist(this.selectedClient.getPosClient()[0],this.selectedClient.getPosClient()[1])==0) {
-				deleteClient();
-			} 
+			this.newDestination(x, y);
 		} else {
-				//Sinon on crée un nouveau client
-				this.needAlgorithme = true;
-				this.notTargettedYet = new Client(this.time,x,y);
+				this.newClient(x, y);
 			} 
-		}
+	}
 	
+	/**
+	 * Créer un nouveau client
+	 * @param x
+	 * @param y
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.1
+	 */
+	private void newClient(int x, int y) {
+		this.needAlgorithme = true;
+		this.notTargettedYet = new Client(this.time,x,y);
+	}
+	
+	/**
+	 * Créer la distination d'un client
+	 * @param x
+	 * @param y
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.1
+	 */
+	private void newDestination(int x, int y) {
+		this.notTargettedYet.getPosClient()[1] = new Point(x, y);
+		this.ListeClients.add(this.notTargettedYet);
+		this.nbClientsSimulation++;
+		this.selectedClient = this.notTargettedYet;
+		this.notTargettedYet = null;
+		if(dist(this.selectedClient.getPosClient()[0],this.selectedClient.getPosClient()[1])==0) {
+			deleteClient();
+		} 
+	}
 	
 	/** 
 	 * Suppression d'une voiture.
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
 	 */
 	public void deleteCar(){
 		this.ListeVoitures.remove(this.carSimulation);
@@ -131,8 +156,11 @@ public class Simulation{
 		this.carSimulation = null;
 		this.needAlgorithme = true;
 	}
+	
 	/**
 	 * Suppression d'un passager
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
 	 */
 	public void deleteClient(){
 		if(this.selectedClient == this.notTargettedYet){
@@ -150,6 +178,8 @@ public class Simulation{
 
 	/**
 	 * Renvoie un tableau contenant les coordonnées des voitures
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
 	 */
 	public int[] getCoordoneeDesVoitures()
 	{
@@ -165,6 +195,8 @@ public class Simulation{
 	/**
 	 * Renvoie un tableau contenant les coordonnées des clients
 	 * @return
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
 	 */
 	public int[] getCoordoneeDesClients() {
 		int[] coord = new int[this.nbClientsSimulation*4 + 2*((this.notTargettedYet!=null)?1:0)];

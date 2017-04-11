@@ -46,11 +46,28 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 * Taille des blocs de la ville.
 	 */
 	private int blockSize;
-
 	/**
 	 * sauvegarde de la simulation précédente
 	 */
-	int[][] lastSimuArray;
+	int[][] lastSimuArray;	
+	/**
+	 * Timer de la simulation
+	 */
+	Timer timer = new Timer(0,this);	
+	/**
+	 * Compte à rebours
+	 */
+	int addClientTime = -1;
+	/**
+	 * Type de drag and drop (déplacement de voiture/client)
+	 */
+	int dragType = -1;
+	
+	
+	/*
+	 *  CONSTRUCTEUR
+	 */
+	
 	
 	/**
 	 * initialise la simulation et crée et ouvre la fenêtre
@@ -68,10 +85,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		window.getSavedSimuComboBox().setSelectedIndex(0);
 	}
 
-	
-	
-	
-	
 
 	/*
 	 * 
@@ -84,10 +97,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 *  
 	 * 
 	 */
-	
-	
-	
-	
 	
 	
 	/**
@@ -146,6 +155,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		for(int l=0;l<t[2].length;l=l+2)
 			getSimu().ajouterClientSimulation(t[2][l],t[2][l+1]);
 	}
+	
 	/**
 	 * On récupêre le numéro de la simulation enregistrée
 	 * Si aucune simulation enregistrée n'est sélectionnée il s'agit d'une nouvelle
@@ -162,7 +172,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 
 	
-	
 
 	/*
 	 * 
@@ -178,10 +187,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	
 	
 	
-	
-	
-	
-
 	/** 
 	 * tableau de sauvegarde asocié aux paramètres et à simu
 	 * @return int[][] 
@@ -202,6 +207,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 			window.getProbabilitySlider().getValue()},
 			getSimu().getCoordoneeDesVoitures(),getSimu().getCoordoneeDesClients()};
 	}
+	
 	/**
 	 * Sauvegarde, informe la simulation des paramètres de l'algorithme et le lance.
 	 * @version Build III -  v0.0
@@ -224,24 +230,20 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 	
 	/**
-	 * Arrete et efface la simulation
-	 * @version Build III -  v0.0
+	 * Arrete et efface la simulation. Initialise les variables de simulation.
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 */
 	void clear()
 	{
-		//arrête le timer
 		timerStop();
-		//réinitialise les variables de simulations
-		setSimu(new Simulation(window.getBoard().getSquareSize()/2,
-				(getBlockSize()+1)*window.getBoard().getSquareSize(),
+		int wbss = window.getBoard().getSquareSize();
+		setSimu(new Simulation(wbss/2,(getBlockSize()+1)*wbss,
 				window.getBoard().getBoardWidth()*window.getBoard().getSquareSize(),
 				window.getBoard().getBoardHeight()*window.getBoard().getSquareSize()));
-		//on actualise la fenêtre
 		refresh();
 	}
 
-	
 	
 	
 	/*
@@ -259,14 +261,12 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	
 	
 	
-	Timer timer = new Timer(0,this);
-	
 	/**
 	 * Crée le timer à partir de la valeur du slideur et démarre
-	 * @version Build III -  v0.0
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 */
-	void timerStart()
+	private void timerStart()
 	{
 		window.getStartButton().setText("Pause");
 		timer = new Timer(500/window.getSpeedSlider().getValue(),this);
@@ -275,56 +275,62 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	
 	/**
 	 * Arrête le timer
-	 * @version Build III -  v0.0
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 */
-	void timerStop()
+	private void timerStop()
 	{
-		timer.stop();
 		window.getStartButton().setText("Start");
+		timer.stop();
+	}
+	
+	/**
+	 * Pause le Timer
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.1
+	 */
+	private void timerPause() {
+		timer.stop();
+		timerStart();
 	}
 
 	/**
-	 * actions aux échéances du timer
+	 * actions aux échéances du timer : <br>
+	 * <ul>
+	 * <li> Rajoute un client automatiquement si demandé. </li>
+	 * <li> Calcule le parcours si la configuration a changé </li>
+	 * <li> On bouge les voirutes d'un cran </li>
+	 * <li> On actualise l'affichage </li>
+	 * </ul>
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
 	void timerEvent()
 	{
-		//On rajoute un client automatiquement si demandé
 		addClient();
-		//On calcule le parcours si la configuration a changé
 		if(getSimu().isNeedAlgorithme()) doAlgorithme();
-		//on bouge les voitures d'un cran
 		getSimu().OneMove();
-		//on actualise la fenêtre
 		refresh();
 	}
 
 	/** 
-	 * Mise à jour de la fenêtre
+	 * Mise à jour de la fenêtre : <br>
+	 * Redessine le cityBoard et met à jour la fenetre de données.
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
-	void refresh()
+	private void refresh()
 	{
-		//On redessine le cityBoard
 		window.getBoard().repaint();
-		//On met à jour la fenêtre de données
 		if(dataWindow != null) dataWindow.setDataLabel(getSimu());
 	}
-	
-	/**
-	 * Compte à rebours
-	 */
-	int addClientTime = -1;
 	
 	/**
 	 * Cette fonction gêre l'ajout automatique d'un client aléatoire
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
-	void addClient(){
+	private void addClient(){
 		//Si la case d'ajout automatique est sélectionnée on réinitialise le compte à rebours
 		if(window.getAddClientCheckBox().isSelected() && addClientTime == -1)
 			addClientTime = (Integer) window.getIntervalSpinner().getValue();
@@ -350,61 +356,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 }
 	
 	/**
-	 * Ces fonctions génèrent des coordonnées aléatoirement
-	 * @return
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
-	int randomWidth(){return blockModulo((int) (window.getBoard().getWidth()*Math.random()));}
-	/**
-	 * Ces fonctions génèrent des coordonnées aléatoirement
-	 * @return
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
-	int randomHeight(){return blockModulo((int) (window.getBoard().getHeight()*Math.random()));}
-	
-	
-	
-	
-	/*
-	 * 
-	 *  
-	 *  
-	 *  
-	 *  EVENEMENTS SOURIS, BOUTONS, TIMER, LISTE, SLIDER ET CLAVIER 
-	 *  
-	 *  
-	 *  
-	 *  
-	 *  
-	 *  
-	 */
-	
-	
-	
-	
-	
-	
-	/**
-	 * Actions lorsque l'on appuie sur un des bouttons de la souris
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
-	public void mousePressed(MouseEvent event){
-		int i = event.getX()/window.getBoard().getSquareSize();
-		int j = event.getY()/window.getBoard().getSquareSize();
-		//Clique gauche
-		if (event.getButton()==MouseEvent.BUTTON1) {
-			getSimu().setSelectedClient(selectClient(i,j));
-		}
-		//Clique droit
-		if (event.getButton()==MouseEvent.BUTTON3) {
-			getSimu().setCarSimulation(selectCar(i,j));
-		}
-	}
-	
-	/**
 	 * fonction qui à une coordonnée sur le board associe la coordonnée du carrefour proche
 	 * @param x
 	 * @return
@@ -416,44 +367,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		int gbs = (int) Math.pow((getBlockSize()+1),2);
 		return (x/gbss)/(gbs)*gbss;
 	}
-	
-	int dragType = -1;
-	
-	/**
-	 * Actions lorsque la souris est relachée
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
-	public void mouseReleased(MouseEvent event){
-		int x = blockModulo(event.getX());
-		int y = blockModulo(event.getY());
-		//Si on est à l'intérieur du CityBoard, on crée ou modifie un client ou une voiture
-		if(x>=0 && x<window.getBoard().getHeight() && y>=0 && y<window.getBoard().getWidth())
-		{
-			if(dragType == -1){
-				//Clique gauche
-				if (event.getButton()==MouseEvent.BUTTON1) getSimu().ajouterClientSimulation(x,y);
-				//Clique droit
-				if (event.getButton()==MouseEvent.BUTTON3) getSimu().ajouterVoitureSimulation(x,y);
-			}
-			//Si un client est sélectionné
-			else if (dragType == 0 || dragType == 1) getSimu().getSelectedClient().getPosClient()[dragType].setLocation(x,y);
-			//Si une voiture est sélectionnée
-			else if (dragType == 2) getSimu().getCarSimulation().getPosCar().setLocation(x,y);
-		}
-		//Si on est à l'extérieur du cityBoard, on supprime la sélection
-		else {
-			if(dragType == 0 || dragType == 1) getSimu().deleteClient();
-			else if(dragType == 2) getSimu().deleteCar();
-		}
-		dragType = -1;
-		refresh();
-	}
-	
-	//Pour les autres événements de souris, on ne fait rien
-	public void mouseEntered(MouseEvent event){}
-	public void mouseExited(MouseEvent event){}
-	public void mouseClicked(MouseEvent arg0) {}
 
 	/**
 	 * Renvoie le client le plus récent aux coordonnées (i,j)
@@ -463,7 +376,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
-	Client selectClient(int i, int j){
+	private Client selectClient(int i, int j){
 		if(getSimu().getNotTargettedYet() != null
 				&& getSimu().getNotTargettedYet().getPosClient()[0].getX()/window.getBoard().getSquareSize() == i
 				&& getSimu().getNotTargettedYet().getPosClient()[0].getY()/window.getBoard().getSquareSize() == j){
@@ -489,7 +402,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
-	Car selectCar(int i, int j){
+	private Car selectCar(int i, int j){
 		for(int k = getSimu().getListeVoitures().size()-1;k>=0; k--)
 			if(getSimu().getListeVoitures().get(k).getPosCar().getX()/window.getBoard().getSquareSize() == i
 			&& getSimu().getListeVoitures().get(k).getPosCar().getY()/window.getBoard().getSquareSize() == j){
@@ -498,7 +411,6 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 			}
 		return null;
 	}
-	
 	
 	
 	
@@ -514,36 +426,101 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 *  
 	 *  */
 	
-	
-	
-	
+
+	/**
+	 * Actions lorsque l'on appuie sur un des bouttons de la souris
+	 * <ul>
+	 * <li> Button1 : bouton gauche, sélectionne un client. </li>
+	 * <li> Button3 : bouton droit, sélectionne une voiture. </li>
+	 * </ul>
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	public void mousePressed(MouseEvent event){
+		int i = event.getX()/window.getBoard().getSquareSize();
+		int j = event.getY()/window.getBoard().getSquareSize();
+		if (event.getButton()==MouseEvent.BUTTON1) {
+			getSimu().setSelectedClient(selectClient(i,j));
+		}
+		if (event.getButton()==MouseEvent.BUTTON3) {
+			getSimu().setCarSimulation(selectCar(i,j));
+		}
+	}
+
+	/**
+	 * Actions lorsque la souris est relachée
+	 * <br>
+	 * <br>
+	 * Si on est à l'intérieur du CityBoard, on crée ou modifie un client ou une voiture<br>
+	 * Si on est à l'extérieur du cityBoard, on supprime la sélection
+	 * @version Build III -  v0.1
+	 * @since Build III -  v0.0
+	 */
+	public void mouseReleased(MouseEvent event){
+		int x = blockModulo(event.getX());
+		int y = blockModulo(event.getY());
+		if(x>=0 && x<window.getBoard().getHeight() && y>=0 && y<window.getBoard().getWidth())
+		{
+			switch (dragType) {
+			case -1: 
+				if (event.getButton()==MouseEvent.BUTTON1) getSimu().ajouterClientSimulation(x,y); //client
+				if (event.getButton()==MouseEvent.BUTTON3) getSimu().ajouterVoitureSimulation(x,y); //voiture
+				break;
+			case 0: case 1: 
+				getSimu().getSelectedClient().getPosClient()[dragType].setLocation(x,y);
+				break;
+			case 2:
+				getSimu().getCarSimulation().getPosCar().setLocation(x,y);
+				break;
+			default: break;
+			}
+		}
+		else {
+			switch (dragType) {
+			case 0: case 1: 
+				getSimu().deleteClient();
+				break;
+			case 2:
+				getSimu().deleteCar();
+				break;
+			default: break;
+			}
+		}
+		dragType = -1;
+		refresh();
+	}
 	
 	/**
 	 * Actions au clic des boutons et aux échéances du timer
+	 * <ul>
+	 * <li>F1 = Active le button "Start" </li>
+	 * </ul>
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
 	public void actionPerformed(ActionEvent evt)
 	{
-		if(evt.getSource() == window.getQuitButton())
+		Object Listen = evt.getSource();
+		
+		if(Listen == window.getQuitButton())
 			window.dispose();
-		else if(evt.getSource() == window.getStartButton())
+		else if(Listen == window.getStartButton())
 			if(!timer.isRunning()) timerStart(); else timerStop();
-		else if(evt.getSource() == window.getClearButton())
+		else if(Listen == window.getClearButton())
 			clear();
-		else if(evt.getSource() == window.getDataButton())
+		else if(Listen == window.getDataButton())
 			dataWindow = new SideWindow(window,"Datas");
-		else if(evt.getSource() == window.getHelpButton())
+		else if(Listen == window.getHelpButton())
 			new SideWindow(window,"Help");
-		else if(evt.getSource() == window.getDisplaySavedSimuButton())
+		else if(Listen == window.getDisplaySavedSimuButton())
 			displaySavedSimu();
-		else if(evt.getSource() == window.getNewSavedSimuButton())
+		else if(Listen == window.getNewSavedSimuButton())
 			newSavedSimulation();
-		else if(evt.getSource() == window.getDeleteSavedSimuButton())
+		else if(Listen == window.getDeleteSavedSimuButton())
 			Saving.deleteSavedSimu(window.getSavedSimuComboBox().getSelectedIndex()-1,window);
-		else if(evt.getSource() == window.getAddClientCheckBox())
+		else if(Listen == window.getAddClientCheckBox())
 			addClientEvent(window.getAddClientCheckBox().isSelected());
-		else if(evt.getSource() == timer)
+		else if(Listen == timer)
 			timerEvent();
 	}
 
@@ -572,20 +549,23 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 			setDeleteSavedSimuButton();
 		}
 	}
+	
 	/**
-	 * Actions lorsque le curseur du slideur a bougé
-	 * @version Build III -  v0.0
+	 * Actions lorsque le curseur du slideur a bougé :
+	 * <ul>
+	 * <li> Si c'est le timer, on pause le temps. </li>
+	 * <li> Si c'est la taille des blocks
+	 * </ul>
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 */
 	public void stateChanged(ChangeEvent arg0)
 	{
-		//si le timer est en route, on le modifie sinon on ne fait rien
-		if(arg0.getSource() == window.getSpeedSlider() && timer.isRunning()){
-			timer.stop();
-			timerStart();
+		Object Source = arg0.getSource();
+		if(Source == window.getSpeedSlider()){
+			if(timer.isRunning()) timerPause();
 		}
-		//Actions lorsque la taille des blocks est modifiée
-		else if(arg0.getSource() == window.getBlockSizeSpinner()){
+		else if(Source == window.getBlockSizeSpinner()){
 			setBlockSize((Integer) window.getBlockSizeSpinner().getValue());
 			clear();
 		}
@@ -596,53 +576,104 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 * <ul>
 	 * <li>F1 = Active le button "Start" </li>
 	 * </ul>
-	 * @version Build III -  v0.0
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 */
 	public boolean dispatchKeyEvent(KeyEvent arg0) {
 		if (arg0.getID() == KeyEvent.KEY_PRESSED)
-			if(arg0.getKeyCode() == KeyEvent.VK_F1){window.getStartButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F2){window.getClearButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F3){window.getDataButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F4){window.getQuitButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F5){window.getDisplaySavedSimuButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F6){window.getDeleteSavedSimuButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F7){window.getNewSavedSimuButton().doClick();}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F8){}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F9){}
-			else if(arg0.getKeyCode() == KeyEvent.VK_F10){}
-		//F11 ne marche pas
-			else if(arg0.getKeyCode() == KeyEvent.VK_F12){window.getHelpButton().doClick();}
+			switch (arg0.getKeyCode()) {
+			case KeyEvent.VK_F1: window.getStartButton().doClick(); break;
+			case KeyEvent.VK_F2: window.getClearButton().doClick(); break;
+			case KeyEvent.VK_F3: window.getDataButton().doClick(); break;
+			case KeyEvent.VK_F4: window.getQuitButton().doClick(); break;
+			case KeyEvent.VK_F5: window.getDisplaySavedSimuButton().doClick(); break;
+			case KeyEvent.VK_F6: window.getDeleteSavedSimuButton().doClick(); break;
+			case KeyEvent.VK_F7: window.getNewSavedSimuButton().doClick(); break;
+			case KeyEvent.VK_F12: window.getHelpButton().doClick(); break;
+			default: break;
+			}
 		return false;
 	}
 
+	
+	
+	/*
+	 * FONCTION GENERATRICES
+	 */
+	
+	
+	
 	/**
-	 * Retourne la taille des blocks.
+	 * Ces fonctions génèrent des coordonnées aléatoirement
 	 * @return
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
+	int randomWidth(){return blockModulo((int) (window.getBoard().getWidth()*Math.random()));}
+	
+	/**
+	 * Ces fonctions génèrent des coordonnées aléatoirement
+	 * @return
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	int randomHeight(){return blockModulo((int) (window.getBoard().getHeight()*Math.random()));}
+	
+
+	/*
+	 * 
+	 * 
+	 * 
+	 * GETTERS ET SETTERS
+	 * 
+	 * 
+	 * 
+	 */
+	
+	
 	public int getBlockSize() {
 		return blockSize;
 	}
 
-
 	public void setBlockSize(int blockSize) {
 		this.blockSize = blockSize;
 	}
-
-	/**
-	 * Retourne la simulation en cours.
-	 * @return
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
+	
 	public Simulation getSimu() {
 		return simu;
 	}
 
-
 	public void setSimu(Simulation simu) {
 		this.simu = simu;
 	}
+	
+	/*
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * NON IMPLEMENTE
+	 * 
+	 * 
+	 * 
+	 * 
+	 */
+	
+	/**
+	 * événement de Souris non implémenté.
+	 */
+	public void mouseEntered(MouseEvent event){}
+	
+	/**
+	 * événement de Souris non implémenté.
+	 */
+	public void mouseExited(MouseEvent event){}
+	
+	/**
+	 * événement de Souris non implémenté.
+	 */
+	public void mouseClicked(MouseEvent arg0) {}
+	
 }
