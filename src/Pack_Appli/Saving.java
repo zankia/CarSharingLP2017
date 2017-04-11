@@ -30,7 +30,7 @@ public class Saving
 	 * Fichier contenant les Simulations Sauvgardés
 	 * <br> en .txt
 	 */
-	static final String fileName = "SavedSimulations.txt";
+	static final String fileName = "lib/SavedSimulations.txt";
 	/**
 	 * Liste de savedSimuString <br>
 	 * <b>savedSimuString</b> : Concaténation de savedSimuName et savedSimuArray

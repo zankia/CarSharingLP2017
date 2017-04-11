@@ -2,6 +2,9 @@ package Pack_Fenetre;
 
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -13,6 +16,8 @@ import Pack_Simu.Car;
 import Pack_Simu.Client;
 import Pack_Simu.Simulation;
 
+import org.apache.commons.io.FileUtils;
+
 /**
  * SideWindow est ou bien la fenêtre de données ou bien la fenêtre d'instructions
  * @author Romain Duret
@@ -20,6 +25,7 @@ import Pack_Simu.Simulation;
  * @since Build III -  v0.0
  */
 public class SideWindow extends JDialog{
+	
 	private static final long serialVersionUID = -8863025054299250887L;
 	
 	/**
@@ -71,60 +77,16 @@ public class SideWindow extends JDialog{
 		Component text = null;
 		//S'il s'agit de la fenÃªtre d'instructions
 		if(title == "Help"){
+			String fileName = "lib/Help.txt";
+			File Help = new File(fileName);
+			String stringHelp;
+			try{
+				stringHelp = FileUtils.readFileToString(Help, StandardCharsets.ISO_8859_1);
+			} catch(IOException e) {
+				stringHelp = "Le fichier n'a pas pu être chargé.";
+			}
 			JTextArea helpText = new JTextArea(
-	"Cliquer sur le carré blanc pour placer des clients (clique gauche) " +
-	"et des voitures (clique droit). " +
-	"Le premier clique gauche correspond à la position du client " +
-	"et le deuxième à sa destination. " +
-	"Pour modifier une position, effectuer un cliquer-glisser avec le bouton" +
-	" de la souris correspondant (gauche pour les clients, " +
-	"droit pour les voitures). " +
-	"Pour supprimer un client ou une voiture, cliquer-glisser en dehors" +
-	" du carré blanc, toujours avec le bon bouton. " +
-	"Pour tout effacer, cliquer sur le boutton \"Clear\". \n" +
-	"\n" +
-	"Cliquer sur \"Start\" pour démarrer la simulation. " +
-	"Vous pouvez à tout moment mettre la simulation sur pause en cliquant " +
-	"sur \"Pause\". Vous pouvez également régler la vitesse de la simulation " +
-	"quand vous voulez grâce au slider de droite. Un spinner permet de régler le nombre " +
-	"maximum de clients que peut transporter une voiture en même temps. " +
-	"Il est également possible de régler la taille des blocks constituant la ville.\n" +
-	"\n" +
-	"Comme il s'agit d'un logiciel de covoiturage dynamique, " +
-	"vous pouvez ajouter des clients et des voitures pendant la simulation. " +
-	"Si celle-ci n'est pas sur pause, l'algorithme " +
-	"recalculera automatiquement le parcours.\n" +
-	"\n" +
-	"Avant le démarrage d'une simulation, vous pouvez sélectionner " +
-	"l'algorithme d'optimisation ainsi que le paramêtre de la fonction de coût à minimiser " +
-	"correspondant à la préférence pour la satisfiabilité du client.\n" +
-	"\n" +
-	"Vous pouvez afficher la dernière simulation démarrée en sélectionnant " +
-	"\"Dernière simulation\" puis en cliquant sur le bouton \"Afficher\". " +
-	"Vous avez la possibilité d'enregistrer une simulation (cliquez sur " +
-	"\"Enregistrer\" lorsque \"Dernière simulation\" est sélectionnée), " +
-	"que vous pouvez réafficher, modifier et supprimer à souhait.\n" +
-	"\n" +
-	"Pour introduire automatiquement de nouveaux usagers de la route cochez la case correspondante, " +
-	"en indiquant la période ainsi que la probabilité de préférence " +
-	"pour le systême de covoiturage dynamique. La voiture des usagers qui n'utilisent " +
-	"pas le systême de covoiturage est de couleur verte et leur destination de couleur bleu cyan.\n" +
-	"\n" +
-	"Cliquer sur le bouton \"données\" pour visualiser quelques données numériques de la simulation.\n" +
-	"\n" +
-	"Les paramêtres par défaut sont les paramêtres sélectionnés au démarrage " +
-	"de l'application. Vous pouvez les modifier, aprês avoir sélectionné " +
-	"\"Paramêtres par défaut\", puis en enregistrant.\n" +
-	"\n" +
-	"Les raccourcis claviers sont les suivants :\n" +
-	"F1 : Start\n" +
-	"F2 : Clear\n" +
-	"F3 : Données\n" +
-	"F4 : Quitter\n" +
-	"F5 : Afficher\n" +
-	"F6 : Supprimer\n" +
-	"F7 : Enregistrer\n" +
-	"F12 : Instructions\n"
+				stringHelp
 					);
 			helpText.setEditable(false);
 			helpText.setLineWrap(true);

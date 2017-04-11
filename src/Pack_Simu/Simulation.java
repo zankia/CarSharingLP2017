@@ -64,7 +64,7 @@ public class Simulation{
 	 */
 	public Simulation(int cLength, int sLength, int width, int height) {
 		this.model = new Model();
-		this.city = new City();
+		this.city = new City(width, height, this.model);
 		this.time = 0;
 		this.needAlgorithme = false;
 		this.ListeVoitures = new ArrayList<Car>();
@@ -74,9 +74,7 @@ public class Simulation{
 		this.notTargettedYet = null;
 		this.carSimulation = null;
 		this.selectedClient = null;
-		city.setCityWidth(width/model.getStreetLength()+1);
-		city.setCityHeight(height/model.getStreetLength()+1);
-		city.setStreetArray(new int [city.getCityWidth()][city.getCityHeight()][2]);
+
 		model.setCarLength(cLength);
 		model.setStreetLength(sLength);
 		model.setCarSpeedMean(0);
@@ -224,7 +222,7 @@ public class Simulation{
 	 * dans la case (k,2*l) : l'ordre de passage de la voiture k quand elle prend le client l <br>
 	 * dans la case (k,2*l+1) : l'ordre de passage de la voiture k quand elle depose le client l <br>
 	 * si la voiture k ne prend ni ne depose le client l, -1 dans les cases (k,2*l) et (k,2*l+1) <br>
-	 * <i>Exemple : </li> <br>
+	 * <i>Exemple : </i> <br>
 	 * voiture 0 : prend 1, prend 0, depose 0, depose 1 <br>
 	 * voiture 1 : prend 2, depose 2 <br>
 	 * matriceDePassage : <br>

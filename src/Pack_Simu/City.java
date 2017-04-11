@@ -13,6 +13,13 @@ public class City {
 	private int cityHeight;
 	private int[][][] streetArray;
 	
+	public City(int Width, int Height, Model mod) {
+
+		this.cityWidth = Width/(mod.getStreetLength()+1);
+		this.cityHeight = Height/(mod.getStreetLength()+1);
+		this.streetArray = new int[this.cityWidth][this.cityHeight][2];
+	}
+	
 	public int getCityHeight() {
 		return cityHeight;
 	}
