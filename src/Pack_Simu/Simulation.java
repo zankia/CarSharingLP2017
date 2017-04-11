@@ -213,8 +213,12 @@ public class Simulation{
 		return coord;
 	}
 
+	
+	
+
 	/**
 	 * Fonction algorithme déterminant le parcours le moins couteux
+	 * @deprecated Use executeAlgo instead
 	 */
 	public void algorithmeParcoursMoinsCouteux(){
 		//1. DEFINITION DU CADRE D'ETUDE
@@ -245,6 +249,17 @@ public class Simulation{
 		setParcours(matriceDePassage,carAlgoList,clientAlgoList);
 		
 		this.needAlgorithme = false;
+	}
+	
+	public void executeAlgo() {
+		switch (this.algoId) {
+		case 0: //déterministe
+			break;
+		case 1: //RecuitSimule
+			break;
+		case 2: //Génétique
+			break;
+		}
 	}
 
 	/**
@@ -322,8 +337,6 @@ public class Simulation{
 		*/
 		return(matriceDePassage);
 	}
-
-
 
 	/** la fonction suivante détermine, pour un indice d'un point,
 	 * le nombre de clients dans la voiture juste avant d'atteindre ce point
@@ -476,7 +489,6 @@ public class Simulation{
 		}
 	}
 
-
 	/**
 	 * avance les Car d'une case vers leur prochaine étape
 	 */
@@ -567,6 +579,14 @@ public class Simulation{
 	}
 	}
 
+	
+	
+	
+	
+	
+	
+	
+	
 	public ArrayList<Car> getListeVoitures() {
 		return ListeVoitures;
 	}
