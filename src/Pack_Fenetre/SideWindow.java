@@ -21,7 +21,7 @@ import org.apache.commons.io.FileUtils;
 /**
  * SideWindow est ou bien la fenêtre de données ou bien la fenêtre d'instructions
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.1
  * @since Build III -  v0.0
  */
 public class SideWindow extends JDialog{
@@ -65,7 +65,7 @@ public class SideWindow extends JDialog{
 	
 	/**
 	 * Initialisation de la fenÃªtre de cÃ´tÃ© (???)
-	 * @version Build III -  v0.0
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 * @param window
 	 * @param title

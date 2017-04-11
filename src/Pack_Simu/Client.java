@@ -45,6 +45,15 @@ public class Client
 		idcptClient++;
 	}
 	
+	/**
+	 * To String
+	 * @return l'id sous forme de string
+	 */
+	public String toString() {
+		String test = Integer.toString(this.idClient);
+		return test;
+	}
+	
 	public int getStateClient () {
 		return this.stateClient;
 	}

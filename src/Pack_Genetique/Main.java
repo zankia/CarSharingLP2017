@@ -40,15 +40,15 @@ public class Main {
         PassagerOnVoiture meilleurPassagerOnVoiture = null;
         int generationCount = 0;
         int nbIterationMeilleureSolution = 0;
-        int meilleureSolution =  myPop.getMoreCompetent().getCompetence();
+        int meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin();
         int premiereSolution = 0;
 
         while (nbIterationMeilleureSolution < nbIterations ) {
             generationCount++;
-            System.out.println("Generation: " + generationCount + " distance parcourue: " + myPop.getMoreCompetent().getCompetence()+"m");
+            System.out.println("Generation: " + generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
             myPop = Algo_Genetique.evolvePopulation(myPop);
-            if (myPop.getMoreCompetent().getCompetence() < meilleureSolution){
-            	meilleureSolution = myPop.getMoreCompetent().getCompetence();
+            if (myPop.getMoreCompetent().getDistanceChemin() < meilleureSolution){
+            	meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
             	nbIterationMeilleureSolution = 0;
             	meilleurPassagerOnVoiture = myPop.getMoreCompetent();
             } 

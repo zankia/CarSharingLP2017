@@ -48,15 +48,23 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	private int blockSize;
 
 	/**
+	 * sauvegarde de la simulation précédente
+	 */
+	int[][] lastSimuArray;
+	
+	/**
 	 * initialise la simulation et crée et ouvre la fenêtre
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */
 	protected Application()
 	{
-		setSimu(new Simulation(0,1,0,0));
+		this.simu = new Simulation(0,1,0,0);
 		window = new Fenetre_Appli(this);
-		if(Saving.getSavedSimuList().size()>0) window.getSavedSimuComboBox().setSelectedIndex(1);
+		if(Saving.getSavedSimuList().size()>0) 
+			{
+			window.getSavedSimuComboBox().setSelectedIndex(1);
+			}
 		window.getSavedSimuComboBox().setSelectedIndex(0);
 	}
 
@@ -172,10 +180,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	
 	
 	
-	/**
-	 * sauvegarde de la simulation précédente
-	 */
-	int[][] lastSimuArray;
+	
 
 	/** 
 	 * tableau de sauvegarde asocié aux paramètres et à simu
@@ -390,9 +395,13 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		int i = event.getX()/window.getBoard().getSquareSize();
 		int j = event.getY()/window.getBoard().getSquareSize();
 		//Clique gauche
-		if (event.getButton()==MouseEvent.BUTTON1) getSimu().setSelectedClient(selectClient(i,j));
+		if (event.getButton()==MouseEvent.BUTTON1) {
+			getSimu().setSelectedClient(selectClient(i,j));
+		}
 		//Clique droit
-		if (event.getButton()==MouseEvent.BUTTON3) getSimu().setCarSimulation(selectCar(i,j));
+		if (event.getButton()==MouseEvent.BUTTON3) {
+			getSimu().setCarSimulation(selectCar(i,j));
+		}
 	}
 	
 	/**
@@ -403,7 +412,9 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 * @since Build III -  v0.0
 	 */
 	int blockModulo(int x){
-		return (x/window.getBoard().getSquareSize())/(getBlockSize()+1)*(getBlockSize()+1)*window.getBoard().getSquareSize();
+		int gbss = window.getBoard().getSquareSize();
+		int gbs = (int) Math.pow((getBlockSize()+1),2);
+		return (x/gbss)/(gbs)*gbss;
 	}
 	
 	int dragType = -1;
@@ -458,6 +469,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 				&& getSimu().getNotTargettedYet().getPosClient()[0].getY()/window.getBoard().getSquareSize() == j){
 			dragType = 0;
 			return getSimu().getNotTargettedYet();
+			
 		}	
 		for(int l = getSimu().getListeClients().size()-1;l >=0; l--)
 			for(int type = 1; type >= 0; type--)
@@ -548,19 +560,16 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 	
 	/**
-	 * Actions lorsqu'un élément de la liste des simulations enregistrÃ©es est sÃ©lectionnÃ©
-	 * @version Build III -  v0.0
+	 * Met à jour les boutons de sélection ("afficher"/"supprimer") à chaque changement de Sauvegarde.
+	 * @version Build III -  v0.1
 	 * @since Build III -  v0.0
 	 */
 	public void itemStateChanged(ItemEvent arg0)
 	{
 		if(arg0.getStateChange() == ItemEvent.SELECTED)
 		{
-			//On met à jour le bouton "afficher"
 			setDisplaySavedSimuButton();
-			//On met à jour le bouton "supprimer"
 			setDeleteSavedSimuButton();
-			if(window.getDisplaySavedSimuButton().isEnabled()) displaySavedSimu();
 		}
 	}
 	/**
@@ -583,7 +592,10 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 
 	/**
-	 * Actions aux événements claviers
+	 * Actions aux événements claviers <br>
+	 * <ul>
+	 * <li>F1 = Active le button "Start" </li>
+	 * </ul>
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
 	 */

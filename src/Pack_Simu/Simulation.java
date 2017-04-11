@@ -63,28 +63,24 @@ public class Simulation{
 	 * @param height
 	 */
 	public Simulation(int cLength, int sLength, int width, int height) {
-		this.model = new Model();
+		this.model = new Model(cLength, sLength);
 		this.city = new City(width, height, this.model);
-		this.time = 0;
+		
 		this.needAlgorithme = false;
+		
 		this.ListeVoitures = new ArrayList<Car>();
 		this.ListeClients = new ArrayList<Client>();
+		
 		this.nbVoituresSimulation = 0;
 		this.nbClientsSimulation = 0;
-		this.notTargettedYet = null;
-		this.carSimulation = null;
-		this.selectedClient = null;
-
-		model.setCarLength(cLength);
-		model.setStreetLength(sLength);
-		model.setCarSpeedMean(0);
-		model.setClientSpeedSum(0);
+		this.time = 0;
 		this.arrivedClient = 0;
-		model.setClientSpeedMean(0);
-		model.setClientRealSpeedMean(0);
 		this.arrivedRate = 0;
 		this.distSum = 0;
 		this.carbu = 0;
+		this.notTargettedYet = null;
+		this.carSimulation = null;
+		this.selectedClient = null;
 	}
 	
 	/**
@@ -100,7 +96,10 @@ public class Simulation{
 	}
 
 	/**
-	 * Ajout d'un client dans la simulation
+	 * Ajout d'un client dans la simulation <br>
+	 * <h3> Deux cas possible </h3>
+	 * Soit le client n'as pas encore de destination, auquel cas on rajoute une destination <br>
+	 * Soit le client a déjà une destination donc on créer un client.
 	 * @param x
 	 * @param y
 	 */
@@ -114,13 +113,14 @@ public class Simulation{
 			this.notTargettedYet = null;
 			if(dist(this.selectedClient.getPosClient()[0],this.selectedClient.getPosClient()[1])==0) {
 				deleteClient();
-			} else {
+			} 
+		} else {
 				//Sinon on crée un nouveau client
 				this.needAlgorithme = true;
 				this.notTargettedYet = new Client(this.time,x,y);
 			} 
 		}
-	}
+	
 	
 	/** 
 	 * Suppression d'une voiture.
@@ -282,12 +282,12 @@ public class Simulation{
 		switch(this.algoId) {
 
 		}
-
+		/*
 		//On affiche la matrice de passage dans la console ainsi que son coût
 		System.out.println("Matrice de passage :");
 		printMatrix(matriceDePassage);
 		System.out.println("cost : "+costMin);
-
+		*/
 		return(matriceDePassage);
 	}
 

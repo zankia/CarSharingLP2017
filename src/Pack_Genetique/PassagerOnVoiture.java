@@ -5,7 +5,7 @@ import java.util.Collections;
 /**
  * 
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.1
  * @since Build III -  v0.0
  */
 public class PassagerOnVoiture {
@@ -87,10 +87,33 @@ public class PassagerOnVoiture {
     public int nbVoitures() {
         return passagersOrdonnes.length;
     }
- 
-    public int getCompetence() {
-        competence = Resultat.getResultat(this);
-        return competence;
+    
+    /**
+     *  Trouver le resultat d'un GroupePassager, la somme des distances entre le 1er et le 2nd, puis le 2nd et le 3ème.... 
+     * @param GroupePassager
+     * @return
+     * @version Build III -  v0.1
+	 * @since Build III -  v0.0
+     */
+    public int getDistanceChemin() {
+    	int resultat = 0;
+        int distanceEntreDeuxPoints = 0;
+        
+        /* si la voiture part de (0,0)
+        distanceEntreDeuxPoints += Math.abs(GroupePassager.pointsDePassage[0][0].getPos_y());
+    	distanceEntreDeuxPoints += Math.abs(GroupePassager.pointsDePassage[0][0].getPos_x());
+    	resultat += distanceEntreDeuxPoints;
+         */
+        for (int i = 0; i < this.pointsDePassage.length - 1 ; i++){
+            for (int j = 0; j < this.pointsDePassage[i].length - 1 ; j++){
+        	distanceEntreDeuxPoints = 0;
+        	distanceEntreDeuxPoints += Math.abs(this.pointsDePassage[i][j].getPos_y() - this.pointsDePassage[i][j+1].getPos_y());
+        	distanceEntreDeuxPoints += Math.abs(this.pointsDePassage[i][j].getPos_x() - this.pointsDePassage[i][j+1].getPos_x());
+        	resultat += distanceEntreDeuxPoints;
+            }
+        }
+    	
+        return resultat;
     }
  
 

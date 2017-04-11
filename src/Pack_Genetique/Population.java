@@ -42,7 +42,7 @@ public class Population {
     	PassagerOnVoiture moreCompetent = PassagerOnVoitures[0];
         // Loop through passagers to find more competent
         for (int i = 0; i < size(); i++) {
-            if (moreCompetent.getCompetence() >= getPassagerOnVoiture(i).getCompetence()) {
+            if (moreCompetent.getDistanceChemin() >= getPassagerOnVoiture(i).getDistanceChemin()) {
                 moreCompetent = getPassagerOnVoiture(i);
             }
         }
