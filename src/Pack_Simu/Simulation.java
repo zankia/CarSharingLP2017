@@ -235,11 +235,19 @@ public class Simulation{
 		return coord;
 	}
 
+	
+	
+
 	/**
+<<<<<<< HEAD
 	 * On ne sélectionne que les voitures qui participent au covoiturage
 	 * @return 
 	 * @version Build III -  v0.1
 	 * @since Build III -  v0.1
+=======
+	 * Fonction algorithme déterminant le parcours le moins couteux
+	 * @deprecated Use executeAlgo instead
+>>>>>>> refs/remotes/origin/Implementation_Algorithme
 	 */
 	private ArrayList<Car> getVoitureCovoiturage() {
 		ArrayList<Car> carAlgoList = new ArrayList<Car>();
@@ -289,6 +297,17 @@ public class Simulation{
 		setParcours(matriceDePassage,carAlgoList,clientAlgoList);
 	
 		this.needAlgorithme = false;
+	}
+	
+	public void executeAlgo() {
+		switch (this.algoId) {
+		case 0: //déterministe
+			break;
+		case 1: //RecuitSimule
+			break;
+		case 2: //Génétique
+			break;
+		}
 	}
 	
 	/**
@@ -354,6 +373,7 @@ public class Simulation{
 		return(matriceDePassage);
 	}
 
+
 	/**
 	 * Création de la matrice initiale. <br>
 	 * 
@@ -391,8 +411,7 @@ public class Simulation{
 		}
 		return matriceDePassage;
 	}
-	
-	
+
 	/** la fonction suivante détermine, pour un indice d'un point,
 	 * le nombre de clients dans la voiture juste avant d'atteindre ce point
 	 */
@@ -525,6 +544,7 @@ public class Simulation{
 	 
 	* Logiquement cette fonction est appelée lorsqu'on a trouvé la matriceDePassage qui minimise le cout
 	* */
+	
 	public void setParcours(int[][] matriceDePassage,ArrayList<Car> carAlgoList, ArrayList<Client> clientAlgoList)
 	{
 		int carAlgoNumber = carAlgoList.size();
@@ -544,7 +564,6 @@ public class Simulation{
 		}
 	}
 
-	
 	/**
 	 * avance les Car d'une case vers leur prochaine étape
 	 */

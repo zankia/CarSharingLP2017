@@ -221,6 +221,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		setDisplaySavedSimuButton();
 		//On informe simu des paramètres d'algorithme
 		getSimu().setAlgoId(window.getAlgorithmeId());
+		System.out.println("Algo sélectionné :" + window.getAlgorithmeId());
 		getSimu().setCostRate(window.getCostSlider().getValue());
 		getSimu().setDivide(window.getDivideCheckBox().isSelected());
 		getSimu().setStepMax((Integer) window.getStepSpinner().getValue());
