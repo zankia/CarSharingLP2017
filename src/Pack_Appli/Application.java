@@ -37,11 +37,11 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	/**
 	 * Fenetre de l'Application
 	 */
-	Fenetre_Appli window;
+	private Fenetre_Appli window;
 	/** 
 	 * Déclare si la Fenetre est affiché. Par défaut, elle ne l'est pas.
 	 */
-	SideWindow dataWindow = null;
+	private SideWindow dataWindow = null;
 	/**
 	 * Taille des blocs de la ville.
 	 */
@@ -49,19 +49,19 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	/**
 	 * sauvegarde de la simulation précédente
 	 */
-	int[][] lastSimuArray;	
+	private int[][] lastSimuArray;	
 	/**
 	 * Timer de la simulation
 	 */
-	Timer timer = new Timer(0,this);	
+	private Timer timer = new Timer(0,this);	
 	/**
 	 * Compte à rebours
 	 */
-	int addClientTime = -1;
+	private int addClientTime = -1;
 	/**
 	 * Type de drag and drop (déplacement de voiture/client)
 	 */
-	int dragType = -1;
+	private int dragType = -1;
 	
 	
 	/*
@@ -224,9 +224,10 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 		getSimu().setCostRate(window.getCostSlider().getValue());
 		getSimu().setDivide(window.getDivideCheckBox().isSelected());
 		getSimu().setStepMax((Integer) window.getStepSpinner().getValue());
+		System.out.println((Integer) window.getStepSpinner().getValue());
 		getSimu().setOccupantCapacity((Integer) window.getOccupantSpinner().getValue());
 		//on lance l'algorithme
-		getSimu().algorithmeParcoursMoinsCouteux();
+		getSimu().executeAlgorithme();
 	}
 	
 	/**
@@ -280,8 +281,9 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 */
 	private void timerStop()
 	{
-		window.getStartButton().setText("Start");
 		timer.stop();
+		window.getStartButton().setText("Start");
+		
 	}
 	
 	/**
@@ -295,7 +297,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	}
 
 	/**
-	 * actions aux échéances du timer : <br>
+	 * actions aux "échéances" du timer : <br>
 	 * <ul>
 	 * <li> Rajoute un client automatiquement si demandé. </li>
 	 * <li> Calcule le parcours si la configuration a changé </li>
@@ -599,6 +601,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	
 	/*
 	 * FONCTION GENERATRICES
+
 	 */
 	
 	

@@ -220,11 +220,13 @@ public class Fenetre_Appli extends JFrame{
 		JPanel algorithmeLayout = new JPanel();
 		algorithmeLayout.setLayout(new BoxLayout(algorithmeLayout,BoxLayout.PAGE_AXIS));
 		algorithmeLayout.add(algorithmeLabel);
-		setAlgorithmeArray(new RadioButton[]{
+		RadioButton[] list = new RadioButton[]{
 				new RadioButton("Déterministe",algorithme,algorithmeLayout,true),
 				new RadioButton("Recuit simulé",algorithme,algorithmeLayout,true),
 				new RadioButton("Genetique",algorithme,algorithmeLayout,false)
-		});
+		};
+		setAlgorithmeArray(list);
+		list[0].setSelected(true);
 		setDivideCheckBox(new JCheckBox("Diviser pour mieux régner"));
 		getDivideCheckBox().setEnabled(false);
 		algorithmeLayout.add(getDivideCheckBox());

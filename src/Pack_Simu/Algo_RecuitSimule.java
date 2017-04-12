@@ -74,11 +74,10 @@ public class Algo_RecuitSimule implements I_Algorithme{
 	/** 
 	 * Fiesta.
 	 */
+	
 	{
-		Algo_RecuitSimule algoa = new Algo_RecuitSimule();
-		
 		// DEBUT DES ITERATIONS
-		while (algoa.etape1 < algoa.simu.getStepMax() ){
+		while (this.etape1 < this.simu.getStepMax() ){
 			
 			/* on commence par créer une copie de la matrice de passage,
 			 * sur laquelle on va effectuer des modifications aléatoires,
@@ -86,9 +85,9 @@ public class Algo_RecuitSimule implements I_Algorithme{
 			 * pour ensuite la comparer avec la matrice courante
 			 */
 			
-			int[][] copy = algoa.copieMatrice();
-			int clientRandom = algoa.clientRandom();
-			int car = algoa.getVoitureClient(copy,clientRandom);
+			int[][] copy = this.copieMatrice();
+			int clientRandom = this.clientRandom();
+			int car = this.getVoitureClient(copy,clientRandom);
 			
 			/* 2 cas dans l'état actuel des choses :
 			 * soit le client est toujours sur le trottoir,
