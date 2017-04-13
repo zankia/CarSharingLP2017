@@ -239,15 +239,10 @@ public class Simulation{
 	
 
 	/**
-<<<<<<< HEAD
 	 * On ne sélectionne que les voitures qui participent au covoiturage
 	 * @return 
 	 * @version Build III -  v0.1
 	 * @since Build III -  v0.1
-=======
-	 * Fonction algorithme déterminant le parcours le moins couteux
-	 * @deprecated Use executeAlgo instead
->>>>>>> refs/remotes/origin/Implementation_Algorithme
 	 */
 	private ArrayList<Car> getVoitureCovoiturage() {
 		ArrayList<Car> carAlgoList = new ArrayList<Car>();
@@ -338,11 +333,13 @@ public class Simulation{
 		//S'il n'y a pas de voiture ou pas de client dans le cadre d'Ã©tude, on ne lance pas l'algorithme
 		if(carAlgoNumber == 0 || clientAlgoNumber == 0) return new int[0][0];
 		
-		int[][] matriceDePassage = this.creationMatriceInitiale(carAlgoList, clientAlgoList, carAlgoNumber, clientAlgoNumber);
-		
+		int[][][] matrice = this.creationMatriceInitiale(carAlgoList, clientAlgoList, carAlgoNumber, clientAlgoNumber);
+		int[][] carOccupantArray = matrice[0];
+		int[][] matriceDePassage = matrice[1];
 		//On cherchera le coût minimum des matrices de passages créées
 		int costMin = cost(matriceDePassage,carAlgoList,clientAlgoList);
-
+		
+		
 		/*
         Exemple : clientWaitingNumber = 3, deux occupants dans les voitures 0 et 1
         [ 0, 1, 2, 3, 4, 5,-1,-1,-1, 6]
@@ -354,11 +351,12 @@ public class Simulation{
 		//On effectue une disjonction de cas selon l'algorithme sélectionné
 		switch(this.algoId) {
 			case 0: //déterministe
-				Algo_Deterministe algo = new Algo_Deterministe(costMin, clientWaitingNumber, clientAlgoNumber, carAlgoNumber,matriceDePassage, carAlgoList, clientAlgoList, this);
-				matriceDePassage = algo.launch();
-				
+				Algo_Deterministe algo_1 = new Algo_Deterministe(costMin, clientWaitingNumber, clientAlgoNumber, carAlgoNumber,matriceDePassage, carOccupantArray, carAlgoList, clientAlgoList, this);
+				matriceDePassage = algo_1.launch();
 				break;
 			case 1: //RecuitSimule
+				Algo_RecuitSimule algo_2 = new Algo_RecuitSimule(costMin, clientWaitingNumber, clientAlgoNumber, carAlgoNumber,matriceDePassage, carOccupantArray, carAlgoList, clientAlgoList, this);
+				matriceDePassage = algo_2.launch();
 				break;
 			case 2: //Génétique
 				break;
@@ -383,7 +381,7 @@ public class Simulation{
 	 * @param clientAlgoNumber
 	 * @return
 	 */
-	private int[][] creationMatriceInitiale(ArrayList<Car> carAlgoList,
+	private int[][][] creationMatriceInitiale(ArrayList<Car> carAlgoList,
 			ArrayList<Client> clientAlgoList, int carAlgoNumber, int clientAlgoNumber) {
 		//On crée dans le même temps le tableau des occupants de la voiture renumérotés
 		int[][] matriceDePassage = new int[carAlgoNumber][2*clientAlgoNumber];
@@ -409,7 +407,10 @@ public class Simulation{
 				matriceDePassage[k][2*lAlgo+1] = z;
 			}
 		}
-		return matriceDePassage;
+		int[][][] matrice = new int[2][][];
+		matrice[0] = carOccupantArray;
+		matrice[1] = matriceDePassage;
+		return matrice;
 	}
 
 	/** la fonction suivante détermine, pour un indice d'un point,
@@ -454,10 +455,18 @@ public class Simulation{
 	 * @return
 	 */
 	public int[][] copyMatrix(int[][] m){
-		int n = m.length;
-		int[][] mat= new int[n][m[0].length];
-		for(int x=0;x<n;x++)
-			mat[x]=m[x].clone();
+		int n = 0;
+		
+		for(int x=0;x<m.length;x++) {
+			if(m[x].length>n) n = m[x].length;
+		}
+		int[][] mat= new int[m.length][n];
+		for(int x=0;x<m.length;x++) {
+			for(int y=0;y<n;y++) {
+				mat[x][y]=m[x][y];
+			}
+		}
+			
 		return mat;
 	}
 
@@ -467,8 +476,10 @@ public class Simulation{
 	 */
 	public void printMatrix(int[][] m){
 		System.out.print("[");
-		for(int x=0;x<m.length;x++)
+		for(int x=0;x<m.length;x++) {
 			System.out.println(Arrays.toString(m[x]));
+		}
+		System.out.print("]");
 	}
 
 	/**

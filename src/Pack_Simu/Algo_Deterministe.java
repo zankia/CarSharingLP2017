@@ -29,14 +29,14 @@ public class Algo_Deterministe implements I_Algorithme {
 	int[][][] carLine;
 	
 	
-	public Algo_Deterministe(int costMin, int clientWaitingNumber, int clientAlgoNumber, int carAlgoNumber, int[][] matriceDePassage, ArrayList<Car> carAlgoList, ArrayList<Client> clientAlgoList, Simulation simu) {
+	public Algo_Deterministe(int costMin, int clientWaitingNumber, int clientAlgoNumber, int carAlgoNumber,  int[][]matriceDePassage , int[][] carOccupantArray, ArrayList<Car> carAlgoList, ArrayList<Client> clientAlgoList, Simulation simu) {
 		this.toBeToken = -1;
 		this.costMin = costMin;
 		this.clientWaitingNumber = clientWaitingNumber;
 		this.clientAlgoNumber = clientAlgoNumber;
 		this.simu = simu;
 		this.carAlgoNumber = carAlgoNumber;
-		this.carOccupantArray = new int[carAlgoNumber][];
+		this.carOccupantArray = carOccupantArray;
 		this.matriceDePassage = matriceDePassage;
 		this.clientAlgoList = clientAlgoList;
 		this.carAlgoList = carAlgoList;
