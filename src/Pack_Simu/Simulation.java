@@ -477,9 +477,9 @@ public class Simulation{
 	public void printMatrix(int[][] m){
 		System.out.print("[");
 		for(int x=0;x<m.length;x++) {
-			System.out.println(Arrays.toString(m[x]));
+			System.out.print(Arrays.toString(m[x]));
 		}
-		System.out.print("]");
+		System.out.println("]");
 	}
 
 	/**
@@ -644,6 +644,7 @@ public class Simulation{
 						car.streetId = -1;
 					else car.streetId = 2*Y*this.city.getCityWidth()+2*X+((car.getPosCar().getX() % this.model.getStreetLength() == 0)?0:1);
 					//On incrémente le nombre de voitures dans la rue de la voiture
+						
 					if(car.streetId != -1) {
 						this.city.getStreetArray()[X][Y][car.streetId%2]++;
 					}
