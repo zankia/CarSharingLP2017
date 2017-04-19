@@ -5,19 +5,23 @@ package Pack_Genetique;
  * Doit à terme disparaitre.
  * 
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.2
  * @since Build III -  v0.0
  */
 public class Main {
 	
-	static Passager[] lesPassagers;
-    static int nbIterations = 3000;
-    static int nbPassager = 20;
-    static int taillePopulation = 10;
+	protected static Passager[] lesPassagers;
+	protected static int nbIterations = 100;
+    protected static int nbPassager = 20;
+    protected static int taillePopulation = 10;
+    protected static final int nbVoiture = 5;
+    protected static final int nbPlaceVoiture = 4;
     
     /**
      * Main.
      * @param args
+     * @since Build III - v0.0
+     * @version Build III - v0.2
      */
     public static void main(String[] args) {
     	
@@ -25,7 +29,7 @@ public class Main {
     	//Generate 20 random passagers
 		lesPassagers = new Passager[nbPassager];
 		Passager unPassager;
-		for(int i = 0; i < 20; i ++){
+		for(int i = 0; i < nbPassager; i ++){
 			unPassager = new Passager();
 			lesPassagers[i] = unPassager;
 		}  
@@ -45,7 +49,7 @@ public class Main {
 
         while (nbIterationMeilleureSolution < nbIterations ) {
             generationCount++;
-            System.out.println("Generation: " + generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
+            if(generationCount%10==0) System.out.println("Generation: " + generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
             myPop = Algo_Genetique.evolvePopulation(myPop);
             if (myPop.getMoreCompetent().getDistanceChemin() < meilleureSolution){
             	meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
@@ -59,7 +63,7 @@ public class Main {
             	nbIterationMeilleureSolution ++;  
         }
         
-        for(int i = 0; i < 20; i++){
+        for(int i = 0; i < nbPassager; i++){
         	 System.out.println(lesPassagers[i].toString());
         }
         
