@@ -96,7 +96,7 @@ public class PassagerParVoiture {
 	 * Pour chaque voiture on attribue l'ordre de passage à chaque départ et déstination de chaque passager
 	 * <br>
 	 * Effectué dans l'ordre "normale" (pas de dépot avant
-	 * @version Build III -  v0.0
+	 * @version Build III -  v0.2
 	 * @since Build III -  v0.0
 	 */
     public void attribuerPointsDePassage() {
