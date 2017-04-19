@@ -3,45 +3,104 @@ package Pack_Genetique;
  * Classe Population
  * 
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.2
  * @since Build III -  v0.0
  */
 public class Population {
  
+	
+	/*
+	   _____       _ _   _       _ _           _   _             
+	  |_   _|     (_) | (_)     | (_)         | | (_)            
+	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
+	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
+	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
+	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
+	*/
+	
 	/** 
 	 * Liste de passager dans des voitures
 	 */
-    PassagerOnVoiture[] PassagerOnVoitures;
+    PassagerParVoiture[] PassagerParVoitures;
 
     
+	 /*                                                   
+    _____                _                   _                  
+   / ____|              | |                 | |                 
+  | |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
+  | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
+  | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
+   \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
+	  */
+    
+    
+    
     /**
-     *  Create a population and PassagerOnVoiture inside
+     *  Create a population and PassagerParVoiture inside
      * @param populationSize
      * @param initialise
      * @version Build III -  v0.0
      * @since Build III -  v0.0
      */
     public Population(int populationSize, boolean initialise) {
-        PassagerOnVoitures = new PassagerOnVoiture[populationSize];
+        this.PassagerParVoitures = new PassagerParVoiture[populationSize];
         // Initialise population
         if (initialise) {
             for (int i = 0; i < populationSize; i++) {
-            	PassagerOnVoiture newPassagerOnVoiture = new PassagerOnVoiture();
-                newPassagerOnVoiture.generatePassagerOnVoiture();
+            	PassagerParVoiture newPassagerOnVoiture = new PassagerParVoiture();
+            	newPassagerOnVoiture.generatePassagerOnVoiture();
                 savePassagerOnVoiture(i, newPassagerOnVoiture);
             }
         }
     }
  
-    /* Getters */
-    public PassagerOnVoiture getPassagerOnVoiture(int index) {
-        return PassagerOnVoitures[index];
+    
+	/*
+	  __  __      _   _               _           
+	 |  \/  |    | | | |             | |          
+	 | \  / | ___| |_| |__   ___   __| | ___  ___ 
+	 | |\/| |/ _ \ __| '_ \ / _ \ / _` |/ _ \/ __|
+	 | |  | |  __/ |_| | | | (_) | (_| |  __/\__ \
+	 |_|  |_|\___|\__|_| |_|\___/ \__,_|\___||___/
+	                                              
+	 */	
+    
+    /**
+     *  Save passager
+     * @param index
+     * @param PassagerParVoiture
+     * @version Build III -  v0.0
+     * @since Build III -  v0.0
+     */
+    public void savePassagerOnVoiture(int index, PassagerParVoiture PassagerParVoiture) {
+    	this.PassagerParVoitures[index] = new PassagerParVoiture();
+    	for( int i = 0 ; i < PassagerParVoiture.getNbVoitures() ; i++){
+        	for( int j = 0 ; j < PassagerParVoiture.getNbPassagers() ; j++){
+        		this.PassagerParVoitures[index].passagersOrdonnes[i][j] = PassagerParVoiture.passagersOrdonnes[i][j];
+        	}
+    	}
+    	this.PassagerParVoitures[index].attribuerPointsDePassage();
+    }
+    
+	/*
+	   _____      _               _____      _   
+	  / ____|    | |     ___     / ____|    | |  
+	 | |  __  ___| |_   ( _ )   | (___   ___| |_ 
+	 | | |_ |/ _ \ __|  / _ \/\  \___ \ / _ \ __|
+	 | |__| |  __/ |_  | (_>  <  ____) |  __/ |_ 
+	  \_____|\___|\__|  \___/\/ |_____/ \___|\__|
+	                                             
+	  */ 
+    
+    
+    public PassagerParVoiture getPassagerOnVoiture(int index) {
+        return this.PassagerParVoitures[index];
     }
  
-    public PassagerOnVoiture getMoreCompetent() {
-    	PassagerOnVoiture moreCompetent = PassagerOnVoitures[0];
+    public PassagerParVoiture getMoreCompetent() {
+    	PassagerParVoiture moreCompetent = this.PassagerParVoitures[0];
         // Loop through passagers to find more competent
-        for (int i = 0; i < size(); i++) {
+        for (int i = 0; i < getSize(); i++) {
             if (moreCompetent.getDistanceChemin() >= getPassagerOnVoiture(i).getDistanceChemin()) {
                 moreCompetent = getPassagerOnVoiture(i);
             }
@@ -52,27 +111,12 @@ public class Population {
     /**
      *  Get population size
      * @return
-     * @version Build III -  v0.0
+     * @version Build III -  v0.2
      * @since Build III -  v0.0
      */
-    public int size() {
-        return PassagerOnVoitures.length;
+    public int getSize() {
+        return this.PassagerParVoitures.length;
     }
  
-    /**
-     *  Save passager
-     * @param index
-     * @param PassagerOnVoiture
-     * @version Build III -  v0.0
-     * @since Build III -  v0.0
-     */
-    public void savePassagerOnVoiture(int index, PassagerOnVoiture PassagerOnVoiture) {
-    	PassagerOnVoitures[index] = new PassagerOnVoiture();
-    	for( int i = 0 ; i < PassagerOnVoiture.nbVoitures() ; i++){
-        	for( int j = 0 ; j < PassagerOnVoiture.nbPassagers() ; j++){
-    		PassagerOnVoitures[index].passagersOrdonnes[i][j] =  PassagerOnVoiture.passagersOrdonnes[i][j];
-        	}
-    	}
-    	PassagerOnVoitures[index].attribuerPointsDePassage();
-    }
+    
 }

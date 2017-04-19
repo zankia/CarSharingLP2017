@@ -26,7 +26,7 @@ public class Car
 	 * indique le numéro de la rue dans laquelle la voiture se trouve
 	 */
 	int streetId;
-	private boolean isDoingCarSharing;
+	protected boolean isDoingCarSharing;
 	private static int cptIdCar = 0;
 
 	/**

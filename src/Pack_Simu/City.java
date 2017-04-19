@@ -15,8 +15,8 @@ public class City {
 	
 	public City(int Width, int Height, Model mod) {
 
-		this.cityWidth = Width/(mod.getStreetLength()+1);
-		this.cityHeight = Height/(mod.getStreetLength()+1);
+		this.cityWidth = Width/mod.getStreetLength()+1;
+		this.cityHeight = Height/mod.getStreetLength()+1;	
 		this.streetArray = new int[this.cityWidth][this.cityHeight][2];
 	}
 	
