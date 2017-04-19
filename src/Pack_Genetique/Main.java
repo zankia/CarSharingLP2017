@@ -10,12 +10,65 @@ package Pack_Genetique;
  */
 public class Main {
 	
+	/*
+	   _____       _ _   _       _ _           _   _             
+	  |_   _|     (_) | (_)     | (_)         | | (_)            
+	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
+	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
+	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
+	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
+	*/                                                             
+	      
+	/**
+	 * Tableau des passagers 
+	 */
 	protected static Passager[] lesPassagers;
+	/**
+	 * Nombre d'itération à affectuer après la dernière diminution de taille
+	 */
 	protected static int nbIterations = 100;
+	/**
+	 * Nombre de passager en tout
+	 */
     protected static int nbPassager = 20;
+    /**
+     * Taille de la population utilisée par l'algo génétique
+     */
     protected static int taillePopulation = 10;
+    /**
+     * Nombre de voiture
+     */
     protected static final int nbVoiture = 5;
+    /** 
+     * Nombre de place par voiture.
+     */
     protected static final int nbPlaceVoiture = 4;
+    /**
+     * Premiere solution trouvée (distance)
+     */
+    int premiereSolution = 0;
+    /**
+     * Meilleure soltuion trouvée (distance)
+     */
+    int meilleureSolution;
+    /**
+     * Meilleure combinaison de Passager distribué dans des voitures
+     */
+    PassagerParVoiture meilleurPassagerParVoiture;
+    /**
+     * Conteur de génération
+     */
+    int generationCount;
+    
+    
+    /*                                                   
+    _____                _                   _                  
+   / ____|              | |                 | |                 
+  | |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
+  | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
+  | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
+   \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
+	  */
     
     /**
      * Main.
@@ -25,60 +78,84 @@ public class Main {
      */
     public static void main(String[] args) {
     	
-        long debut = System.currentTimeMillis();
-    	//Generate 20 random passagers
-		lesPassagers = new Passager[nbPassager];
-		Passager unPassager;
-		for(int i = 0; i < nbPassager; i ++){
-			unPassager = new Passager();
-			lesPassagers[i] = unPassager;
-		}  
-		
-		
-
-        // Create the initial population
-        Population myPop = new Population(taillePopulation, true);
+    	Main main = new Main();
+       
+    }
+    
+    public Main() {
+    	
+    	long debut = System.currentTimeMillis(); //Debut du compteur
+     	
+ 		Main.lesPassagers = Passager.generatePassagers(nbPassager); //passager créé aléatoirement
+ 		
         
-
-        /* Evolve our population until we reach an optimum solution*/
-        PassagerOnVoiture meilleurPassagerOnVoiture = null;
-        int generationCount = 0;
-        int nbIterationMeilleureSolution = 0;
-        int meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin();
-        int premiereSolution = 0;
-
-        while (nbIterationMeilleureSolution < nbIterations ) {
-            generationCount++;
-            if(generationCount%10==0) System.out.println("Generation: " + generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
-            myPop = Algo_Genetique.evolvePopulation(myPop);
-            if (myPop.getMoreCompetent().getDistanceChemin() < meilleureSolution){
-            	meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
-            	nbIterationMeilleureSolution = 0;
-            	meilleurPassagerOnVoiture = myPop.getMoreCompetent();
-            } 
-            if (generationCount == 1 ) {
-            	premiereSolution = meilleureSolution;
-            }
-            else 
-            	nbIterationMeilleureSolution ++;  
+ 		Population myPop = this.execute(); //exuction de l'algo génétique 
+ 		
+ 		//this.meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin(); //taille de la meilleure solution
+ 		this.affichage(debut);
+    }
+ 
+    /**
+     * Execution des itérations
+     * @return
+     * @version Build III -  v0.2
+	 * @since Build III -  v0.2
+     */
+    public Population execute() {
+    	int nbIterationMeilleureSolution = 0;
+    	 Population myPop = new Population(taillePopulation, true); //création de la population initialie
+    	 this.generationCount = 0;
+    	 this.meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin();
+    	 
+    	 while (nbIterationMeilleureSolution < nbIterations ) {
+             this.generationCount++;
+             if(this.generationCount%10==0) System.out.println("Generation: " + this.generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
+             myPop = Algo_Genetique.evolvePopulation(myPop);
+             if (myPop.getMoreCompetent().getDistanceChemin() < this.meilleureSolution){
+            	 this.meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
+             	nbIterationMeilleureSolution = 0;
+             	this.meilleurPassagerParVoiture = myPop.getMoreCompetent();
+             } 
+             if (this.generationCount == 1 ) {
+            	 this.premiereSolution = this.meilleureSolution;
+             }
+             else 
+             	nbIterationMeilleureSolution ++;  
+         }
+       return myPop;
+    }
+    
+    /*
+           __  __ _      _                            
+    /\    / _|/ _(_)    | |                     
+   /  \  | |_| |_ _  ___| |__   __ _  __ _  ___ 
+  / /\ \ |  _|  _| |/ __| '_ \ / _` |/ _` |/ _ \
+ / ____ \| | | | | | (__| | | | (_| | (_| |  __/
+/_/    \_\_| |_| |_|\___|_| |_|\__,_|\__, |\___|
+                                      __/ |     
+                                     |___/       
+*/      
+    /**
+     * Affichage des données dans la console
+     * @version Build III -  v0.2
+	 * @since Build III -  v0.2
+     */
+    public void affichage(long debut) {
+    	for(int i = 0; i < Main.nbPassager; i++){
+        	 System.out.println(Main.lesPassagers[i].toString());
         }
-        
-        for(int i = 0; i < nbPassager; i++){
-        	 System.out.println(lesPassagers[i].toString());
-        }
-        
-        System.out.println("---------------------");
-        System.out.println("Solution found ! Number of generations created : "+ generationCount);
-        System.out.println("Distance: " + (float)meilleureSolution/100+" Km");
-        System.out.println("Distance au début : " + (float)premiereSolution/100+" Km");
+    	System.out.println("---------------------");
+        System.out.println("Solution found ! Number of generations created : "+ this.generationCount);
+        System.out.println("Distance: " + (float)this.meilleureSolution/100+" Km");
+        System.out.println("Distance au début : " + (float)this.premiereSolution/100+" Km");
         System.out.println("---------------------");
         System.out.println("Répartition des passagers :");
-        meilleurPassagerOnVoiture.afficherPassagerOnVoitures();
+        this.meilleurPassagerParVoiture.afficherPassagerOnVoitures();
     
         System.out.println("---------------------");
         System.out.println("Matrice des points à parcourir : ");
 
-        meilleurPassagerOnVoiture.afficherPoints();
+        this.meilleurPassagerParVoiture.afficherPoints();
         
         long fin = System.currentTimeMillis();
         System.out.println("Méthode exécutée en " + Long.toString(fin - debut) + " millisecondes");
