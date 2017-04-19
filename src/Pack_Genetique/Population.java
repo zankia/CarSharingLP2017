@@ -31,7 +31,6 @@ public class Population {
   | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
   | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
    \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
-
 	  */
     
     
@@ -49,6 +48,7 @@ public class Population {
         if (initialise) {
             for (int i = 0; i < populationSize; i++) {
             	PassagerParVoiture newPassagerOnVoiture = new PassagerParVoiture();
+            	newPassagerOnVoiture.generatePassagerOnVoiture();
                 savePassagerOnVoiture(i, newPassagerOnVoiture);
             }
         }
@@ -76,7 +76,7 @@ public class Population {
     	this.PassagerParVoitures[index] = new PassagerParVoiture();
     	for( int i = 0 ; i < PassagerParVoiture.getNbVoitures() ; i++){
         	for( int j = 0 ; j < PassagerParVoiture.getNbPassagers() ; j++){
-        		this.PassagerParVoitures[index].passagersOrdonnes[i][j] =  PassagerParVoiture.passagersOrdonnes[i][j];
+        		this.PassagerParVoitures[index].passagersOrdonnes[i][j] = PassagerParVoiture.passagersOrdonnes[i][j];
         	}
     	}
     	this.PassagerParVoitures[index].attribuerPointsDePassage();

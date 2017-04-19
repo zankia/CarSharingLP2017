@@ -34,7 +34,7 @@ public class Main {
     /**
      * Taille de la population utilisée par l'algo génétique
      */
-    protected static int taillePopulation = 10;
+    protected static int taillePopulation = 60;
     /**
      * Nombre de voiture
      */
@@ -110,7 +110,7 @@ public class Main {
     	 
     	 while (nbIterationMeilleureSolution < nbIterations ) {
              this.generationCount++;
-             /*if(this.generationCount%10==0)*/ System.out.println("Generation: " + this.generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
+             if(this.generationCount%10==0) System.out.println("Generation: " + this.generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
              myPop = Algo_Genetique.evolvePopulation(myPop);
              if (myPop.getMoreCompetent().getDistanceChemin() < this.meilleureSolution){
             	 this.meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
