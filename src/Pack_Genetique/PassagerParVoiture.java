@@ -264,10 +264,10 @@ public class PassagerParVoiture {
         */
        for (int i = 0; i < this.pointsDePassage.length - 1 ; i++){
            for (int j = 0; j < this.pointsDePassage[i].length - 1 ; j++){
-       	distanceEntreDeuxPoints = 0;
-       	distanceEntreDeuxPoints += Math.abs(this.pointsDePassage[i][j].getPos_y() - this.pointsDePassage[i][j+1].getPos_y());
-       	distanceEntreDeuxPoints += Math.abs(this.pointsDePassage[i][j].getPos_x() - this.pointsDePassage[i][j+1].getPos_x());
-       	resultat += distanceEntreDeuxPoints;
+        	   distanceEntreDeuxPoints = 0;
+        	   distanceEntreDeuxPoints += Math.abs(this.pointsDePassage[i][j].getPos_y() - this.pointsDePassage[i][j+1].getPos_y());
+        	   distanceEntreDeuxPoints += Math.abs(this.pointsDePassage[i][j].getPos_x() - this.pointsDePassage[i][j+1].getPos_x());
+        	   resultat += distanceEntreDeuxPoints;
            }
        }
    	

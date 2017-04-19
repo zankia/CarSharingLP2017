@@ -118,6 +118,17 @@ public class Passager {
         return passagerString;
     }
 
+	public static int getPireDistance(Passager[] lesPassagers) {
+		int somme = 0;
+		for(int i = 0; i < lesPassagers.length ; i++) {
+			int distanceEntreDeuxPoints = 0;
+     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getPos_y() - lesPassagers[i].getArrivee().getPos_y());
+     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getPos_x() - lesPassagers[i].getArrivee().getPos_x());
+     	   somme += distanceEntreDeuxPoints;
+		}
+		return somme;
+	}
+
    
 
 }

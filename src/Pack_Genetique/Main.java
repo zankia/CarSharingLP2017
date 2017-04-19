@@ -34,7 +34,7 @@ public class Main {
     /**
      * Taille de la population utilisée par l'algo génétique
      */
-    protected static int taillePopulation = 60;
+    protected static int taillePopulation = 10;
     /**
      * Nombre de voiture
      */
@@ -51,6 +51,10 @@ public class Main {
      * Meilleure soltuion trouvée (distance)
      */
     int meilleureSolution;
+    /**
+     * Solution égoiste (1 voiture / passager)
+     */
+    int egoisteSolution;
     /**
      * Meilleure combinaison de Passager distribué dans des voitures
      */
@@ -107,10 +111,11 @@ public class Main {
     	 Population myPop = new Population(taillePopulation, true); //création de la population initialie
     	 this.generationCount = 0;
     	 this.meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin();
+    	 this.egoisteSolution = Passager.getPireDistance(lesPassagers);
     	 
     	 while (nbIterationMeilleureSolution < nbIterations ) {
              this.generationCount++;
-             if(this.generationCount%10==0) System.out.println("Generation: " + this.generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
+             /*if(this.generationCount%10==0)*/ System.out.println("Generation: " + this.generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
              myPop = Algo_Genetique.evolvePopulation(myPop);
              if (myPop.getMoreCompetent().getDistanceChemin() < this.meilleureSolution){
             	 this.meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
@@ -151,6 +156,7 @@ public class Main {
         System.out.println("Solution found ! Number of generations created : "+ this.generationCount);
         System.out.println("Distance: " + (float)this.meilleureSolution/100+" Km");
         System.out.println("Distance au début : " + (float)this.premiereSolution/100+" Km");
+        System.out.println("Distance total 1 par 1 : " + (float)this.egoisteSolution/100 + "Km");
         System.out.println("---------------------");
         System.out.println("Répartition des passagers :");
         this.meilleurPassagerParVoiture.afficherPassagerOnVoitures();
