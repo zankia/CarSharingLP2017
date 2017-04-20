@@ -29,9 +29,19 @@ import Pack_Simu.Simulation;
  */
 public class Application implements ActionListener, MouseListener, ItemListener, ChangeListener, KeyEventDispatcher
 {
+	
+	/*
+	   _____       _ _   _       _ _           _   _             
+	  |_   _|     (_) | (_)     | (_)         | | (_)            
+	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
+	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
+	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
+	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
+	*/
+	
+	
 	/**
 	 * Simulation
-	 * 
 	 */
 	private Simulation simu;
 	/**
@@ -64,9 +74,14 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	private int dragType = -1;
 	
 	
-	/*
-	 *  CONSTRUCTEUR
-	 */
+	/*                                                   
+    _____                _                   _                  
+   / ____|              | |                 | |                 
+  | |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
+  | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
+  | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
+   \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
+	  */
 	
 	
 	/**
@@ -97,28 +112,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	 *  
 	 * 
 	 */
-	
-	
-	/**
-	 * Active ou désactive le bouton "Afficher"
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
-	protected void setDisplaySavedSimuButton()
-	{
-		window.getDisplaySavedSimuButton().setEnabled(
-				window.getSavedSimuComboBox().getSelectedIndex()!=0 || lastSimuArray!=null);
-	}
 
-	/**
-	 * Active ou désactive le bouton "Supprimer"
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */
-	protected void setDeleteSavedSimuButton()
-	{
-		window.getDeleteSavedSimuButton().setEnabled(window.getSavedSimuComboBox().getSelectedIndex()!=0);
-	}
 
 	/** 
 	 * Affiche sur le cityboard la simulation enregistrée sélectionnée
@@ -311,7 +305,7 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	void timerEvent()
 	{
 		addClient();
-		if(getSimu().isNeedAlgorithme()) doAlgorithme();
+		if(getSimu().isRedoAlgorithme()) doAlgorithme();
 		getSimu().OneMove();
 		refresh();
 	}
@@ -625,15 +619,35 @@ public class Application implements ActionListener, MouseListener, ItemListener,
 	
 
 	/*
-	 * 
-	 * 
-	 * 
-	 * GETTERS ET SETTERS
-	 * 
-	 * 
-	 * 
-	 */
+	   _____      _               _____      _   
+	  / ____|    | |     ___     / ____|    | |  
+	 | |  __  ___| |_   ( _ )   | (___   ___| |_ 
+	 | | |_ |/ _ \ __|  / _ \/\  \___ \ / _ \ __|
+	 | |__| |  __/ |_  | (_>  <  ____) |  __/ |_ 
+	  \_____|\___|\__|  \___/\/ |_____/ \___|\__|
+	                                             
+	  */  
 	
+	/**
+	 * Active ou désactive le bouton "Afficher"
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	protected void setDisplaySavedSimuButton()
+	{
+		window.getDisplaySavedSimuButton().setEnabled(
+				window.getSavedSimuComboBox().getSelectedIndex()!=0 || lastSimuArray!=null);
+	}
+
+	/**
+	 * Active ou désactive le bouton "Supprimer"
+	 * @version Build III -  v0.0
+	 * @since Build III -  v0.0
+	 */
+	protected void setDeleteSavedSimuButton()
+	{
+		window.getDeleteSavedSimuButton().setEnabled(window.getSavedSimuComboBox().getSelectedIndex()!=0);
+	}
 	
 	public int getBlockSize() {
 		return blockSize;

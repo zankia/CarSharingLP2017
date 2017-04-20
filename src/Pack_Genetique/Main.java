@@ -30,7 +30,7 @@ public class Main {
 	/**
 	 * Nombre de passager en tout
 	 */
-    protected static int nbPassager = 20;
+    protected static int nbPassager = 40;
     /**
      * Taille de la population utilisée par l'algo génétique
      */
@@ -43,6 +43,10 @@ public class Main {
      * Nombre de place par voiture.
      */
     protected static final int nbPlaceVoiture = 4;
+    /**
+     * Taille de la grille
+     */
+    protected static final int sizeGrille = 20;
     /**
      * Premiere solution trouvée (distance)
      */

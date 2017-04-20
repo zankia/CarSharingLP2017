@@ -128,8 +128,8 @@ public class Algo_Genetique {
      * @param PassagerParVoiture
      */
     private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture){
-		int passager1 = (int)(Math.random() * 20 + 1);
-		int passager2 = (int)(Math.random() * 20 + 1);
+		int passager1 = (int)(Math.random() * Main.nbPassager + 1);
+		int passager2 = (int)(Math.random() * Main.nbPassager + 1);
 		Passager passagerTmp = null;
 		int[] coord1 = new int[2];
 		int[] coord2 = new int[2];

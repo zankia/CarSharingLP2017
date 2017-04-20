@@ -33,8 +33,8 @@ public class PositionPassager {
 	
 	public PositionPassager(){
 		//Here we give him a random position on the 20*20 grid
-		this.pos_x = (int)(Math.random() * 20 + 1);
-		this.pos_y = (int)(Math.random() * 20 + 1);
+		this.pos_x = (int)(Math.random() * Main.sizeGrille + 1);
+		this.pos_y = (int)(Math.random() * Main.sizeGrille + 1);
 	}
 	
 	

@@ -28,7 +28,7 @@ public class PassagerParVoiture {
 	 * M(i,2*j)
 	 */
 	PositionPassager[][] pointsDePassage;
-	private int competence = 0;
+	
 	/**
 	 * Recursivité : poids du chemin optimal
 	 */
@@ -199,17 +199,17 @@ public class PassagerParVoiture {
    
    
    public void afficherPassagerOnVoitures() {
-		for(int i = 0 ; i < 5 ; i++){
-			for(int j = 0 ; j < 4 ; j++){
+		for(int i = 0 ; i < Main.nbVoiture  ; i++){
+			for(int j = 0 ; j < Main.nbPlaceVoiture ; j++){
 				System.out.print(passagersOrdonnes[i][j].getId() + " ");
 			}
 		System.out.println("");
 		}
     }
    
-   public void afficherPoints() {
-		for(int i = 0 ; i < 5 ; i++){
-			for(int j = 0 ; j < 8 ; j++){
+   public void afficherPoints() { 
+		for(int i = 0 ; i < Main.nbVoiture  ; i++){
+			for(int j = 0 ; j < (Main.nbPlaceVoiture*2) ; j++){
 				System.out.print(pointsDePassage[i][j].toString() + " ");
 			}
 		System.out.println("");
