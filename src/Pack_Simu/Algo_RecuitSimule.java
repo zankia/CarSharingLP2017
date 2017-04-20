@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @version Build III -  v0.0
  * @since Build III -  v0.0
  */
-public class Algo_RecuitSimule implements I_Algorithme{
+public class Algo_RecuitSimule {
 	
 	int clientWaitingNumber;
 	int carAlgoNumber;
@@ -53,7 +53,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 			
 			/* on commence par créer une copie de la matrice de passage,
 			 * sur laquelle on va effectuer des modifications aléatoires,
-			 * Ã  caractère élémentaire,
+			 * Ã  caractère élémentaire,
 			 * pour ensuite la comparer avec la matrice courante
 			*/
 			
@@ -96,7 +96,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 						}
 					}
 				}
-				// Ã  présent on réinjecte le client
+				// Ã  présent on réinjecte le client
 				// on choisit au hasard la voiture qui va le transporter
 				int quelleCar = (int)Math.floor(Math.random()*this.carAlgoNumber);
 				/* on détermine p le nombre d'entiers positifs sur la ligne,
@@ -124,7 +124,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 				int lenPos = compatiblePos.size();
 				int randPos = compatiblePos.get((int)Math.floor(lenPos*Math.random()));
 				/* on décale d'un cran les ordres de passage
-				 * supérieurs Ã  randPos
+				 * supérieurs Ã  randPos
 				 */
 				for(int q =0 ; q<2*this.clientAlgoNumber ; q++){
 					if(copy[quelleCar][q]>=randPos){
@@ -137,7 +137,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 				 * qu'il doit être compris entre randPos+1 et p+1
 				 * et respecter la condition occupantCapacity
 				 */
-				/* Ã  partir de randPos+1 on liste donc tous les
+				/* Ã  partir de randPos+1 on liste donc tous les
 				 * indices compatibles dans l'ordre croissant
 				 * jusqu'à trouver un indice incompatible ou
 				 * jusqu'à arriver à p+1
@@ -186,7 +186,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 						copy[car][q]=copy[car][q]-1;
 					}
 				}
-				// Ã  présent on réinjecte la destination
+				// Ã  présent on réinjecte la destination
 				/* on détermine p le nombre d'entiers positifs sur la ligne,
 				 * ils vont de 0 à p-1
 				 */
@@ -200,7 +200,7 @@ public class Algo_RecuitSimule implements I_Algorithme{
 				/* à partir de 0 on liste donc tous les
 				 * indices compatibles dans l'ordre croissant
 				 * jusqu'à trouver un indice incompatible ou
-				 * jusqu'à arriver Ã  p
+				 * jusqu'à arriver Ã  p
 				 */
 				boolean critere = true;
 				ArrayList<Integer> compatibleTarget = new ArrayList<Integer>();
