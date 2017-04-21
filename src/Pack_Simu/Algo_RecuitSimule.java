@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Classe de l'Algorithme RecuitSimule.
  * 
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.3
  * @since Build III -  v0.0
  */
 public class Algo_RecuitSimule {
