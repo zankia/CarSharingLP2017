@@ -1,7 +1,7 @@
 package Pack_Genetique;
 
 /**
- * Classe des postions départ et arrivée des passagers.
+ * Classe des postions dÃ©part et arrivÃ©e des passagers.
  * @author Romain Duret
  * @version Build III -  v0.2
  * @since Build III -  v0.0
@@ -30,7 +30,9 @@ public class PositionPassager {
    \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
 
 	  */
-	
+	/**
+  * On donne ici une position alatoiresur une grill
+  */
 	public PositionPassager(){
 		//Here we give him a random position on the 20*20 grid
 		this.pos_x = (int)(Math.random() * Main.sizeGrille + 1);
@@ -66,4 +68,5 @@ public class PositionPassager {
 		 pointString = "("+this.getPos_x()+","+this.getPos_y()+")";
 		 return pointString;
 	 }
+
 }
