@@ -88,7 +88,7 @@ public class Algo_RecuitSimule {
 	 * @version Build III -  v0.3
 	 * @since Build III -  v0.3
 	 */
-	private int[][] decalerOrdrePassage(int[][] copy, int clientRandom) {
+	private int[][] decalerOrdrePassageClient(int[][] copy, int clientRandom) {
 		int pos = copy[car][2*clientRandom];
 		int target = copy[car][2*clientRandom+1];
 		copy[car][2*clientRandom]=-1;
@@ -105,8 +105,20 @@ public class Algo_RecuitSimule {
 		}
 		return copy;
 	}
-	
-	
+	/**
+	 * On retire la destination de la matrice de passage et on décale l'ordre pour combler les trous.
+	 * @param copy
+	 * @param clientRandom
+	 * @return
+	 * @version Build III -  v0.3
+	 * @since Build III -  v0.3
+	 */
+	private int[][] decalerOrdrePassageDestination(int[][] copy, int clientRandom) {
+		int target = copy[this.car][2*clientRandom+1];
+		copy[this.car][2*clientRandom+1]=-1;
+		copy = decalerOrdrePassagerAvecLimite(copy, this.car, target-1);
+		return copy;
+	}
 	/**
 	 * Donne ordre de Passage aléatoire pour la position de départ du client. <br>
 	 * Doit être entre 0 et le nombre d'entier positif sur la ligne et respecter la condition occupantCapctiy.
@@ -130,7 +142,7 @@ public class Algo_RecuitSimule {
 		
 		copy[quelleCar][2*clientRandom]=randPos;
 		
-		copy = this.ordrePassageAleatoireEtape2(copy, quelleCar, p, clientRandom, randPos);
+		copy = this.ordrePassageAleatoireEtape2(copy, quelleCar, p+1, clientRandom, randPos+1);
 		return copy;
 		
 	}
@@ -146,7 +158,7 @@ public class Algo_RecuitSimule {
 	 * @since Build III -  v0.3
 	 */
 	private int[][] ordrePassageAleatoireEtape2(int[][] copy, int quelleCar, int p, int clientRandom, int randPos) {
-		ArrayList<Integer> compatibleTarget = this.getListeIndiceCompatible(copy, quelleCar, randPos+1, p+1); //Liste des Indices Compatibles
+		ArrayList<Integer> compatibleTarget = this.getListeIndiceCompatible(copy, quelleCar, randPos, p); //Liste des Indices Compatibles
 
 		int randTarget = compatibleTarget.get((int)Math.floor(compatibleTarget.size()*Math.random())); //Prend un élément aléatoire
 		
@@ -198,7 +210,12 @@ public class Algo_RecuitSimule {
 			}
 		}
 	}
-	
+	/**
+	 * Lance l'execution de l'algorithme
+	 * @return
+	 * @version Build III -  v0.3
+	 * @since Build III -  v0.3
+	 */
 	public int[][] launch() {
 		
 		while (this.etape1 < this.simu.getStepMax() ){ // DEBUT DES ITERATIONS
@@ -210,7 +227,7 @@ public class Algo_RecuitSimule {
 			if (clientRandom < this.clientWaitingNumber) {  //Si le client est sur le trottoir :
 
 				// Sorti d'un client pour le réinjecter dans un endroit aléatoire et compatible avec occupantMax :
-				copy = this.decalerOrdrePassage(copy, clientRandom); //On retire le client
+				copy = this.decalerOrdrePassageClient(copy, clientRandom); //On retire le client
 				
 				//On l'injecte :
 				copy = this.ordrePassageAleatoire(copy, clientRandom);
@@ -218,23 +235,12 @@ public class Algo_RecuitSimule {
 			else { //Si le client est déjà dans une voiture, on change simplement sa destination d'indice.
 
 				//Sorti d'une destination :
-				int target = copy[this.car][2*clientRandom+1];
-				copy[this.car][2*clientRandom+1]=-1; //on retire la destination du client dans la voiture de la matrice de passage
-				copy = decalerOrdrePassagerAvecLimite(copy, this.car, target-1); //Décalage pour combler les trous
+				copy = this.decalerOrdrePassageDestination(copy, clientRandom);
 				
 				//On réinjecte la destination : (p nombre d'entier positif sur la ligne)
 				int p = 2*this.clientAlgoNumber-this.simu.nombreDeMoinsUn(copy[this.car]);
-				
-				//Sélection d'un ordre de passage aléatoire pour la destination du client : 
-				ArrayList<Integer> compatibleTarget = this.getListeIndiceCompatible(copy, this.car, 0, p); //Liste des Indices Compatibles
-				
-				 //On prend un élément aléatoire : 
-				int lenTarget = compatibleTarget.size();
-				int randTarget = compatibleTarget.get((int)Math.floor(lenTarget*Math.random()));
-				
-				copy = this.decalerOrdrePassagerAvecLimite(copy, this.car, randTarget);
-				copy[car][2*clientRandom+1]=randTarget;
-				
+				copy = this.ordrePassageAleatoireEtape2(copy, this.car, p, clientRandom, 0);
+
 			}
 			
 			this.testComparatifCout(copy);
