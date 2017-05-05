@@ -1,4 +1,8 @@
-package Pack_Genetique;
+package v3_algo;
+
+import java.util.ArrayList;
+
+import v3_window.Cell;
 /**
  * Passager de voiture.
  * 
@@ -46,13 +50,12 @@ public class Passager {
 	 * Constructeur de Passager
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
-	 */
-	public Passager(){
+	 */	
+	public Passager(Cell cellule_depart, Cell cellule_arrivee){
 		Passager.nbPassagers ++;
 		this.id = Passager.nbPassagers;
-		positionPassagers[0] = new PositionPassager();
-		positionPassagers[1] = new PositionPassager();
-
+		positionPassagers[0] = new PositionPassager(cellule_depart.getRow(), cellule_depart.getColumn());
+		positionPassagers[1] = new PositionPassager(cellule_arrivee.getRow(), cellule_arrivee.getColumn());
 	}
 	
 	/*
@@ -66,21 +69,30 @@ public class Passager {
 	 */	
 	
 	
-	 /**
+	/**
      * Méthode qui permet de générer de façon aléatoire nbPassager passager
      * @param nbPassager nombre de passager créé de façon aléatoire
      * @return Tableau de passager généré aléatoirement
      * @version Build III -  v0.2
 	 * @since Build III -  v0.2
      */
-	public static Passager[] generatePassagers(int nbPassager) {
+	/*public static Passager[] generatePassagers(int nbPassager) {
 		Passager[] lesPassagers = new Passager[nbPassager];
 		Passager unPassager;
 		for(int i = 0; i < nbPassager; i ++){
 			unPassager = new Passager();
 			lesPassagers[i] = unPassager;
 		}
-		System.out.println(lesPassagers.length);
+		return lesPassagers;
+	}*/
+	
+	public static Passager[] buildPassager(ArrayList<Cell> list_client, ArrayList<Cell> list_client_depot) {
+		Passager.nbPassagers = 0;
+		Passager[] lesPassagers = new Passager[list_client_depot.size()];
+		for(int i = 0; i < list_client_depot.size(); i ++){
+			Passager unPassager = new Passager(list_client.get(i), list_client_depot.get(i));
+			lesPassagers[i] = unPassager;
+		}
 		return lesPassagers;
 	}
 	
@@ -119,6 +131,16 @@ public class Passager {
         return passagerString;
     }
 
-   
+	public static int getPireDistance(Passager[] lesPassagers) {
+		int somme = 0;
+		for(int i = 0; i < lesPassagers.length ; i++) {
+			int distanceEntreDeuxPoints = 0;
+     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getPos_y() - lesPassagers[i].getArrivee().getPos_y());
+     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getPos_x() - lesPassagers[i].getArrivee().getPos_x());
+     	   somme += distanceEntreDeuxPoints;
+		}
+		return somme;
+	}
+
 
 }

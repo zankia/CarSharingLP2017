@@ -184,11 +184,8 @@ public class Algo_Deterministe implements I_Algorithme {
 			}
 		}
 
-		if(this.toBeToken <= clientWaitingNumber){
-			System.out.println("Nombre maximal de clients pris en");
-			System.out.println("charge par une voiture réduit à "+(this.toBeToken-1));
-			System.out.println("Augmenter le nombre d'étapes");
-		}
+		this.affichageIntermediaire();
+		
 
 		//On crée d'abord un tableau contenant les puissances de 2
 		int power2n = 1;
@@ -332,5 +329,13 @@ public class Algo_Deterministe implements I_Algorithme {
 		}
 		
 		return this.matriceDePassage;
+	}
+
+	private void affichageIntermediaire() {
+		if(this.toBeToken <= this.clientWaitingNumber){
+			System.out.println("Nombre maximal de clients pris en");
+			System.out.println("charge par une voiture réduit à "+(this.toBeToken-1));
+			System.out.println("Augmenter le nombre d'étapes");
+		}
 	}
 }
