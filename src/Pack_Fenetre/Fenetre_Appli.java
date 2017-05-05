@@ -241,7 +241,7 @@ public class Fenetre_Appli extends JFrame{
 		RadioButton[] list = new RadioButton[]{
 				new RadioButton("Déterministe",algorithme,algorithmeLayout,true),
 				new RadioButton("Recuit simulé",algorithme,algorithmeLayout,true),
-				new RadioButton("Genetique",algorithme,algorithmeLayout,false)
+				new RadioButton("Genetique",algorithme,algorithmeLayout,true)
 		};
 		setAlgorithmeArray(list);
 		list[0].setSelected(true);

@@ -1,15 +1,12 @@
-package Pack_Genetique;
+package v3_algo;
 
-/**
- * Class Main qui permet de faire tourner l'algorithme.
- * Doit à terme disparaitre.
- * 
- * @author Romain Duret
- * @version Build III -  v0.2
- * @since Build III -  v0.0
- */
-public class Main {
-	
+import java.util.ArrayList;
+
+import v3_window.Cell;
+
+public class Execut_Algo_Genetique {
+
+
 	/*
 	   _____       _ _   _       _ _           _   _             
 	  |_   _|     (_) | (_)     | (_)         | | (_)            
@@ -30,16 +27,16 @@ public class Main {
 	/**
 	 * Nombre de passager en tout
 	 */
-    protected static int nbPassager = 10;
+    protected static int nbPassager;
 
     /**
      * Taille de la population utilisée par l'algo génétique
      */
-    protected static int taillePopulation = 20;
+    protected static int taillePopulation = 10;
     /**
      * Nombre de voiture
      */
-    protected static final int nbVoiture = 5;
+    protected static  int nbVoiture;
     /** 
      * Nombre de place par voiture.
      */
@@ -47,7 +44,8 @@ public class Main {
     /**
      * Taille de la grille
      */
-    protected static final int sizeGrille = 20;
+    protected static int sizeGrille_X;
+    protected static int sizeGrille_Y;
     /**
      * Premiere solution trouvée (distance)
      */
@@ -79,29 +77,23 @@ public class Main {
    \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
 
 	  */
+   
     
-    /**
-     * Main.
-     * @param args
-     * @since Build III - v0.0
-     * @version Build III - v0.2
-     */
-    public static void main(String[] args) {
+    public Execut_Algo_Genetique(ArrayList<Cell> list_car, ArrayList<Cell> list_client, ArrayList<Cell> list_client_depot, int rows, int columns) {
     	
-    	Main main = new Main();
-       
-    }
-    
-    public Main() {
+    	Execut_Algo_Genetique.nbPassager = list_client_depot.size();
+    	Execut_Algo_Genetique.nbVoiture = list_car.size();
+    	
+    	Execut_Algo_Genetique.sizeGrille_X = rows;
+    	Execut_Algo_Genetique.sizeGrille_Y = columns;
     	
     	long debut = System.currentTimeMillis(); //Debut du compteur
-     	
- 		Main.lesPassagers = Passager.generatePassagers(nbPassager); //passager créé aléatoirement
+    	
+ 		Execut_Algo_Genetique.lesPassagers = Passager.buildPassager(list_client, list_client_depot); //passager créé aléatoirement
  		
-        
- 		this.execute(); //exuction de l'algo génétique 
+ 		Population myPop = this.execute(); //exuction de l'algo génétique 
  		
- 		//this.meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin(); //taille de la meilleure solution
+ 		this.meilleureSolution = myPop.getMoreCompetent().getDistanceChemin(); //taille de la meilleure solution
  		this.affichage(debut);
     }
  
@@ -111,7 +103,7 @@ public class Main {
      * @version Build III -  v0.2
 	 * @since Build III -  v0.2
      */
-    public void execute() {
+    public Population execute() {
     	int nbIterationMeilleureSolution = 0;
     	 Population myPop = new Population(taillePopulation, true); //création de la population initialie
     	 this.generationCount = 0;
@@ -133,6 +125,7 @@ public class Main {
              else 
              	nbIterationMeilleureSolution ++;  
          }
+    	 return myPop;
     }
     
     /*
@@ -154,8 +147,8 @@ public class Main {
 	 * @since Build III -  v0.2
      */
     public void affichage(long debut) {
-    	for(int i = 0; i < Main.nbPassager; i++){
-        	 System.out.println(Main.lesPassagers[i].toString());
+    	for(int i = 0; i < Execut_Algo_Genetique.nbPassager; i++){
+        	 System.out.println(Execut_Algo_Genetique.lesPassagers[i].toString());
         }
     	System.out.println("---------------------");
         System.out.println("Solution found ! Number of generations created : "+ this.generationCount);
@@ -176,4 +169,9 @@ public class Main {
         System.out.println("Méthode exécutée en " + Long.toString(fin - debut) + " millisecondes");
 
     }
+    
+    
+	
+	
+	
 }

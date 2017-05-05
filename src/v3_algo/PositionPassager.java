@@ -1,4 +1,4 @@
-package Pack_Genetique;
+package v3_algo;
 
 /**
  * Classe des postions départ et arrivée des passagers.
@@ -28,12 +28,13 @@ public class PositionPassager {
   | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
   | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
    \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
+
+
 	  */
 	
-	public PositionPassager(){
-		//Here we give him a random position on the 20*20 grid
-		this.pos_x = (int)(Math.random() * 20 + 1);
-		this.pos_y = (int)(Math.random() * 20 + 1);
+	public PositionPassager(int i, int j){
+		this.pos_x = i;
+		this.pos_y = j;
 	}
 	
 	

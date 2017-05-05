@@ -1,6 +1,8 @@
-package Pack_Genetique;
+package v3_algo;
 import java.util.Arrays;
 import java.util.Collections;
+
+import v3_window.Main;
 
 /**
  * 
@@ -52,10 +54,10 @@ public class PassagerParVoiture {
 	 * Constructeur simple
 	 */
 	public PassagerParVoiture() {
-		this.passagersOrdonnes = new Passager[Main.nbVoiture][Main.nbPlaceVoiture];
+		this.passagersOrdonnes = new Passager[Execut_Algo_Genetique.nbVoiture][Execut_Algo_Genetique.nbPlaceVoiture];
 		//this.prompt(this.passagersOrdonnes);
-		this.pointsDePassage = new PositionPassager[Main.nbVoiture][Main.nbPlaceVoiture*2];
-		this.passageOptimal = new PositionPassager[Main.nbVoiture][Main.nbPlaceVoiture*2];
+		this.pointsDePassage = new PositionPassager[Execut_Algo_Genetique.nbVoiture][Execut_Algo_Genetique.nbPlaceVoiture*2];
+		this.passageOptimal = new PositionPassager[Execut_Algo_Genetique.nbVoiture][Execut_Algo_Genetique.nbPlaceVoiture*2];
 	}
 
 
@@ -77,14 +79,14 @@ public class PassagerParVoiture {
    */
 	
     public void generatePassagerOnVoiture() {
-    	this.pointsDePassage = new PositionPassager[Main.nbVoiture][Main.nbPlaceVoiture*2];
-    	Passager[] listeDesPassagers= new Passager[Main.nbPassager];
-    	for(int i = 0; i < Main.nbPassager; i++)
-    		listeDesPassagers[i] = Main.lesPassagers[i];
+    	this.pointsDePassage = new PositionPassager[Execut_Algo_Genetique.nbVoiture][Execut_Algo_Genetique.nbPlaceVoiture*2];
+    	Passager[] listeDesPassagers= new Passager[Execut_Algo_Genetique.nbPassager];
+    	for(int i = 0; i < Execut_Algo_Genetique.nbPassager; i++)
+    		listeDesPassagers[i] = Execut_Algo_Genetique.lesPassagers[i];
 		Collections.shuffle(Arrays.asList(listeDesPassagers));
 		int index = 0;
-		for(int i = 0 ; i < Main.nbVoiture ; i++)
-			for(int j = 0 ; j < Main.nbPlaceVoiture ; j++){
+		for(int i = 0 ; i < Execut_Algo_Genetique.nbVoiture ; i++)
+			for(int j = 0 ; j < Execut_Algo_Genetique.nbPlaceVoiture ; j++){
 				if(listeDesPassagers.length>index) 
 					this.setPassager(i, j, listeDesPassagers[index]);
 				index++;
@@ -102,12 +104,12 @@ public class PassagerParVoiture {
 	 */
     public void attribuerPointsDePassage() {
     	
-    	for (int i = 0; i < Main.nbVoiture; i++){ // Pour chaque voiture ayant x Place
+    	for (int i = 0; i < Execut_Algo_Genetique.nbVoiture; i++){ // Pour chaque voiture ayant x Place
     		 Pre_Algo_DeterministePourPoint(this.passagersOrdonnes[i], i);
     		for(int j = 0; j < this.passageOptimal[i].length ; j++) {
     			this.pointsDePassage[i][j] = this.passageOptimal[i][j];
     		}
-    		this.passageOptimal = new PositionPassager[Main.nbVoiture][Main.nbPlaceVoiture*2];
+    		this.passageOptimal = new PositionPassager[Execut_Algo_Genetique.nbVoiture][Execut_Algo_Genetique.nbPlaceVoiture*2];
     	}
     	
 	}
@@ -125,7 +127,7 @@ public class PassagerParVoiture {
    	boolean[] possable = new boolean[passagers.length]; //déclare si déjà sélectionné.
    	for(int k=0; k < selected.length; k++) { possable[k] = true; }
    	
-   	PositionPassager[] listeDesPoints = new PositionPassager[Main.nbPlaceVoiture*2];
+   	PositionPassager[] listeDesPoints = new PositionPassager[Execut_Algo_Genetique.nbPlaceVoiture*2];
    	
    	this.U = 0;
    	
@@ -145,8 +147,8 @@ public class PassagerParVoiture {
     * @param n index 
     */
    private void Algo_DeterministeParRecursivite(Passager[] passagers, PositionPassager[] listeDesPoints, boolean[] possable, boolean[] selected, int n, int numeroVoiture) {
-   	if(n==((Main.nbPlaceVoiture*2)-1)) { //cas de base
-   		for(int i=0;i<Main.nbPlaceVoiture;i++) {
+   	if(n==((Execut_Algo_Genetique.nbPlaceVoiture*2)-1)) { //cas de base
+   		for(int i=0;i<Execut_Algo_Genetique.nbPlaceVoiture;i++) {
    			if(possable[i]==true) {
    				listeDesPoints[n] = passagers[i].getArrivee();
    				int poids = this.getDistanceCheminPourU(listeDesPoints);
@@ -158,15 +160,14 @@ public class PassagerParVoiture {
        			}
    			}		
    		}
-   	} else { //cas récursif
-   		for(int i=0;i<Main.nbPlaceVoiture;i++) {
-   			
-   			boolean[] tempon1 = new boolean[selected.length];
-   			boolean[] tempon2 = new boolean[possable.length];
-   			if(selected[i]==false) {
-   				System.out.println(listeDesPoints.length + " / n : " + n);
-   				System.out.println(passagers.length + " / i : " + i);
-   				listeDesPoints[n] = passagers[i].getDepart();
+   	
+  	} else { //cas récursif
+  		for(int i=0;i<Execut_Algo_Genetique.nbPlaceVoiture;i++) {
+  			
+  			boolean[] tempon1 = new boolean[selected.length];
+  			boolean[] tempon2 = new boolean[possable.length];
+  			if(selected[i]==false) {
+  				listeDesPoints[n] = passagers[i].getDepart();
    				for(int k=0; k<selected.length;k++) {
    					tempon1[k] = selected[k];
    				}
@@ -202,8 +203,8 @@ public class PassagerParVoiture {
    
    
    public void afficherPassagerOnVoitures() {
-		for(int i = 0 ; i < Main.nbVoiture  ; i++){
-			for(int j = 0 ; j < Main.nbPlaceVoiture ; j++){
+		for(int i = 0 ; i < Execut_Algo_Genetique.nbVoiture  ; i++){
+			for(int j = 0 ; j < Execut_Algo_Genetique.nbPlaceVoiture ; j++){
 				System.out.print(passagersOrdonnes[i][j].getId() + " ");
 			}
 		System.out.println("");
@@ -211,8 +212,8 @@ public class PassagerParVoiture {
     }
    
    public void afficherPoints() { 
-		for(int i = 0 ; i < Main.nbVoiture  ; i++){
-			for(int j = 0 ; j < (Main.nbPlaceVoiture*2) ; j++){
+		for(int i = 0 ; i < Execut_Algo_Genetique.nbVoiture  ; i++){
+			for(int j = 0 ; j < (Execut_Algo_Genetique.nbPlaceVoiture*2) ; j++){
 				System.out.print(pointsDePassage[i][j].toString() + " ");
 			}
 		System.out.println("");
