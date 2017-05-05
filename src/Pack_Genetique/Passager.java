@@ -130,5 +130,4 @@ public class Passager {
 		return somme;
 	}
 
-
 }

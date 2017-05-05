@@ -162,7 +162,6 @@ public class Main {
         System.out.println("Distance: " + (float)this.meilleureSolution/100+" Km");
         System.out.println("Distance au début : " + (float)this.premiereSolution/100+" Km");
         System.out.println("Distance total 1 par 1 : " + (float)this.egoisteSolution/100 + "Km");
-
         System.out.println("---------------------");
         System.out.println("Répartition des passagers :");
         this.meilleurPassagerParVoiture.afficherPassagerOnVoitures();
