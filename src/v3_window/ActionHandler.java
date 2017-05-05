@@ -91,6 +91,7 @@ public class ActionHandler implements ActionListener {
 	                win.algo = new Execut_Algo_Genetique(win.list_car, win.list_client_, win.list_client_depot, win.rows, win.columns);
 	                win.timer.setDelay(win.delay);
 	                win.timer.start();
+	                
 	        	}
 	        	break;
 	        case "ChangeState" : 
