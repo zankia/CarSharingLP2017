@@ -1,5 +1,9 @@
 package v3_algo;
 
+import java.util.ArrayList;
+
+import v3_window.Cell;
+
 /**
  * Classe Population
  * 
@@ -24,7 +28,7 @@ public class Population {
 	 */
     PassagerParVoiture[] PassagerParVoitures;
 
-    
+    ArrayList<Cell> lb;
 	 /*                                                   
     _____                _                   _                  
    / ____|              | |                 | |                 
@@ -43,13 +47,13 @@ public class Population {
      * @version Build III -  v0.0
      * @since Build III -  v0.0
      */
-    public Population(int populationSize, boolean initialise) {
+    public Population(int populationSize, boolean initialise, ArrayList<Cell> list_block) {
         this.PassagerParVoitures = new PassagerParVoiture[populationSize];
+        this.lb = list_block;
         // Initialise population
         if (initialise) {
             for (int i = 0; i < populationSize; i++) {
             	PassagerParVoiture newPassagerOnVoiture = new PassagerParVoiture();
-            	newPassagerOnVoiture.generatePassagerOnVoiture();
                 savePassagerOnVoiture(i, newPassagerOnVoiture);
             }
         }
@@ -75,12 +79,13 @@ public class Population {
      */
     public void savePassagerOnVoiture(int index, PassagerParVoiture PassagerParVoiture) {
     	this.PassagerParVoitures[index] = new PassagerParVoiture();
+    	
     	for( int i = 0 ; i < PassagerParVoiture.getNbVoitures() ; i++){
         	for( int j = 0 ; j < PassagerParVoiture.getNbPassagers() ; j++){
         		this.PassagerParVoitures[index].passagersOrdonnes[i][j] = PassagerParVoiture.passagersOrdonnes[i][j];
         	}
     	}
-    	this.PassagerParVoitures[index].attribuerPointsDePassage();
+    	//this.PassagerParVoitures[index].attribuerPointsDePassage();
     }
     
 	/*
@@ -100,9 +105,10 @@ public class Population {
  
     public PassagerParVoiture getMoreCompetent() {
     	PassagerParVoiture moreCompetent = this.PassagerParVoitures[0];
+    	
         // Loop through passagers to find more competent
         for (int i = 0; i < getSize(); i++) {
-            if (moreCompetent.getDistanceChemin() >= getPassagerOnVoiture(i).getDistanceChemin()) {
+            if (moreCompetent.getU() > getPassagerOnVoiture(i).getU()) {
                 moreCompetent = getPassagerOnVoiture(i);
             }
         }

@@ -3,6 +3,7 @@ package v3_window;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 /**
  * Class that handles mouse movements as we "paint"
@@ -46,9 +47,11 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
         			}
             	} else {
 	                if (st == States.WALL){
+	                	win.list_block.remove(this.win.grid[row][col]);
 	                	this.win.grid[row][col].setStates(States.VOID);
 	                } else if(st == States.VOID && !(st == States.START_CLIENT || st == States.END_CLIENT)) {
 	                	this.win.grid[row][col].setStates(States.WALL);
+	                	win.list_block.add(this.win.grid[row][col]);
 	                }
 	            }
 	        }
@@ -100,10 +103,9 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	                       
 	                        cur_val = this.win.grid[row][col].getStates();
 	                    }
-	                } else if (this.win.grid[row][col].getStates() != States.CAR && this.win.grid[row][col].getStates() != States.START_CLIENT && this.win.grid[row][col].getStates() != States.END_CLIENT){
-	                	
+	                } else if (this.win.grid[row][col].getStates() != States.WALL && this.win.grid[row][col].getStates() != States.CAR && this.win.grid[row][col].getStates() != States.START_CLIENT && this.win.grid[row][col].getStates() != States.END_CLIENT){
 	                    	this.win.grid[row][col].setStates(States.WALL);
-	                    
+	                    	win.list_block.add(this.win.grid[row][col]);
 	                }
 	            }
 	        }

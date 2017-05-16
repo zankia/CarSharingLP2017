@@ -3,6 +3,7 @@ package v3_algo;
 import java.util.ArrayList;
 
 import v3_window.Cell;
+import v3_window.Window;
 
 public class Execut_Algo_Genetique {
 
@@ -23,7 +24,7 @@ public class Execut_Algo_Genetique {
 	/**
 	 * Nombre d'itération à affectuer après la dernière diminution de taille
 	 */
-	protected static int nbIterations = 100;
+	protected static final int nbIterations = 30;
 	/**
 	 * Nombre de passager en tout
 	 */
@@ -67,6 +68,16 @@ public class Execut_Algo_Genetique {
      */
     int generationCount;
     
+    /**
+     * Grille
+     * @param grid
+     * @param list_car
+     * @param list_client
+     * @param list_client_depot
+     * @param rows
+     * @param columns
+     */
+    static Cell[][] grid;
     
     /*                                                   
     _____                _                   _                  
@@ -78,22 +89,25 @@ public class Execut_Algo_Genetique {
 
 	  */
    
-    
-    public Execut_Algo_Genetique(ArrayList<Cell> list_car, ArrayList<Cell> list_client, ArrayList<Cell> list_client_depot, int rows, int columns) {
-    	
-    	Execut_Algo_Genetique.nbPassager = list_client_depot.size();
-    	Execut_Algo_Genetique.nbVoiture = list_car.size();
-    	
-    	Execut_Algo_Genetique.sizeGrille_X = rows;
-    	Execut_Algo_Genetique.sizeGrille_Y = columns;
-    	
+    /**
+     * On initialise le programme. <br>
+     * On génère la liste des Passagers
+     * @param win
+     */
+    public Execut_Algo_Genetique(Window win) {
     	long debut = System.currentTimeMillis(); //Debut du compteur
     	
- 		Execut_Algo_Genetique.lesPassagers = Passager.buildPassager(list_client, list_client_depot); //passager créé aléatoirement
+    	Execut_Algo_Genetique.nbPassager = win.list_client_depot.size();
+    	Execut_Algo_Genetique.nbVoiture = win.list_car.size();
+    	Execut_Algo_Genetique.sizeGrille_X = win.rows;
+    	Execut_Algo_Genetique.sizeGrille_Y = win.columns;
+    	Execut_Algo_Genetique.grid = win.grid;
+    	
+ 		Execut_Algo_Genetique.lesPassagers = Passager.buildPassager(win.list_client_, win.list_client_depot); 
  		
- 		Population myPop = this.execute(); //exuction de l'algo génétique 
+ 		Population myPop = this.execute(win.list_block); //exuction de l'algo génétique 
  		
- 		this.meilleureSolution = myPop.getMoreCompetent().getDistanceChemin(); //taille de la meilleure solution
+ 		 this.meilleureSolution = myPop.getMoreCompetent().getU(); //taille de la meilleure solution
  		this.affichage(debut);
     }
  
@@ -103,29 +117,40 @@ public class Execut_Algo_Genetique {
      * @version Build III -  v0.2
 	 * @since Build III -  v0.2
      */
-    public Population execute() {
+    public Population execute(ArrayList<Cell> l_b) {
     	int nbIterationMeilleureSolution = 0;
-    	 Population myPop = new Population(taillePopulation, true); //création de la population initialie
+    	 Population myPop = new Population(taillePopulation, true, l_b); //création de la population initialie
+    	 Population bestPop = myPop;
     	 this.generationCount = 0;
-    	 this.meilleureSolution =  myPop.getMoreCompetent().getDistanceChemin();
+    	 this.meilleureSolution =  myPop.getMoreCompetent().getU();
     	 this.egoisteSolution = Passager.getPireDistance(lesPassagers);
-    	 
-    	 while (nbIterationMeilleureSolution < nbIterations ) {
-             this.generationCount++;
-             /*if(this.generationCount%10==0)*/ System.out.println("Generation: " + this.generationCount + " distance parcourue: " + myPop.getMoreCompetent().getDistanceChemin()+"m");
-             myPop = Algo_Genetique.evolvePopulation(myPop);
-             if (myPop.getMoreCompetent().getDistanceChemin() < this.meilleureSolution){
-            	 this.meilleureSolution = myPop.getMoreCompetent().getDistanceChemin();
-             	nbIterationMeilleureSolution = 0;
-             	this.meilleurPassagerParVoiture = myPop.getMoreCompetent();
-             } 
-             if (this.generationCount == 1 ) {
-            	 this.premiereSolution = this.meilleureSolution;
+    	 if(Execut_Algo_Genetique.nbVoiture==1) {
+             myPop = Algo_Genetique.evolvePopulation(myPop, l_b);
+             bestPop = myPop;
+        	this.meilleureSolution = myPop.getMoreCompetent().getU();
+        	this.premiereSolution = this.meilleureSolution;
+         	this.meilleurPassagerParVoiture = myPop.getMoreCompetent();
+         	nbIterationMeilleureSolution = 1;
+    	 } else {
+    		 while (nbIterationMeilleureSolution < Execut_Algo_Genetique.nbIterations) {
+                 this.generationCount++;
+                 // if(this.generationCount%10==0)
+        	 		System.out.println("Generation: " + this.generationCount + " distance parcourue: " + this.meilleureSolution+"m");
+                 myPop = Algo_Genetique.evolvePopulation(myPop, l_b);
+                 if (myPop.getMoreCompetent().getU() < this.meilleureSolution){
+                	 this.meilleureSolution = myPop.getMoreCompetent().getU();
+                	 bestPop = myPop;
+                 	nbIterationMeilleureSolution = 0;
+                 	this.meilleurPassagerParVoiture = myPop.getMoreCompetent();
+                 }
+                 if (this.generationCount == 1 ) {
+                	 this.premiereSolution = this.meilleureSolution;
+                 }
+                 else 
+                 	nbIterationMeilleureSolution ++;  
              }
-             else 
-             	nbIterationMeilleureSolution ++;  
-         }
-    	 return myPop;
+    	 }
+    	 return bestPop;
     }
     
     /*
@@ -162,7 +187,6 @@ public class Execut_Algo_Genetique {
     
         System.out.println("---------------------");
         System.out.println("Matrice des points à parcourir : ");
-
         this.meilleurPassagerParVoiture.afficherPoints();
         
         long fin = System.currentTimeMillis();

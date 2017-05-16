@@ -54,12 +54,13 @@ public class Window extends JPanel{
 	  JSpinner rowsSpinner, columnsSpinner; // Spinners for entering # of rows and columns
 	  
 	  //Variables pour la gestion de la grille : (nombre de ligne, de colonne, taille de la cellule et taille de la flèche 
-	  int rows, columns, squareSize/*, arrowSize*/;
+	  public int rows, columns, squareSize/*, arrowSize*/;
 	  
 	  //Listes de cellules : 
-	  ArrayList<Cell> list_car  = new ArrayList<Cell>(); // the initial position of cars
-	  ArrayList<Cell> list_client_  = new ArrayList<Cell>(); // the initial positions of clients
-	  ArrayList<Cell> list_client_depot  = new ArrayList<Cell>(); //the wanted position of clients
+	  public ArrayList<Cell> list_car  = new ArrayList<Cell>(); // the initial position of cars
+	  public ArrayList<Cell> list_client_  = new ArrayList<Cell>(); // the initial positions of clients
+	  public ArrayList<Cell> list_client_depot  = new ArrayList<Cell>(); //the wanted position of clients
+	  public ArrayList<Cell> list_block  = new ArrayList<Cell>(); //the wanted position of clients
 	  
 	  Passager liste_passager;
 	  
@@ -74,7 +75,7 @@ public class Window extends JPanel{
 	  JLabel velocity, rowsLbl, columnsLbl;
 	  
 	  //La Grille : 
-	  Cell[][] grid;        // the grid
+	  public Cell[][] grid;        // the grid
 	  
 	  //L'Algorithme :
 	  Execut_Algo_Genetique algo;
@@ -398,9 +399,9 @@ public class Window extends JPanel{
             } else {
                 this.resetGrid();
             }
-            for(int i = 0; i<this.list_car.size(); i++) {
+            /*for(int i = 0; i<this.list_car.size(); i++) {
             	this.list_car.get(i).setGHF(0);
-            }
+            }*/
             
             this.expanded = 0;
             this.found = false;
@@ -443,6 +444,7 @@ public class Window extends JPanel{
             this.list_car  = new ArrayList<Cell>(); // the initial position of cars
             this.list_client_  = new ArrayList<Cell>(); // the initial positions of clients
           	this.list_client_depot  = new ArrayList<Cell>(); //the wanted position of clients
+          	this.list_block  = new ArrayList<Cell>();
 	    }
 	    
 	    /**
@@ -475,6 +477,7 @@ public class Window extends JPanel{
                      }
                  }
              }
+			 this.list_block  = new ArrayList<Cell>();
 			 super.repaint();
 		}
 	    
@@ -525,8 +528,6 @@ public class Window extends JPanel{
                 }
             }
 	    }
-	    
-	    
 
 		public void checkTermination() {
 			// TODO Auto-generated method stub
@@ -546,10 +547,214 @@ public class Window extends JPanel{
 			
 		}
 
-		private void expandNode() {
-			// TODO Auto-generated method stub
-			
-		}
-
-		
+		 /**
+         * Expands a node and creates his successors
+         */
+        private void expandNode(){
+           /*
+                Cell current;
+                
+                    // Here is the 3rd step of the algorithms A* and Greedy
+                    // 3. Remove the first state, Si, from OPEN SET,
+                    // for which f(Si) â‰¤ f(Sj) for all other
+                    // open states Sj  ...
+                    // (sort first OPEN SET list with respect to 'f')
+                    Collections.sort(openSet, new CellComparatorByF());
+                    current = openSet.remove(0);
+                
+                // ... and add it to CLOSED SET.
+                closedSet.add(0,current);
+                // Update the color of the cell
+                grid[current.row][current.col] = CLOSED;
+                // If the selected node is the target ...
+                if (current.row == targetPos.row && current.col == targetPos.col) {
+                    // ... then terminate etc
+                    Cell last = targetPos;
+                    last.prev = current.prev;
+                    closedSet.add(last);
+                    found = true;
+                    return;
+                }
+                // Count nodes that have been expanded.
+                expanded++;
+                // Here is the 4rd step of the algorithms
+                // 4. Create the successors of Si, based on actions
+                //    that can be implemented on Si.
+                //    Each successor has a pointer to the Si, as its predecessor.
+                //    In the case of DFS and BFS algorithms, successors should not
+                //    belong neither to the OPEN SET nor the CLOSED SET.
+                ArrayList<Cell> succesors;
+                succesors = createSuccesors(current, false);
+                // Here is the 5th step of the algorithms
+                // 5. For each successor of Si, ...
+                succesors.stream().forEach((cell) -> {
+                    // ... if we are running DFS ...
+                   
+                        int dxg = current.col-cell.col;
+                        int dyg = current.row-cell.row;
+                        int dxh = targetPos.col-cell.col;
+                        int dyh = targetPos.row-cell.row;
+                       
+                            
+                                cell.g = current.g+Math.abs(dxg)+Math.abs(dyg);
+                            
+                            cell.h = Math.abs(dxh)+Math.abs(dyh);
+                        
+                        cell.f = cell.g+cell.h;
+                        // ... If Sj is neither in the OPEN SET nor in the CLOSED SET states ...
+                        int openIndex   = isInList(openSet,cell);
+                        int closedIndex = isInList(closedSet,cell);
+                        if (openIndex == -1 && closedIndex == -1) {
+                            // ... then add Sj in the OPEN SET ...
+                            // ... evaluated as f(Sj)
+                            openSet.add(cell);
+                            // Update the color of the cell
+                            grid[cell.row][cell.col] = FRONTIER;
+                            // Else ...
+                        } else {
+                            // ... if already belongs to the OPEN SET, then ...
+                            if (openIndex > -1){
+                                // ... compare the new value assessment with the old one. 
+                                // If old <= new ...
+                                if (openSet.get(openIndex).f <= cell.f) {
+                                    // ... then eject the new node with state Sj.
+                                    // (ie do nothing for this node).
+                                    // Else, ...
+                                } else {
+                                    // ... remove the element (Sj, old) from the list
+                                    // to which it belongs ...
+                                    openSet.remove(openIndex);
+                                    // ... and add the item (Sj, new) to the OPEN SET.
+                                    openSet.add(cell);
+                                    // Update the color of the cell
+                                    grid[cell.row][cell.col] = FRONTIER;
+                                }
+                                // ... if already belongs to the CLOSED SET, then ...
+                            } else {
+                                // ... compare the new value assessment with the old one. 
+                                // If old <= new ...
+                                if (closedSet.get(closedIndex).f <= cell.f) {
+                                    // ... then eject the new node with state Sj.
+                                    // (ie do nothing for this node).
+                                    // Else, ...
+                                } else {
+                                    // ... remove the element (Sj, old) from the list
+                                    // to which it belongs ...
+                                    closedSet.remove(closedIndex);
+                                    // ... and add the item (Sj, new) to the OPEN SET.
+                                    openSet.add(cell);
+                                    // Update the color of the cell
+                                    grid[cell.row][cell.col] = FRONTIER;
+                                }
+                            }
+                        }
+                    
+                });
+            */
+        } //end expandNode()
+        
+        /**
+         * Creates the successors of a state/cell
+         * 
+         * @param current       the cell for which we ask successors
+         * @param makeConnected flag that indicates that we are interested only on the coordinates
+         *                      of cells and not on the label 'dist' (concerns only Dijkstra's)
+         * @return              the successors of the cell as a list
+         */
+        private ArrayList<Cell> createSuccesors(Cell current, boolean makeConnected){
+        	return null;
+           /*
+             int r = current.row;
+           
+            int c = current.col;
+            // We create an empty list for the successors of the current cell.
+            ArrayList<Cell> temp = new ArrayList<>();
+            // With diagonal movements priority is:
+            // 1: Up 2: Up-right 3: Right 4: Down-right
+            // 5: Down 6: Down-left 7: Left 8: Up-left
+            
+            // Without diagonal movements the priority is:
+            // 1: Up 2: Right 3: Down 4: Left
+            
+            // If not at the topmost limit of the grid
+            // and the up-side cell is not an obstacle ...
+            if (r > 0 && grid[r-1][c] != OBST &&
+                    // ... and (only in the case are not running the A* or Greedy)
+                    // not already belongs neither to the OPEN SET nor to the CLOSED SET ...
+                    ((aStar.isSelected() || greedy.isSelected() || dijkstra.isSelected()) ? true :
+                          isInList(openSet,new Cell(r-1,c)) == -1 &&
+                          isInList(closedSet,new Cell(r-1,c)) == -1)) {
+                Cell cell = new Cell(r-1,c);
+                // In the case of Dijkstra's algorithm we can not append to
+                // the list of successors the "naked" cell we have just created.
+                // The cell must be accompanied by the label 'dist',
+                // so we need to track it down through the list 'graph'
+                // and then copy it back to the list of successors.
+                // The flag makeConnected is necessary to be able
+                // the present method createSuccesors() to collaborate
+                // with the method findConnectedComponent(), which creates
+                // the connected component when Dijkstra's initializes.
+              
+                    // ... update the pointer of the up-side cell so it points the current one ...
+                    cell.prev = current;
+                    // ... and add the up-side cell to the successors of the current one. 
+                    temp.add(cell);
+                 
+            }
+           
+            // If not at the rightmost limit of the grid
+            // and the right-side cell is not an obstacle ...
+            if (c < columns-1 && grid[r][c+1] != OBST &&
+                    // ... and (only in the case are not running the A* or Greedy)
+                    // not already belongs neither to the OPEN SET nor to the CLOSED SET ...
+                    ((aStar.isSelected() || greedy.isSelected() || dijkstra.isSelected())? true :
+                          isInList(openSet,new Cell(r,c+1)) == -1 &&
+                          isInList(closedSet,new Cell(r,c+1)) == -1)) {
+                Cell cell = new Cell(r,c+1);
+                
+                    // ... update the pointer of the right-side cell so it points the current one ...
+                    cell.prev = current;
+                    // ... and add the right-side cell to the successors of the current one. 
+                    temp.add(cell);
+                
+            }
+          
+            // If not at the lowermost limit of the grid
+            // and the down-side cell is not an obstacle ...
+            if (r < rows-1 && grid[r+1][c] != OBST &&
+                    // ... and (only in the case are not running the A* or Greedy)
+                    // not already belongs neither to the OPEN SET nor to the CLOSED SET ...
+                    ((aStar.isSelected() || greedy.isSelected() || dijkstra.isSelected()) ? true :
+                          isInList(openSet,new Cell(r+1,c)) == -1 &&
+                          isInList(closedSet,new Cell(r+1,c)) == -1)) {
+                Cell cell = new Cell(r+1,c);
+                
+                   // ... update the pointer of the down-side cell so it points the current one ...
+                    cell.prev = current;
+                    // ... and add the down-side cell to the successors of the current one. 
+                    temp.add(cell);
+                
+            }
+            
+            // If not at the leftmost limit of the grid
+            // and the left-side cell is not an obstacle ...
+            if (c > 0 && grid[r][c-1] != OBST && 
+                    // ... and (only in the case are not running the A* or Greedy)
+                    // not already belongs neither to the OPEN SET nor to the CLOSED SET ...
+                    ((aStar.isSelected() || greedy.isSelected() || dijkstra.isSelected()) ? true :
+                          isInList(openSet,new Cell(r,c-1)) == -1 &&
+                          isInList(closedSet,new Cell(r,c-1)) == -1)) {
+                Cell cell = new Cell(r,c-1);
+               
+                   // ... update the pointer of the left-side cell so it points the current one ...
+                    cell.prev = current;
+                    // ... and add the left-side cell to the successors of the current one. 
+                    temp.add(cell);
+                
+            }
+            
+          
+            return temp;
+            */
+        } // end createSuccesors()
 }

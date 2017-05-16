@@ -29,12 +29,15 @@ public class Passager {
 	/**
 	 * PositionPassager de départ et point d'arrivée.
 	 */
-	private PositionPassager[] positionPassagers = new PositionPassager[2] ;
+	private Cell[] positionPassagers = new Cell[2] ;
 	/**
 	 * Nombre de passager totaux (inutile si Base de donnée : SELECT COUNT(*)
 	 */
 	private static int nbPassagers = 0;
-	
+	/**
+	 * Déclare
+	 */
+	private boolean exist;
 	
     /*                                                   
 	    _____                _                   _                  
@@ -47,6 +50,17 @@ public class Passager {
 	*/
 
 	/**
+	 * Constructeur de passager qui déclare si le passager existe (tableau de passager dans passagerParVoiture) <br>
+	 * Permet de gérer moins de passager que de place dispo.
+	 * @param b
+	 * @version Build III -  v0.5
+	 * @since Build III -  v0.5
+	 */
+	public Passager(boolean b) {
+		this.exist = b;
+	}
+	
+	/**
 	 * Constructeur de Passager
 	 * @version Build III -  v0.0
 	 * @since Build III -  v0.0
@@ -54,8 +68,9 @@ public class Passager {
 	public Passager(Cell cellule_depart, Cell cellule_arrivee){
 		Passager.nbPassagers ++;
 		this.id = Passager.nbPassagers;
-		positionPassagers[0] = new PositionPassager(cellule_depart.getRow(), cellule_depart.getColumn());
-		positionPassagers[1] = new PositionPassager(cellule_arrivee.getRow(), cellule_arrivee.getColumn());
+		positionPassagers[0] = cellule_depart;
+		positionPassagers[1] = cellule_arrivee;
+		this.exist = true;
 	}
 	
 	/*
@@ -69,29 +84,18 @@ public class Passager {
 	 */	
 	
 	
+	
+
 	/**
-     * Méthode qui permet de générer de façon aléatoire nbPassager passager
-     * @param nbPassager nombre de passager créé de façon aléatoire
-     * @return Tableau de passager généré aléatoirement
+     * Méthode qui construit un tableau de passager en fonction des passagers dispo.
      * @version Build III -  v0.2
 	 * @since Build III -  v0.2
      */
-	/*public static Passager[] generatePassagers(int nbPassager) {
-		Passager[] lesPassagers = new Passager[nbPassager];
-		Passager unPassager;
-		for(int i = 0; i < nbPassager; i ++){
-			unPassager = new Passager();
-			lesPassagers[i] = unPassager;
-		}
-		return lesPassagers;
-	}*/
-	
 	public static Passager[] buildPassager(ArrayList<Cell> list_client, ArrayList<Cell> list_client_depot) {
 		Passager.nbPassagers = 0;
 		Passager[] lesPassagers = new Passager[list_client_depot.size()];
 		for(int i = 0; i < list_client_depot.size(); i ++){
-			Passager unPassager = new Passager(list_client.get(i), list_client_depot.get(i));
-			lesPassagers[i] = unPassager;
+			lesPassagers[i] = new Passager(list_client.get(i), list_client_depot.get(i));
 		}
 		return lesPassagers;
 	}
@@ -107,13 +111,15 @@ public class Passager {
 	  */                                           
 
                                             
+	public boolean getExist() {
+		return this.exist;
+	}
 
-
-	public PositionPassager getArrivee() {
+	public Cell getArrivee() {
 		return this.positionPassagers[0];
 	}
 
-	public PositionPassager getDepart() {
+	public Cell getDepart() {
 		return this.positionPassagers[1];
 	}
 	
@@ -135,8 +141,8 @@ public class Passager {
 		int somme = 0;
 		for(int i = 0; i < lesPassagers.length ; i++) {
 			int distanceEntreDeuxPoints = 0;
-     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getPos_y() - lesPassagers[i].getArrivee().getPos_y());
-     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getPos_x() - lesPassagers[i].getArrivee().getPos_x());
+     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getColumn() - lesPassagers[i].getArrivee().getColumn());
+     	   distanceEntreDeuxPoints += Math.abs(lesPassagers[i].getDepart().getRow() - lesPassagers[i].getArrivee().getRow());
      	   somme += distanceEntreDeuxPoints;
 		}
 		return somme;

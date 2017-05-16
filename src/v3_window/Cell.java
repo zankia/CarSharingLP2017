@@ -4,14 +4,16 @@ package v3_window;
 * Helper class that represents the cell of the grid
 */
 public class Cell {
-   int row;   // the row number of the cell(row 0 is the top)
-   int col;   // the column number of the cell (Column 0 is the left)
-   int g;     // the value of the function g of A* and Greedy algorithms
+	public int heuristicCost = 0; //Heuristic cost
+	public int finalCost = 0; //G+H
+   public int row;   // the row number of the cell(row 0 is the top)
+   public int col;   // the column number of the cell (Column 0 is the left)
+   /*int g;     // the value of the function g of A* and Greedy algorithms
    int h;     // the value of the function h of A* and Greedy algorithms
-   int f;     // the value of the function h of A* and Greedy algorithms
+   int f;     // the value of the function h of A* and Greedy algorithms*/
    int dist;  // the distance of the cell from the initial position of the robot
               // Ie the label that updates the Dijkstra's algorithm
-   Cell prev; // Each state corresponds to a cell
+   public Cell parent; // Each state corresponds to a cell
               // and each state has a predecessor which
               // is stored in this variable
    
@@ -35,11 +37,11 @@ public class Cell {
 	   return bool;
    }
    
-   public void setGHF(int n) {
+   /*public void setGHF(int n) {
 	   this.g = n;
 	   this.h = n;
 	   this.f = n;
-   }
+   }*/
 
 	public States getStates() {
 		return this.etat;
@@ -55,6 +57,10 @@ public class Cell {
 
 	public int getColumn() {
 		return this.col;
+	}
+	
+	public String toString() {
+		return "[" + this.row + ";" + this.col + "]";
 	}
 } // end nested class Cell
 
