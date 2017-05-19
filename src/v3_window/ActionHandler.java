@@ -70,15 +70,6 @@ public class ActionHandler implements ActionListener {
 	        	break;
 	        case "StepByStep" : 
 	        	//OSEF
-	        	if(!win.found && !win.endOfSearch) {
-	        		win.realTime = false;
-	        		win.searching = true;
-	                win.message.setText((String) win.JSON_Window.get("msgSelectStepByStepEtc"));
-	                win.realTimeButton.setEnabled(false);
-	                win.timer.stop();
-	                win.checkTermination();
-	                win.repaint();
-	        	}
 	        	break;
 	        case "Animation" :
 	        	//Affiche pour chaque étape de l'algo génétique le parcours des voitures.
@@ -88,7 +79,7 @@ public class ActionHandler implements ActionListener {
 	                win.message.setText((String) win.JSON_Window.get("msgSelectStepByStepEtc"));
 	                win.realTimeButton.setEnabled(false);
 	                win.promptSelected = true;
-	                win.algo = new Execut_Algo_Genetique(win.list_car, win.list_client_, win.list_client_depot, win.rows, win.columns);
+	                win.algo = new Execut_Algo_Genetique(win);
 	                win.timer.setDelay(win.delay);
 	                win.timer.start();
 	        	}

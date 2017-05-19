@@ -1,8 +1,10 @@
 package v3_algo;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
 import v3_window.Main;
+import v3_window.Cell;
 
 /**
  * Classe qui permet de gérer l'Algorithme Génétique
@@ -25,7 +27,7 @@ public class Algo_Genetique {
 	
     
     private static final double chanceDeCroisement = 0.8;
-    private static final double mutationRate = 0.08;
+    private static final double mutationRate = 0.05;
     private static final int tournamentSize = 3;
 
  
@@ -49,9 +51,8 @@ public class Algo_Genetique {
      * @version Build III -  v0.0
      * @since Build III -  v0.0
      */
-    public static Population evolvePopulation(Population pop) {
-        Population newPopulation = new Population(pop.getSize(), false);
-        
+    public static Population evolvePopulation(Population pop, ArrayList<Cell> l_b) {
+        Population newPopulation = new Population(pop.getSize(), false, l_b);
  
         // Garder le meilleur PassagerParVoiture
         newPopulation.savePassagerOnVoiture(0, pop.getMoreCompetent());
@@ -60,21 +61,23 @@ public class Algo_Genetique {
         // Loop over the population size and create new member with
         // Select new population
         for (int i = elitismOffset; i < pop.getSize(); i++) {
-        	PassagerParVoiture newPassagerOnVoiture = selection(pop, pop.getPassagerOnVoiture(i));
+        	PassagerParVoiture newPassagerOnVoiture = selection(pop, l_b);
+        	//newPassagerOnVoiture.rebuild();
             newPopulation.savePassagerOnVoiture(i, newPassagerOnVoiture);
         }
          
         //Crossover
-        for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
+        /*for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
             croisement(newPopulation.getPassagerOnVoiture(i));
-        }
+        } */
         
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
             mutation(newPopulation.getPassagerOnVoiture(i));
         }
-        
+       
         for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
+        	//newPopulation.getPassagerOnVoiture(i).afficherPoints();
         	newPopulation.getPassagerOnVoiture(i).attribuerPointsDePassage();
         }
 
@@ -94,7 +97,8 @@ public class Algo_Genetique {
 
     } 
     
-	private static void swapPassagers(PassagerParVoiture PassagerParVoiture, int numVoiture, int nbSwap) {	
+	private static void swapPassagers(PassagerParVoiture PassagerParVoiture, int numVoiture, int nbSwap) {
+		//System.out.println("numVoiture : " + numVoiture + " / Taille : " + PassagerParVoiture.nbPassagerParVoiture[numVoiture]);
 		if(nbSwap == 1){
 			 Collections.swap(Arrays.asList(PassagerParVoiture.passagersOrdonnes[numVoiture]), 0, 3);
 		} 
@@ -106,9 +110,9 @@ public class Algo_Genetique {
 	}
 
 	// Selection members
-    private static PassagerParVoiture selection(Population pop, PassagerParVoiture PassagerParVoiture) {
+    private static PassagerParVoiture selection(Population pop, ArrayList<Cell> l_b) {
         PassagerParVoiture newMember = new PassagerParVoiture();
-        newMember = tournamentSelection(pop);
+        newMember = tournamentSelection(pop, l_b);
         return newMember;
     }
  
@@ -138,7 +142,7 @@ public class Algo_Genetique {
 		int[] coord2 = new int[2];
 
         for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) {
-        	for (int j = 0; j < PassagerParVoiture.getNbPassagers(); j++){
+        	for (int j = 0; j < PassagerParVoiture.nbPassagerParVoiture[i]; j++){
         		if(PassagerParVoiture.passagersOrdonnes[i][j].getId() == passager1){
         			coord1[0] = i;
         			coord1[1] = j;
@@ -159,8 +163,8 @@ public class Algo_Genetique {
      * @param pop
      * @return PassagerParVoiture gagnant !
      */
-    private static PassagerParVoiture tournamentSelection(Population pop) {
-        Population tournament = new Population(tournamentSize, false);
+    private static PassagerParVoiture tournamentSelection(Population pop, ArrayList<Cell> l_b) {
+        Population tournament = new Population(tournamentSize, false, l_b);
         // Les participants sont tirés au sort
         for (int i = 0; i < tournamentSize; i++) {
             int randomId = (int) (Math.random() * pop.getSize());

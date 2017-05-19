@@ -1,6 +1,8 @@
 package Pack_Genetique;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import v3_window.Cell;
 
 /**
  * 
@@ -119,17 +121,17 @@ public class PassagerParVoiture {
     * @param passagers liste des passagers
     */
    private void Pre_Algo_DeterministePourPoint(Passager[] passagers, int numeroVoiture) {
-   	boolean[] selected = new boolean[passagers.length]; //déclare si déjà sélectionné.
-   	for(int k=0; k < selected.length; k++) { selected[k] = false; }
-   	
-   	boolean[] possable = new boolean[passagers.length]; //déclare si déjà sélectionné.
-   	for(int k=0; k < selected.length; k++) { possable[k] = true; }
-   	
-   	PositionPassager[] listeDesPoints = new PositionPassager[Main.nbPlaceVoiture*2];
-   	
-   	this.U = 0;
-   	
-   	this.Algo_DeterministeParRecursivite(passagers, listeDesPoints, possable, selected, 0, numeroVoiture);
+	   	boolean[] selected = new boolean[passagers.length]; //déclare si déjà sélectionné.
+	   	for(int k=0; k < selected.length; k++) { selected[k] = false; }
+	   	
+	   	boolean[] possable = new boolean[passagers.length]; //déclare si déjà sélectionné.
+	   	for(int k=0; k < selected.length; k++) { possable[k] = true; }
+	   	
+	   	PositionPassager[] listeDesPoints = new PositionPassager[Main.nbPlaceVoiture*2];
+	   	
+	   	this.U = 0;
+	   	
+	   	this.Algo_DeterministeParRecursivite(passagers, listeDesPoints, possable, selected, 0, numeroVoiture);
 	}
    
    /**
@@ -265,6 +267,7 @@ public class PassagerParVoiture {
    	distanceEntreDeuxPoints += Math.abs(GroupePassager.pointsDePassage[0][0].getPos_x());
    	resultat += distanceEntreDeuxPoints;
         */
+       
        for (int i = 0; i < this.pointsDePassage.length - 1 ; i++){
            for (int j = 0; j < this.pointsDePassage[i].length - 1 ; j++){
         	   distanceEntreDeuxPoints = 0;
@@ -286,14 +289,16 @@ public class PassagerParVoiture {
     * @return
     */
    public int getDistanceCheminPourU(PositionPassager[] listeDesPoints) {
+	   //TODO
+	   
    	int resultat = 0;
        int distanceEntreDeuxPoints = 0;
        
-   	for (int j = 0; j < listeDesPoints.length - 1 ; j++){
-   	distanceEntreDeuxPoints = 0;
-   	distanceEntreDeuxPoints += Math.abs(listeDesPoints[j].getPos_y() - listeDesPoints[j+1].getPos_y());
-   	distanceEntreDeuxPoints += Math.abs(listeDesPoints[j].getPos_x() - listeDesPoints[j+1].getPos_x());
-   	resultat += distanceEntreDeuxPoints;
+	   	for (int j = 0; j < listeDesPoints.length - 1 ; j++){
+		   	distanceEntreDeuxPoints = 0;
+		   	distanceEntreDeuxPoints += Math.abs(listeDesPoints[j].getPos_y() - listeDesPoints[j+1].getPos_y());
+		   	distanceEntreDeuxPoints += Math.abs(listeDesPoints[j].getPos_x() - listeDesPoints[j+1].getPos_x());
+		   	resultat += distanceEntreDeuxPoints;
        }
    	
    	return resultat;
