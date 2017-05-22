@@ -7,10 +7,11 @@ import v3_window.Main;
 import v3_window.Cell;
 
 /**
- * Classe qui permet de gérer l'Algorithme Génétique
+ * L'Algorithme Génétique. <br>
+ * 
  * 
  * @author Romain Duret
- * @version Build III -  v0.0
+ * @version Build III -  v0.6
  * @since Build III -  v0.0
  */
 public class Algo_Genetique {
@@ -48,7 +49,7 @@ public class Algo_Genetique {
      * et on mute 
      * @param pop Population (voitures)
      * @return
-     * @version Build III -  v0.0
+     * @version Build III -  v0.6
      * @since Build III -  v0.0
      */
     public static Population evolvePopulation(Population pop, ArrayList<Cell> l_b) {
@@ -61,15 +62,10 @@ public class Algo_Genetique {
         // Loop over the population size and create new member with
         // Select new population
         for (int i = elitismOffset; i < pop.getSize(); i++) {
-        	PassagerParVoiture newPassagerOnVoiture = selection(pop, l_b);
+        	PassagerParVoiture newPassagerOnVoiture = tournamentSelection(pop, l_b);
         	//newPassagerOnVoiture.rebuild();
             newPopulation.savePassagerOnVoiture(i, newPassagerOnVoiture);
         }
-         
-        //Crossover
-        /*for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
-            croisement(newPopulation.getPassagerOnVoiture(i));
-        } */
         
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
@@ -84,56 +80,34 @@ public class Algo_Genetique {
         return newPopulation;
     }
     
-    /**
-     * Croisement des voitures.
-     * @param PassagerParVoiture
-     */
-    private static void croisement(PassagerParVoiture PassagerParVoiture) {
-    	int nbSwap = (int)(Math.random() * 2 + 1); 
-
-        for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) 
-        	if (Math.random() <= chanceDeCroisement)
-        			swapPassagers(PassagerParVoiture, i, nbSwap);
-
-    } 
-    
-	private static void swapPassagers(PassagerParVoiture PassagerParVoiture, int numVoiture, int nbSwap) {
-		//System.out.println("numVoiture : " + numVoiture + " / Taille : " + PassagerParVoiture.nbPassagerParVoiture[numVoiture]);
-		if(nbSwap == 1){
-			 Collections.swap(Arrays.asList(PassagerParVoiture.passagersOrdonnes[numVoiture]), 0, 3);
-		} 
-		 else if(nbSwap == 2){
-			Collections.swap(Arrays.asList(PassagerParVoiture.passagersOrdonnes[numVoiture]), 0, 2);
-			Collections.swap(Arrays.asList(PassagerParVoiture.passagersOrdonnes[numVoiture]), 1, 3);
-		}
-		
-	}
-
-	// Selection members
-    private static PassagerParVoiture selection(Population pop, ArrayList<Cell> l_b) {
-        PassagerParVoiture newMember = new PassagerParVoiture();
-        newMember = tournamentSelection(pop, l_b);
-        return newMember;
-    }
  
-    // Mutate a member
+    /**
+     * Déclanche une mutation si le facteur random est déclanché. <br>
+     * On teste s'il y a mutation autant de fois qu'il y a de place en tout dans le groupe de voiture/passager 
+     * @version Build III -  v0.6
+     * @since Build III -  v0.0
+     */
     private static void mutation(PassagerParVoiture PassagerParVoiture) {
-        // Loop through passagers
         for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) {
         	for (int j = 0; j < PassagerParVoiture.getNbPassagers(); j++){
         		if (Math.random() <= mutationRate) {
-        			// Swap two random passagers
-        			randomSwapPassagers(PassagerParVoiture);
+        			randomSwapPassagers(PassagerParVoiture, i);
         		}
             }
         }
     }
     
     /**
-     * Swap de façon aléatoire les passagers
-     * @param PassagerParVoiture
+     * Evoluer la population : <br>
+     * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
+     * On croise
+     * et on mute 
+     * @param pop Population (voitures)
+     * @return
+     * @version Build III -  v0.6
+     * @since Build III -  v0.0
      */
-    private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture){
+    private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture, int nVoiture){
 		int passager1 = (int)(Math.random() * Execut_Algo_Genetique.nbPassager + 1);
 		int passager2 = (int)(Math.random() * Execut_Algo_Genetique.nbPassager + 1);
 
@@ -141,27 +115,27 @@ public class Algo_Genetique {
 		int[] coord1 = new int[2];
 		int[] coord2 = new int[2];
 
-        for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) {
-        	for (int j = 0; j < PassagerParVoiture.nbPassagerParVoiture[i]; j++){
-        		if(PassagerParVoiture.passagersOrdonnes[i][j].getId() == passager1){
-        			coord1[0] = i;
+        	for (int j = 0; j < PassagerParVoiture.nbPassagerParVoiture[nVoiture]; j++){
+        		if(PassagerParVoiture.passagersOrdonnes[nVoiture][j].getId() == passager1){
+        			coord1[0] = nVoiture;
         			coord1[1] = j;
         		}
-        		if(PassagerParVoiture.passagersOrdonnes[i][j].getId() == passager2){
-        			coord2[0] = i;
+        		if(PassagerParVoiture.passagersOrdonnes[nVoiture][j].getId() == passager2){
+        			coord2[0] = nVoiture;
         			coord2[1] = j;        		
         		}		
         	}
-        }
         passagerTmp = PassagerParVoiture.passagersOrdonnes[coord1[0]][coord1[1]];
         PassagerParVoiture.passagersOrdonnes[coord1[0]][coord1[1]] = PassagerParVoiture.passagersOrdonnes[coord2[0]][coord2[1]];
         PassagerParVoiture.passagersOrdonnes[coord2[0]][coord2[1]] = passagerTmp;
     }
     
     /**
-     * Création d'un battle royale entre plusieurs PassagerParVoitures de la population
-     * @param pop
-     * @return PassagerParVoiture gagnant !
+     * 
+     * @param pop Population (voitures)
+     * @return
+     * @version Build III -  v0.6
+     * @since Build III -  v0.0
      */
     private static PassagerParVoiture tournamentSelection(Population pop, ArrayList<Cell> l_b) {
         Population tournament = new Population(tournamentSize, false, l_b);
