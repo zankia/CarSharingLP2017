@@ -100,14 +100,14 @@ public class Algo_Genetique {
     /**
      * Evoluer la population : <br>
      * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
-     * On croise
-     * et on mute 
+     * On croise et on mute 
      * @param pop Population (voitures)
      * @return
      * @version Build III -  v0.6
      * @since Build III -  v0.0
      */
     private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture, int nVoiture){
+    	//TODO switch même si "vide"
 		int passager1 = (int)(Math.random() * Execut_Algo_Genetique.nbPassager + 1);
 		int passager2 = (int)(Math.random() * Execut_Algo_Genetique.nbPassager + 1);
 
@@ -138,6 +138,7 @@ public class Algo_Genetique {
      * @since Build III -  v0.0
      */
     private static PassagerParVoiture tournamentSelection(Population pop, ArrayList<Cell> l_b) {
+    	//TODO sélection en roue de la fortune
         Population tournament = new Population(tournamentSize, false, l_b);
         // Les participants sont tirés au sort
         for (int i = 0; i < tournamentSize; i++) {

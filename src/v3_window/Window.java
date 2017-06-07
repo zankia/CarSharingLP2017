@@ -16,7 +16,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Pack_Genetique.Passager;
+import v3_algo.Passager;
 import v3_algo.Execut_Algo_Genetique;
 
 import java.io.FileNotFoundException;
@@ -68,7 +68,7 @@ public class Window extends JPanel{
 	  JLabel message, car, client, closed, frontier;  
 	  
 	  // Les buttons :
-	  JButton newgridButton, randomButton, clearButton, clear_2Button, realTimeButton, stepButton, animationButton, aboutButton,changeStateButton;
+	  JButton newgridButton, clearButton, clear_2Button, animationButton, aboutButton,changeStateButton;
 	  
 	  // Selecteurs : 
 	  JSlider slider;
@@ -148,11 +148,8 @@ public class Window extends JPanel{
 
 	        //Création des buttons : 
 	        this.newgridButton = createButton("New Grid",this.newgridButton);
-	        this.randomButton = createButton("Random",this.randomButton);
 	        this.clearButton = createButton("Clear",this.clearButton);
 	        this.clear_2Button = createButton("Clear2", this.clear_2Button);
-	        this.realTimeButton = createButton("RealTime",this.realTimeButton);
-	        this.stepButton = createButton("StepByStep",this.stepButton);
 	        this.animationButton = createButton("Animation",this.animationButton);							
 	        this.aboutButton = createButton("About",this.aboutButton);
 	        this.changeStateButton = createButton("ChangeState",this.changeStateButton);
@@ -164,11 +161,8 @@ public class Window extends JPanel{
 	        add(this.columnsLbl);
 	        add(this.columnsSpinner);
 	        add(this.newgridButton);
-	        add(this.randomButton);
 	        add(this.clearButton);
 	        add(this.clear_2Button);
-	        add(this.realTimeButton);
-	        add(this.stepButton);
 	        add(this.animationButton);
 	        add(this.changeStateButton);
 	        add(this.slider);
@@ -182,16 +176,14 @@ public class Window extends JPanel{
 	        this.columnsLbl.setBounds(520, 35, 130, 25);
 	        this.columnsSpinner.setBounds(655, 35, 35, 25);
 	        this.newgridButton.setBounds(520, 65, 170, 25);
-	        this.randomButton.setBounds(520, 95, 170, 25);
-	        this.clearButton.setBounds(520, 125, 170, 25);
-	        this.clear_2Button.setBounds(520, 155, 170, 25);
-	        this.realTimeButton.setBounds(520, 185, 170, 25);
-	        this.stepButton.setBounds(520, 215, 170, 25);
-	        this.animationButton.setBounds(520, 245, 170, 25);
-	        this.changeStateButton.setBounds(520, 275, 170, 25);
+	        this.clearButton.setBounds(520, 95, 170, 25);
+	        this.clear_2Button.setBounds(520, 125, 170, 25);
+	        this.animationButton.setBounds(520, 155, 170, 25);
+	        this.changeStateButton.setBounds(520, 185, 170, 25);
+	        this.aboutButton.setBounds(520, 215, 170, 25);
 	        this.velocity.setBounds(520, 315, 170, 10);
 	        this.slider.setBounds(520, 325, 170, 25);
-	        this.aboutButton.setBounds(520, 515, 170, 25);
+
 
 	        // we create the timer
 	        this.timer = new Timer(this.delay, this.action);
@@ -480,6 +472,25 @@ public class Window extends JPanel{
 			 this.list_block  = new ArrayList<Cell>();
 			 super.repaint();
 		}
+		/**
+		 * Supprime les clients et les passagers
+		 * @version Build III -  v0.6
+		 * @since Build III -  v0.6
+		 */
+		public void deleteCarAndPassagerGrid() {
+			 for (int r = 0; r < this.rows; r++) {
+                for (int c = 0; c < this.columns; c++) {
+                    if (this.grid[r][c].getStates() == States.CAR || this.grid[r][c].getStates() == States.START_CLIENT || this.grid[r][c].getStates() == States.END_CLIENT) {
+                        this.grid[r][c].setStates(States.VOID);
+                    }
+                }
+            }
+			 this.list_car = new ArrayList<Cell>();
+			 this.list_client_ = new ArrayList<Cell>();
+			 this.list_client_depot = new ArrayList<Cell>();
+			 super.repaint();
+		}
+		
 	    
 	    public void repaint() {
 	    	super.repaint();
@@ -535,7 +546,6 @@ public class Window extends JPanel{
             if (this.found) {
                 this.endOfSearch = true;
                 this.plotRoute();
-                this.stepButton.setEnabled(false);
                 this.animationButton.setEnabled(false);
                 this.slider.setEnabled(false);
                 repaint();

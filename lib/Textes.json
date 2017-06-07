@@ -1,7 +1,7 @@
 {
 	"Window": {
-		"msgDrawAndSelect" : "\"Paint\" obstacles, then click 'Real-Time' or 'Step-by-Step' or 'Animation'",
-		"msgSelectStepByStepEtc" : "Click 'Step-by-Step' or 'Animation' or 'Clear'",
+		"msgDrawAndSelect" : "",
+		"msgSelectStepByStepEtc" : "",
 		"msgNoSolution" : "Aucun chemin jusqu'à la cible !!!",
 		"labelRow" : "Nmbr de lignes (5-83):",
 		"labelColumn" : "Nmbr de colonnes (5-83):",
@@ -10,11 +10,8 @@
 		"Titre" : "Algorithmes",
 		"Button": {
 			"New Grid" : ["Nouvelle Grille","Redessine la grille avec les nouveaux paramètres."],
-			"Random" : ["Aléatoire","Permet de créer une population aléatoire."],
-			"Clear" : ["RàZ Recherche", "Permet d'enlever les traces de la recherche."],
+			"Clear" : ["RàZ Voiture/Client", "Permet d'enlever les traces de la recherche."],
 			"Clear2" : ["RàZ Obstacle", "Permet d'enlever les obstacles."],
-			"RealTime" : ["Temps réel", "Affiche l'execution du système : les voitures se déplacent "],
-			"StepByStep" : ["Etape par Etape", "Execute l'algorithme étape par étape."],
 			"Animation" : ["Animation Algo" , "Affiche l'execution de l'algorithme (recherche de chemin)"],
 			"About" : ["A propos", "Permet de connaitre les informations de l'application."],
 			"ChangeState" : ["Mode Ajout V/C", "Permet de changer entre le mode dessin d'obstacle et le mode ajout client/voiture."],

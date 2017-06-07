@@ -6,8 +6,10 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 /**
- * Class that handles mouse movements as we "paint"
-         * obstacles or move the robot and/or target.
+ * Fonctions correspond aux actions d'un bouton
+ *  @author AirDur
+ * @version Build III -  v0.6
+ * @since Build III -  v0.5
  */
 public class MouseHandler implements MouseListener, MouseMotionListener {
     //private int cur_row, cur_col, val_car, val_client_depart, val_cient_arrivee;

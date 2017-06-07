@@ -103,7 +103,7 @@ public class Execut_Algo_Genetique {
  		
  		Population myPop = this.execute(win.list_block); //exuction de l'algo génétique 
  		
- 		 this.meilleureSolution = myPop.getMoreCompetent().getU(); //taille de la meilleure solution
+ 		//this.meilleureSolution = myPop.getMoreCompetent().getU(); //taille de la meilleure solution
  		this.affichage(debut);
     }
  

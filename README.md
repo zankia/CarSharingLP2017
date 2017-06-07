@@ -62,26 +62,25 @@ Give an example
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-
 ## Authors
 
-* **Christophe Coillot** - *Tutor, algorithms* - 
+* **Christophe Coillot** - *Ingénieur en Recherche, Laboratoire Charles Coulomb* - Algorithms, supervisor
 * **Etienne Callies** - *École Polytechnique* - 
 * **Guillermo Durand** - *École Polytechnique* - 
 * **Corentin Lecomte** - *École Polytechnique* - 
 * **Clément Choukroun** - *École Polytechnique* - 
 * **Thibault Ferber** - *École Polytechnique* - 
-* **
-* **
-* **
-* **
-* **Romain Duret** - *Dut Informatique* - [Personal Website](http://airdur.eu)
+* **Hugo de WISPELAERE** - *License Professionnel Assistant Chef de Projet* - Refactoring
+* **Paul Di BARTOLOMEO** - *License Professionnel Assistant Chef de Projet* - Genetic algorithm 
+* **Romain HAGEMANN** - *License Professionnel Assistant Chef de Projet* - Refactoring
+* **Tristan MATEO** - *License Professionnel Assistant Chef de Projet* - Genetic algorithm 
+* **Nikos Kanargia** - *Hellenic Open University* - User Interface
+* **[Romain Duret](https://airdur.eu)** - *Dut Informatique* - Rebuild interface, enhance algorithm...
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 ## License
 
-This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE.md) file for details
 
 ## Acknowledgments
 

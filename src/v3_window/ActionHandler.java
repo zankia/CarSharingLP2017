@@ -8,7 +8,10 @@ import org.json.simple.JSONArray;
 import v3_algo.Execut_Algo_Genetique;
 
 /**
- * When the user presses a button performs the corresponding functionality
+ * Fonctions correspond aux actions d'un bouton
+ *  @author AirDur
+ * @version Build III -  v0.5
+ * @since Build III -  v0.5
  */
 public class ActionHandler implements ActionListener {
     
@@ -21,55 +24,29 @@ public class ActionHandler implements ActionListener {
     }
     
     @Override
+    /**
+     * Classe qui gère les actions
+     * @author AirDur
+     * @version Build III -  v0.6
+   	 * @since Build III -  v0.5
+     */
     public void actionPerformed(ActionEvent evt) {
         switch(this.name) {
 	        case "New Grid" : 
 	        	//Affiche une nouvelle grille selon les paramètres
 	        	win.realTime = false;
-	        	win.realTimeButton.setEnabled(true);
-	        	win.realTimeButton.setForeground(Color.black);
-	        	win.stepButton.setEnabled(true);
 	        	win.animationButton.setEnabled(true);
 	        	win.slider.setEnabled(true);
 	        	win.initializeGrid();
 	        	break;
-	        case "Random" : 
-	        	//En gros :
-	        	//Va créer 5 voitures de taille 4 et 20 passagers disposés de façon random.
-	        	//Et les affiche aussi.
-	        	win.realTime = false;
-	        	win.realTimeButton.setEnabled(true);
-	        	win.realTimeButton.setForeground(Color.black);
-	        	win.stepButton.setEnabled(true);
-	        	win.animationButton.setEnabled(true);
-	        	win.slider.setEnabled(true);
-	        	//win.initializeGrid(true);
-	        	break;
+	        	
 	        case "Clear" : 
 	        	//Efface le parcours (Animation)
+	        	win.deleteCarAndPassagerGrid();
 	        	break;
 	        case "Clear2" :
 	        	//Enlève tout les murs de la grille.
 	        	win.deleteWallGrid();
-	        	break;
-	        case "RealTime" : 
-	        	//Fait parcourir les voitures dans le système. On peut en rajouter avec.
-	        	if(!win.realTime) {
-	        		win.promptSelected = false;
-	        		win.realTime = true;
-	                win.searching = true;
-	                win.realTimeButton.setForeground(Color.red);
-	                win.stepButton.setEnabled(false);
-	                win.animationButton.setEnabled(false);
-	                win.realTimeButton.setEnabled(false);
-	                win.slider.setEnabled(false);
-	                win.timer.setDelay(0);
-	                win.timer.start();
-	                win.checkTermination();
-	        	}
-	        	break;
-	        case "StepByStep" : 
-	        	//OSEF
 	        	break;
 	        case "Animation" :
 	        	//Affiche pour chaque étape de l'algo génétique le parcours des voitures.
@@ -77,7 +54,6 @@ public class ActionHandler implements ActionListener {
 	        		win.realTime = false;
 	                win.searching = true;
 	                win.message.setText((String) win.JSON_Window.get("msgSelectStepByStepEtc"));
-	                win.realTimeButton.setEnabled(false);
 	                win.promptSelected = true;
 	                win.algo = new Execut_Algo_Genetique(win);
 	                win.timer.setDelay(win.delay);
@@ -93,8 +69,8 @@ public class ActionHandler implements ActionListener {
 	        	win.typeColoriage = false;
 	        	break;
 	        case "About" :
-	            /*AboutBox aboutBox = new AboutBox(win.mazeFrame,true);
-	            aboutBox.setVisible(true);*/
+	            About about = new About(Main.mazeFrame,true);
+	            about.setVisible(true);
 	            break;
 	            
         }

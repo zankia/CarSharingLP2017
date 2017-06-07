@@ -11,7 +11,7 @@ import v3_window.States;
 /**
  * 
  * @author Romain Duret
- * @version Build III -  v0.1
+ * @version Build III -  v0.5
  * @since Build III -  v0.0
  */
 public class PassagerParVoiture {
