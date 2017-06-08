@@ -439,7 +439,7 @@ public class PassagerParVoiture {
     * @return
     */
    public int getDistanceCheminPourU(Cell[] listeDesPoints, int nbPassager) {
-   	int resultat = 0;
+   		int resultat = 0;
         for (int j = 0; j < listeDesPoints.length - 1 ; j++){
      	   this.closed = new boolean[Execut_Algo_Genetique.sizeGrille_X][Execut_Algo_Genetique.sizeGrille_Y];
             this.open = new PriorityQueue<>((o1, o2) -> {

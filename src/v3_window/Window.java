@@ -48,7 +48,9 @@ public class Window extends JPanel{
 	  private static final long serialVersionUID = 1L;
 	  // Objets qui permet de lire le document :   
 	  private JSONParser parser = new JSONParser();
-	  protected JSONObject JSON_Window, JSON_Boutons;
+	  protected static JSONObject JSON_Window;
+
+	protected JSONObject JSON_Boutons;
 	  
 	  //Selecteurs pour le nombre de colonnes et de lignes : 
 	  JSpinner rowsSpinner, columnsSpinner; // Spinners for entering # of rows and columns
@@ -181,8 +183,8 @@ public class Window extends JPanel{
 	        this.animationButton.setBounds(520, 155, 170, 25);
 	        this.changeStateButton.setBounds(520, 185, 170, 25);
 	        this.aboutButton.setBounds(520, 215, 170, 25);
-	        this.velocity.setBounds(520, 315, 170, 10);
-	        this.slider.setBounds(520, 325, 170, 25);
+	        this.velocity.setBounds(520, 250, 170, 10);
+	        this.slider.setBounds(520, 265, 170, 25);
 
 
 	        // we create the timer
@@ -233,8 +235,8 @@ public class Window extends JPanel{
 	    private void ouvertureFichier() throws FileNotFoundException, IOException, ParseException {
 	    	Object obj = this.parser.parse(new FileReader(Window.file));
 	    	JSONObject tampon = (JSONObject) obj;
-	    	this.JSON_Window = (JSONObject) tampon.get("Window");
-			this.JSON_Boutons = (JSONObject) this.JSON_Window.get("Button");
+	    	Window.JSON_Window = (JSONObject) tampon.get("Window");
+			this.JSON_Boutons = (JSONObject) Window.JSON_Window.get("Button");
 	    }
 	    
 	    /**
@@ -244,11 +246,11 @@ public class Window extends JPanel{
 		 * @since Build III -  v0.5
 	     */
 	    private JLabel createSpeedSelector() {
-	    	JLabel velocity = new JLabel((String) this.JSON_Window.get("labelSpeedSelector"), JLabel.CENTER);
+	    	JLabel velocity = new JLabel((String) Window.JSON_Window.get("labelSpeedSelector"), JLabel.CENTER);
 	        velocity.setFont(new Font("Helvetica",Font.PLAIN,10));
 	        
 	        this.slider = new JSlider(0,2000,1000);
-	        this.slider.setToolTipText((String) this.JSON_Window.get("tooltipSpeedSelector"));
+	        this.slider.setToolTipText((String) Window.JSON_Window.get("tooltipSpeedSelector"));
 	        
 	        this.delay = 2000-this.slider.getValue();
 	        this.slider.addChangeListener((ChangeEvent evt) -> {
@@ -276,7 +278,7 @@ public class Window extends JPanel{
 		 * @since Build III -  v0.5
 		 */
 		private void initialistionMessage() {
-			this.message = new JLabel((String) this.JSON_Window.get("msgDrawAndSelect"), JLabel.CENTER);
+			this.message = new JLabel("", JLabel.CENTER);
 	        this.message.setForeground(Color.blue);
 	        this.message.setFont(new Font("Helvetica",Font.PLAIN,16));
 		}
@@ -287,7 +289,7 @@ public class Window extends JPanel{
 		 * @since Build III -  v0.5
 		 */
 		private JLabel createRowSelector() {
-			JLabel rowsLbl = new JLabel((String) this.JSON_Window.get("labelRow"), JLabel.RIGHT);
+			JLabel rowsLbl = new JLabel((String) Window.JSON_Window.get("labelRow"), JLabel.RIGHT);
 		    rowsLbl.setFont(new Font("Helvetica",Font.PLAIN,13));
 		    SpinnerModel rowModel = new SpinnerNumberModel(this.rows /*initial*/, 5 /*min*/,83 /* max */, 1 /* step */);	    
 		    this.rowsSpinner = new JSpinner(rowModel);
@@ -300,7 +302,7 @@ public class Window extends JPanel{
 		 * @since Build III -  v0.5
 		 */
 		private JLabel createColumnSelector() {
-		    JLabel columnsLbl = new JLabel((String) this.JSON_Window.get("labelColumn"), JLabel.RIGHT);
+		    JLabel columnsLbl = new JLabel((String) Window.JSON_Window.get("labelColumn"), JLabel.RIGHT);
 		    columnsLbl.setFont(new Font("Helvetica",Font.PLAIN,13));
 		    SpinnerModel colModel = new SpinnerNumberModel(this.columns /*initial*/, 5 /*min*/,83 /* max */, 1 /* step */);
 		    this.columnsSpinner = new JSpinner(colModel);
@@ -417,7 +419,7 @@ public class Window extends JPanel{
             for(int i = 0; i<this.list_car.size(); i++) {
             	this.grid[this.list_client_depot.get(i).row][this.list_client_depot.get(i).col].setStates(States.END_CLIENT);
             }
-            this. message.setText((String) this.JSON_Window.get("msgDrawAndSelect"));
+            this. message.setText((String) Window.JSON_Window.get("msgDrawAndSelect"));
             this.timer.stop();
             super.repaint();   
         }

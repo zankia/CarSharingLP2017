@@ -64,8 +64,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	        } else {
 	        	this.win.repaint();
 	        }
-    	}
-        
+    	}   
     }
 
     @Override
@@ -129,7 +128,40 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     @Override
     public void mouseExited(MouseEvent evt) { }
     @Override
-    public void mouseMoved(MouseEvent evt) { }
+    public void mouseMoved(MouseEvent evt) {
+    	int row = (evt.getY() - 10) / this.win.squareSize;
+        int col = (evt.getX() - 10) / this.win.squareSize;
+        if (row >= 0 && row < this.win.rows && col >= 0 && col < this.win.columns){
+        	int k = 0;
+        	this.cur_val = this.win.grid[row][col].getStates();
+        	String st;
+        	if (cur_val == States.CAR) {
+        		while(this.win.list_car.get(k)!=this.win.grid[row][col]) {
+        			k++;
+        		}
+        		k++;
+        		st = (String) Window.JSON_Window.get("car") + k;
+        	} else if(cur_val == States.START_CLIENT) {
+        		while(this.win.list_client_.get(k)!=this.win.grid[row][col]) {
+        			k++;
+        		}
+        		k++;
+        		st = (String) Window.JSON_Window.get("client_start") + k;
+        	} else if(cur_val == States.END_CLIENT) {
+        		while(this.win.list_client_depot.get(k)!=this.win.grid[row][col]) {
+        			k++;
+        		}
+        		k++;
+        		st = (String) Window.JSON_Window.get("client_end") + k;
+        	} else {
+        		st = (String) Window.JSON_Window.get("nothing");
+        	}
+        	this.win.message.setText(st);
+        } else {
+        	this.win.message.setText("");
+        }
+    	//this.message
+    }
     @Override
     public void mouseClicked(MouseEvent evt) { }
     

@@ -5,7 +5,7 @@
 		"msgNoSolution" : "Aucun chemin jusqu'à la cible !!!",
 		"labelRow" : "Nmbr de lignes (5-83):",
 		"labelColumn" : "Nmbr de colonnes (5-83):",
-		"labelSpeedSelector" : "Vitesse",
+		"labelSpeedSelector" : "Vitesse : ",
 		"tooltipSpeedSelector" : "Regule le temps entre chaque étape (de 0 à 2 secondes)",
 		"Titre" : "Algorithmes",
 		"Button": {
@@ -17,5 +17,18 @@
 			"ChangeState" : ["Mode Ajout V/C", "Permet de changer entre le mode dessin d'obstacle et le mode ajout client/voiture."],
 			"ChangeState_2" : ["Mode Dessin Obs", "Permet de changer entre le mode dessin d'obstacle et le mode ajout client/voiture."]
 		}
+		"car" : "Voiture numéro ",
+		"client_start" : "Départ du Client numéro ",
+		"client_end" : "Arrivée du Client numéro ",
+		"nothing" : "Rien"
+	}
+	"About" : {
+		"title" : "Algorithme Génétique",
+		"version" : "Build III - v0.6",
+		"programmer" : "Romain Duret and more",
+		"license" : "GNU GENERAL PUBLIC LICENSE",
+		"link" : "<html><a href=\\\"\\\">Code and documentation</a></html>",
+		"tooltip" : "Cliquez sur le lien pour retrouver le code et la documentation sur GitHub", 
+		"github_link" : "https://github.com/AirDur/CarSharingLP2017"
 	}
 }
