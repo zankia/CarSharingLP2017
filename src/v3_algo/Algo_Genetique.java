@@ -27,7 +27,6 @@ public class Algo_Genetique {
 	    
 	
     
-    private static final double chanceDeCroisement = 0.8;
     private static final double mutationRate = 0.05;
     private static final int tournamentSize = 3;
 
@@ -131,20 +130,41 @@ public class Algo_Genetique {
     }
     
     /**
-     * 
+     * Sélection en roue de la fortune. <br>
+     * Pour chaque "étape", on sélectionne 4 passagers tirés au sort. On récupère la taille. <br>
+     * Cela donne un poids (50% meilleur, 10% pour le reste, 20% pour un nouveau généré aléatoirement) <br>
+     * On tire au sort et on renvoie.
      * @param pop Population (voitures)
      * @return
      * @version Build III -  v0.6
      * @since Build III -  v0.0
      */
     private static PassagerParVoiture tournamentSelection(Population pop, ArrayList<Cell> l_b) {
-    	//TODO sélection en roue de la fortune
-        Population tournament = new Population(tournamentSize, false, l_b);
-        // Les participants sont tirés au sort
-        for (int i = 0; i < tournamentSize; i++) {
+        Population creation = new Population(4, false, l_b);
+        for (int i = 0; i < 4; i++) {
             int randomId = (int) (Math.random() * pop.getSize());
-            tournament.savePassagerOnVoiture(i, pop.getPassagerOnVoiture(randomId));
+            creation.savePassagerOnVoiture(i, pop.getPassagerOnVoiture(randomId));
         }
-        return tournament.getMoreCompetent();
+        Population tournament = new Population(4, false, l_b);
+        tournament.savePassagerOnVoiture(0, creation.getMoreCompetent());
+        int t = 1;
+        for (int i = 0; i < tournamentSize; i++) {
+        	if(!(tournament.getPassagerOnVoiture(0)==creation.getPassagerOnVoiture(i))) {
+        		tournament.savePassagerOnVoiture(t, creation.getPassagerOnVoiture(i));
+        		t++;
+        	}
+        }
+        int select = (int) Math.random();
+        if(select <0.5) {
+        	return tournament.getPassagerOnVoiture(0);
+        } else if(select < 0.6) {
+        	return tournament.getPassagerOnVoiture(0);
+        } else if(select < 0.7) {
+        	return tournament.getPassagerOnVoiture(0);
+        } else if(select < 0.8) {
+        	return tournament.getPassagerOnVoiture(0);
+        } else {
+        	return new PassagerParVoiture();
+        }
     }
 }
