@@ -219,21 +219,26 @@ public class PassagerParVoiture {
     * @param n index 
     */
    private void Algo_DeterministeParRecursivite(Passager[] passagers, Cell[] listeDesPoints, boolean[] possable, boolean[] selected, int n, int numeroVoiture) {
-   	if(n==((this.nbPassagerParVoiture[numeroVoiture]*2)-1)) { //cas de base
+	   //Cas de base : la liste se termine
+   	if(n==((this.nbPassagerParVoiture[numeroVoiture]*2)-1)) { 
    		for(int i=0;i<passagers.length;i++) {
    			if(possable[i]==true) {
    				listeDesPoints[n] = passagers[i].getArrivee();
    				int poids = this.getDistanceCheminPourU(listeDesPoints, this.nbPassagerParVoiture[numeroVoiture]);
-       			if(this.U>poids || this.U==0){
+       			if((this.U>poids || this.U==0) && poids!= -1){
        				this.U = poids;
        				this.passageOptimal[numeroVoiture] = new Cell[this.nbPassagerParVoiture[numeroVoiture]*2];
        				for(int k=0; k<listeDesPoints.length;k++) {
        					this.passageOptimal[numeroVoiture][k] = listeDesPoints[k];
        				}
+       			} else if(poids == -1) {
+       				
        			}
    			}		
    		}
   	} else { //cas récursif
+  		//Pour chaque passager, on lit s'il est déjà sélectionné. Si c'est non, on crée une branche, si oui, on saute.
+  		// On lit aussi si le passager est possable. Si oui, on crée une branche, sinon, on saute.
   		for(int i=0;i<passagers.length;i++) {
 			boolean[] tempon1 = new boolean[selected.length];
   			boolean[] tempon2 = new boolean[possable.length];
@@ -462,9 +467,13 @@ public class PassagerParVoiture {
             
             Cell current;
             
-            while(true){ 
+            while(true && open.size()>0){ 
                 current = open.poll();
-                if(current.getStates()==States.WALL)break;
+                if(current.getStates()==States.WALL) {
+                	break;
+                }
+                	
+                
                 this.closed[current.row][current.col]=true; 
 
                 if(current.equals(Execut_Algo_Genetique.grid[listeDesPoints[j+1].getRow()][listeDesPoints[j+1].getColumn()])){
@@ -497,8 +506,7 @@ public class PassagerParVoiture {
                      resultat ++;
                  } 
             }else {
-         	   System.out.println("No possible path");
-         	   return resultat; //TODO
+         	   return -1;
             }
         }
        
