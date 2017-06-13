@@ -242,7 +242,7 @@ public class PassagerParVoiture {
   		for(int i=0;i<passagers.length;i++) {
 			boolean[] tempon1 = new boolean[selected.length];
   			boolean[] tempon2 = new boolean[possable.length];
-  			if(selected[i]==false) {
+  			if(selected[i]==false && passagers[i].getExist()) {
   				Cell p = passagers[i].getDepart();
   				listeDesPoints[n] = p;
    				for(int k=0; k<selected.length;k++) {
@@ -250,7 +250,7 @@ public class PassagerParVoiture {
    				}
    				tempon1[i] = true;
    				this.Algo_DeterministeParRecursivite(passagers, listeDesPoints, possable, tempon1, n+1, numeroVoiture);
-   			} else if(possable[i]==true) {
+   			} else if(possable[i]==true && passagers[i].getExist()) {
    				
    				listeDesPoints[n] = passagers[i].getArrivee();
    				for(int k=0; k<possable.length;k++) {

@@ -17,13 +17,13 @@ import v3_window.Cell;
 public class Algo_Genetique {
  
 	/*
-	   _____       _ _   _       _ _           _   _             
-	  |_   _|     (_) | (_)     | (_)         | | (_)            
+	   _____       _ _   _       _ _		   _   _		     
+	  |_   _|     (_) | (_)     | (_)		 | | (_)		    
 	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
 	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
 	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
 	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
-	*/                                                             
+	*/														     
 	    
 	
     
@@ -32,13 +32,13 @@ public class Algo_Genetique {
 
  
     /*
-	  __  __      _   _               _           
-	 |  \/  |    | | | |             | |          
+	  __  __      _   _		       _		   
+	 |  \/  |    | | | |		     | |		  
 	 | \  / | ___| |_| |__   ___   __| | ___  ___ 
 	 | |\/| |/ _ \ __| '_ \ / _ \ / _` |/ _ \/ __|
 	 | |  | |  __/ |_| | | | (_) | (_| |  __/\__ \
 	 |_|  |_|\___|\__|_| |_|\___/ \__,_|\___||___/
-	                                              
+											      
 	 */	
     
     /**
@@ -52,31 +52,30 @@ public class Algo_Genetique {
      * @since Build III -  v0.0
      */
     public static Population evolvePopulation(Population pop, ArrayList<Cell> l_b) {
-        Population newPopulation = new Population(pop.getSize(), false, l_b);
+		Population newPopulation  = new Population(pop.getSize(), false, l_b);
  
-        // Garder le meilleur PassagerParVoiture
-        newPopulation.savePassagerOnVoiture(0, pop.getMoreCompetent());
-        int elitismOffset = 1;
-      
-        // Loop over the population size and create new member with
-        // Select new population
-        for (int i = elitismOffset; i < pop.getSize(); i++) {
-        	PassagerParVoiture newPassagerOnVoiture = tournamentSelection(pop, l_b);
-        	//newPassagerOnVoiture.rebuild();
-            newPopulation.savePassagerOnVoiture(i, newPassagerOnVoiture);
-        }
-        
-        // Mutate population
-        for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
-            mutation(newPopulation.getPassagerOnVoiture(i));
-        }
-       
-        for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
-        	//newPopulation.getPassagerOnVoiture(i).afficherPoints();
-        	newPopulation.getPassagerOnVoiture(i).attribuerPointsDePassage();
-        }
+		// Garder le meilleur PassagerParVoiture
+		newPopulation.savePassagerOnVoiture(0, pop.getMoreCompetent());
+		int elitismOffset = 1;
 
-        return newPopulation;
+		// Loop over the population size and create new member with
+		// Select new population
+		for (int i = elitismOffset; i < pop.getSize(); i++) {
+			PassagerParVoiture newPassagerOnVoiture = tournamentSelection(pop, l_b);
+			newPopulation.savePassagerOnVoiture(i, newPassagerOnVoiture);
+		}
+		
+		
+		// Mutate population
+		for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
+			mutation(newPopulation.getPassagerOnVoiture(i));
+		}
+		
+		for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
+			newPopulation.getPassagerOnVoiture(i).attribuerPointsDePassage();
+		}
+
+		return newPopulation;
     }
     
  
@@ -87,46 +86,86 @@ public class Algo_Genetique {
      * @since Build III -  v0.0
      */
     private static void mutation(PassagerParVoiture PassagerParVoiture) {
-        for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) {
-        	for (int j = 0; j < PassagerParVoiture.getNbPassagers(); j++){
-        		if (Math.random() <= mutationRate) {
-        			randomSwapPassagers(PassagerParVoiture, i);
-        		}
-            }
-        }
+		for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) {
+			for (int j = 0; j < PassagerParVoiture.getNbPassagers(); j++){
+				if (Math.random() <= mutationRate) {
+					randomSwapPassagers(PassagerParVoiture, i);
+				}
+		    }
+		}
     }
     
     /**
-     * Evoluer la population : <br>
-     * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
+	 * Evoluer la population : <br>
+	 * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
      * On croise et on mute 
      * @param pop Population (voitures)
      * @return
      * @version Build III -  v0.6
      * @since Build III -  v0.0
      */
-    private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture, int nVoiture){
-    	//TODO switch même si "vide"
-		int passager1 = (int)(Math.random() * Execut_Algo_Genetique.nbPassager + 1);
-		int passager2 = (int)(Math.random() * Execut_Algo_Genetique.nbPassager + 1);
+	private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture, int nVoiture){
+		//On génére 2 endroits aléatoire non identiques
+		int placeTotal = Execut_Algo_Genetique.nbPlaceVoiture* Execut_Algo_Genetique.nbVoiture;
+		int place_1 = (int)(Math.random() * placeTotal);
+		int place_2 = (int)(Math.random() * placeTotal);
 
-		Passager passagerTmp = null;
-		int[] coord1 = new int[2];
-		int[] coord2 = new int[2];
+		while(place_1==place_2) {
+			place_2 = (int)(Math.random() * placeTotal);
+		}
+		
+		//On créé une mémoire provisoire : 
+		int[] emplacement_1 = new int[3];
+		int[] emplacement_2 = new int[3];
+		
+		//Pour chaque place, on diminue place_1/place_2.
+		//Si l'un des deux = 0, on sauvegarde l'emplacement et le type (0 si vide 1 si plein)
+		
+		for(int i=0;i<Execut_Algo_Genetique.nbVoiture;i++) {
+			for(int j=0;j<Execut_Algo_Genetique.nbPlaceVoiture;j++) {
+				if(place_1==0 || place_2 == 0) {
+					if(PassagerParVoiture.nbPassagerParVoiture[i]>j) {
+						if(place_1==0) {
+							emplacement_1[0] = 1;
+							emplacement_1[1] = i;
+							emplacement_1[2] = j;
+						} else if (place_2==0) {
+							emplacement_2[0] = 1;
+							emplacement_2[1] = i;
+							emplacement_2[2] = j;
+						}
+					} else {
+						if(place_1==0) {
+							emplacement_1[0] = 0;
+							emplacement_1[1] = i;
+							emplacement_1[2] = -1;
+						} else if (place_2==0) {
+							emplacement_2[0] = 0;
+							emplacement_2[1] = i;
+							emplacement_2[2] = -1;
+						}
+					}
+				}
+				place_1--; place_2--;
+			}
+		}
 
-        	for (int j = 0; j < PassagerParVoiture.nbPassagerParVoiture[nVoiture]; j++){
-        		if(PassagerParVoiture.passagersOrdonnes[nVoiture][j].getId() == passager1){
-        			coord1[0] = nVoiture;
-        			coord1[1] = j;
-        		}
-        		if(PassagerParVoiture.passagersOrdonnes[nVoiture][j].getId() == passager2){
-        			coord2[0] = nVoiture;
-        			coord2[1] = j;        		
-        		}		
-        	}
-        passagerTmp = PassagerParVoiture.passagersOrdonnes[coord1[0]][coord1[1]];
-        PassagerParVoiture.passagersOrdonnes[coord1[0]][coord1[1]] = PassagerParVoiture.passagersOrdonnes[coord2[0]][coord2[1]];
-        PassagerParVoiture.passagersOrdonnes[coord2[0]][coord2[1]] = passagerTmp;
+		//Ensuite, on croise :
+		Passager PassagerTmps = null;
+		if(emplacement_1[0]==1 && emplacement_2[0]==1) {
+			//Croisement simple
+			PassagerTmps = PassagerParVoiture.passagersOrdonnes[emplacement_1[1]][emplacement_1[2]];
+			PassagerParVoiture.passagersOrdonnes[emplacement_1[1]][emplacement_1[2]] = PassagerParVoiture.passagersOrdonnes[emplacement_2[1]][emplacement_2[2]];
+			PassagerParVoiture.passagersOrdonnes[emplacement_2[1]][emplacement_2[2]] = PassagerTmps;
+		} else if (emplacement_2[0]==1) {
+			
+		} else if (emplacement_1[0]==1) {
+			//Croisement avec un bloc vide
+			
+		} else {
+			//rien
+		}
+		
     }
     
     /**
@@ -140,31 +179,31 @@ public class Algo_Genetique {
      * @since Build III -  v0.0
      */
     private static PassagerParVoiture tournamentSelection(Population pop, ArrayList<Cell> l_b) {
-        Population creation = new Population(4, false, l_b);
-        for (int i = 0; i < 4; i++) {
-            int randomId = (int) (Math.random() * pop.getSize());
-            creation.savePassagerOnVoiture(i, pop.getPassagerOnVoiture(randomId));
-        }
-        Population tournament = new Population(4, false, l_b);
-        tournament.savePassagerOnVoiture(0, creation.getMoreCompetent());
-        int t = 1;
-        for (int i = 0; i < tournamentSize; i++) {
-        	if(!(tournament.getPassagerOnVoiture(0)==creation.getPassagerOnVoiture(i))) {
-        		tournament.savePassagerOnVoiture(t, creation.getPassagerOnVoiture(i));
-        		t++;
-        	}
-        }
-        int select = (int) Math.random();
-        if(select <0.5) {
-        	return tournament.getPassagerOnVoiture(0);
-        } else if(select < 0.6) {
-        	return tournament.getPassagerOnVoiture(0);
-        } else if(select < 0.7) {
-        	return tournament.getPassagerOnVoiture(0);
-        } else if(select < 0.8) {
-        	return tournament.getPassagerOnVoiture(0);
-        } else {
-        	return new PassagerParVoiture();
-        }
+		Population creation = new Population(4, false, l_b);
+		for (int i = 0; i < 4; i++) {
+		    int randomId = (int) (Math.random() * pop.getSize());
+		    creation.savePassagerOnVoiture(i, pop.getPassagerOnVoiture(randomId));
+		}
+		Population tournament = new Population(4, false, l_b);
+		tournament.savePassagerOnVoiture(0, creation.getMoreCompetent());
+		int t = 1;
+		for (int i = 0; i < tournamentSize; i++) {
+			if(!(tournament.getPassagerOnVoiture(0)==creation.getPassagerOnVoiture(i))) {
+				tournament.savePassagerOnVoiture(t, creation.getPassagerOnVoiture(i));
+				t++;
+			}
+		}
+		int select = (int) Math.random();
+		if(select <0.5) {
+			return tournament.getPassagerOnVoiture(0);
+		} else if(select < 0.6) {
+			return tournament.getPassagerOnVoiture(0);
+		} else if(select < 0.7) {
+			return tournament.getPassagerOnVoiture(0);
+		} else if(select < 0.8) {
+			return tournament.getPassagerOnVoiture(0);
+		} else {
+			return new PassagerParVoiture();
+		}
     }
 }
