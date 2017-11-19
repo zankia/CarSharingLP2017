@@ -69,7 +69,7 @@ public class ActionHandler implements ActionListener {
 	        	win.typeColoriage = false;
 	        	break;
 	        case "About" :
-	            About about = new About(Main.mazeFrame,true);
+	            About about = new About(App.mazeFrame,true);
 	            about.setVisible(true);
 	            break;
 	            

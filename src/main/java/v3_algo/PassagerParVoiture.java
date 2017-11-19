@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.PriorityQueue;
 
 import v3_window.Cell;
-import v3_window.Main;
+import v3_window.App;
 import v3_window.States;
 
 /**
@@ -108,7 +108,7 @@ public class PassagerParVoiture {
 	
 	
   /** 
-   * on repartit aléatoirement nbPassager (dans Main) passagers dans (nbVoiture) voitures
+   * on repartit aléatoirement nbPassager (dans App) passagers dans (nbVoiture) voitures
    * @version Build III -  v0.5
    * @since Build III -  v0.0
    */

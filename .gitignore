@@ -1,5 +1,9 @@
-# Compiled class files
+# Binaries
+/bin/
+/build/
 *.class
+.gradle/
+gradle/
 
 # Log files
 *.log
@@ -13,9 +17,6 @@
 # Eclipse specific files
 .project
 .classpath
-
-# Binaries folder
-/bin/
 
 # Crash logs
 hs_err_pid*

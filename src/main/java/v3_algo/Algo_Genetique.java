@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import v3_window.Main;
+import v3_window.App;
 import v3_window.Cell;
 
 /**

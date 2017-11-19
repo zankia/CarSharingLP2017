@@ -13,7 +13,7 @@ import javax.swing.JFrame;
  * @author Nikos Kanargias, Hellenic Open University student, PLI31 2012-13 - (http://youtu.be/0ol_PptA7rM)
  *
  */
-public class Main {
+public class App {
 	
 	/**
 	 * Le contenu principal du programme
