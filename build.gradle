@@ -30,4 +30,4 @@ dependencies {
 // Define the main class for the application
 mainClassName = 'v3_window.App'
 
-version = '0.6'
+version = '3.0'
