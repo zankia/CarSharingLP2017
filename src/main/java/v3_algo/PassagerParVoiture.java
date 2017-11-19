@@ -9,22 +9,11 @@ import v3_window.App;
 import v3_window.States;
 
 /**
- * 
+ *
  * @author Romain Duret
- * @version Build III -  v0.5
- * @since Build III -  v0.0
  */
 public class PassagerParVoiture {
-	
-	/*
-	   _____       _ _   _       _ _           _   _             
-	  |_   _|     (_) | (_)     | (_)         | | (_)            
-	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
-	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
-	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
-	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
-	*/
-	
+
 	/**
 	 * Matrice de passagers
 	 */
@@ -54,19 +43,10 @@ public class PassagerParVoiture {
 	 * Coût d'un déplacement
 	 */
     public static final int COST = 1;
-	
+
     boolean[][] closed;
     PriorityQueue<Cell> open;
-    
-	 /*                                                   
-    _____                _                   _                  
-   / ____|              | |                 | |                 
-  | |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
-  | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
-  | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
-   \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
-	  */
-	
+
 	/**
 	 * On créer des tableau de Passager de de Possitionpassager
 	 */
@@ -89,30 +69,19 @@ public class PassagerParVoiture {
 		this.pointsDePassage = new Cell[Execut_Algo_Genetique.nbVoiture][];
 		this.passageOptimal = new Cell[Execut_Algo_Genetique.nbVoiture][];
 		this.nbPassagerParVoiture = tabNbPassagerParVoiture;
-		
+
 		for(int i = 0 ; i < Execut_Algo_Genetique.nbVoiture ; i++) {
 			for(int j = 0 ; j < Execut_Algo_Genetique.nbPlaceVoiture ; j++){
 				this.passagersOrdonnes[i][j] = new Passager(false);
 			}
 		}
 	}
-	/*
-	  __  __      _   _               _           
-	 |  \/  |    | | | |             | |          
-	 | \  / | ___| |_| |__   ___   __| | ___  ___ 
-	 | |\/| |/ _ \ __| '_ \ / _ \ / _` |/ _ \/ __|
-	 | |  | |  __/ |_| | | | (_) | (_| |  __/\__ \
-	 |_|  |_|\___|\__|_| |_|\___/ \__,_|\___||___/
-	                                              
-	 */	
-	
-	
-  /** 
+
+
+  /**
    * on repartit aléatoirement nbPassager (dans App) passagers dans (nbVoiture) voitures
-   * @version Build III -  v0.5
-   * @since Build III -  v0.0
    */
-	
+
     public void generatePassagerOnVoiture() {
     	int capaciteMax = Execut_Algo_Genetique.nbVoiture*Execut_Algo_Genetique.nbPlaceVoiture;
     	Passager[] listeDesPassagers = returnListePassager(capaciteMax);
@@ -143,19 +112,18 @@ public class PassagerParVoiture {
 		this.attribuerPointsDePassage();
 		}
 
-      
+
     /**
      * Retourne une liste de passager généré aléatoirement, en fonction des passagers et du nombre de place. <br>
      * En gros, le tableau contient tout les passagers possibles. <br>
      * S'il ya plus de place que de passager, on peut se retrouver avec : vide vide P1 P3 vide P5 vide P2 P4
      * S'il y a autant ou moins de place que de passager, on se retrouve avec une liste sans élément vide : P3 P4 p7 P10 P8 P2 P1 P9 P5 P6
-     * @return
-     * @version Build III -  v0.5
-	 * @since Build III -  v0.5
+	 * @param capaciteMax maximum capacity
+     * @return the list of passengers
      */
     public Passager[] returnListePassager(int capaciteMax) {
-    	
-    	if(capaciteMax < Execut_Algo_Genetique.nbPassager) 
+
+    	if(capaciteMax < Execut_Algo_Genetique.nbPassager)
     		capaciteMax = Execut_Algo_Genetique.nbPassager;
     	Passager[] listeDesPassagers= new Passager[capaciteMax];
     	for(int i = 0; i < Execut_Algo_Genetique.nbPassager; i++)
@@ -170,57 +138,52 @@ public class PassagerParVoiture {
 	 * Pour chaque voiture on attribue l'ordre de passage à chaque départ et déstination de chaque passager
 	 * <br>
 	 * Effectué dans l'ordre "normale" (pas de dépot avant
-	 * @version Build III -  v0.5
-	 * @since Build III -  v0.0
 	 */
     public void attribuerPointsDePassage() {
     	this.cost = 0;
     	for (int i = 0; i < Execut_Algo_Genetique.nbVoiture; i++){ // Pour chaque voiture ayant x Place
     		this.passageOptimal[i] = new Cell[this.nbPassagerParVoiture[i]*2];
     		this.pointsDePassage[i] = new Cell[this.nbPassagerParVoiture[i]*2];
-    		Pre_Algo_DeterministePourPoint(this.passagersOrdonnes[i], i);	
+    		Pre_Algo_DeterministePourPoint(this.passagersOrdonnes[i], i);
     		for(int j = 0; j < (this.nbPassagerParVoiture[i]*2); j++) {
     			this.pointsDePassage[i][j] = this.passageOptimal[i][j];
     		}
     		this.cost = this.cost + this.U;
-    	}	
+    	}
 	}
-    
+
     /**
     * Méthode ré-récursive qui initialise les variables
-    * @since Build III - v0.2
-    * @version Build III - v0.5
     * @param passagers liste des passagers
+	* @param numeroVoiture number of the car
     */
     private void Pre_Algo_DeterministePourPoint(Passager[] passagers, int numeroVoiture) {
 	   	boolean[] selected = new boolean[passagers.length]; //déclare si déjà sélectionné.
 	   	for(int k=0; k < selected.length; k++) { selected[k] = false; }
-	   	
+
 	   	boolean[] possable = new boolean[passagers.length]; //déclare si déjà sélectionné.
 	   	for(int k=0; k < selected.length; k++) { possable[k] = true; }
-	   	
+
 	   	Cell[] listeDesPoints = new Cell[this.nbPassagerParVoiture[numeroVoiture]*2];
-	   	
+
 	   	this.U = 0;
-	   	
+
 	   	this.Algo_DeterministeParRecursivite(passagers, listeDesPoints, possable, selected, 0, numeroVoiture);
 	}
-   
+
    /**
     * Récursif qui teste toutes les combinaisons possibles <br>
     * En s'inspirant de l'algorithme sac à dos, on ne sélectionne que le parcours le plus petit et on le stock (this.passageOptimal) <br>
     * On utilise this.U pour connaitre la taille du chemin
-    * @since Build III - v0.0
-    * @version Build III - v0.2
     * @param passagers liste des passagers
     * @param listeDesPoints "conteneur de point"
     * @param possable est-ce que tel passager est possable
     * @param selected est-ce que tsager est prenable
-    * @param n index 
+    * @param n index
     */
    private void Algo_DeterministeParRecursivite(Passager[] passagers, Cell[] listeDesPoints, boolean[] possable, boolean[] selected, int n, int numeroVoiture) {
 	   //Cas de base : la liste se termine
-   	if(n==((this.nbPassagerParVoiture[numeroVoiture]*2)-1)) { 
+   	if(n==((this.nbPassagerParVoiture[numeroVoiture]*2)-1)) {
    		for(int i=0;i<passagers.length;i++) {
    			if(possable[i]==true) {
    				listeDesPoints[n] = passagers[i].getArrivee();
@@ -232,9 +195,9 @@ public class PassagerParVoiture {
        					this.passageOptimal[numeroVoiture][k] = listeDesPoints[k];
        				}
        			} else if(poids == -1) {
-       				
+
        			}
-   			}		
+   			}
    		}
   	} else { //cas récursif
   		//Pour chaque passager, on lit s'il est déjà sélectionné. Si c'est non, on crée une branche, si oui, on saute.
@@ -251,35 +214,21 @@ public class PassagerParVoiture {
    				tempon1[i] = true;
    				this.Algo_DeterministeParRecursivite(passagers, listeDesPoints, possable, tempon1, n+1, numeroVoiture);
    			} else if(possable[i]==true && passagers[i].getExist()) {
-   				
+
    				listeDesPoints[n] = passagers[i].getArrivee();
    				for(int k=0; k<possable.length;k++) {
    					tempon2[k] = possable[k];
    				}
    				tempon2[i] = false;
-   	    			
+
    				this.Algo_DeterministeParRecursivite(passagers, listeDesPoints, tempon2, selected, n+1, numeroVoiture);
    			}  //Il y a des cas où rien ne se passe et on saute
-		
-   		}	
+
+   		}
    	}
    }
-  
- 
 
 
-/*
-           __  __ _      _                      
-    /\    / _|/ _(_)    | |                     
-   /  \  | |_| |_ _  ___| |__   __ _  __ _  ___ 
-  / /\ \ |  _|  _| |/ __| '_ \ / _` |/ _` |/ _ \
- / ____ \| | | | | | (__| | | | (_| | (_| |  __/
-/_/    \_\_| |_| |_|\___|_| |_|\__,_|\__, |\___|
-                                     __/ |     
-                                    |___/      
- */  
-   
-   
    public void afficherPassagerOnVoitures() {
 		for(int i = 0 ; i < Execut_Algo_Genetique.nbVoiture  ; i++){
 			System.out.print(this.passagersOrdonnes[i].length + " : ");
@@ -289,8 +238,8 @@ public class PassagerParVoiture {
 		System.out.println("");
 		}
     }
-   
-   public void afficherPoints() { 
+
+   public void afficherPoints() {
 	   System.out.println(this.pointsDePassage.length);
 		for(int i = 0 ; i < Execut_Algo_Genetique.nbVoiture; i++){
 			System.out.print(this.pointsDePassage[i].length + " : ");
@@ -300,22 +249,12 @@ public class PassagerParVoiture {
 				} else {
 					System.out.print(" x ");
 				}
-					
+
 			}
 		System.out.println("");
 		}
     }
 
-   
-	/*
-	   _____      _               _____      _   
-	  / ____|    | |     ___     / ____|    | |  
-	 | |  __  ___| |_   ( _ )   | (___   ___| |_ 
-	 | | |_ |/ _ \ __|  / _ \/\  \___ \ / _ \ __|
-	 | |__| |  __/ |_  | (_>  <  ____) |  __/ |_ 
-	  \_____|\___|\__|  \___/\/ |_____/ \___|\__|
-	                                             
-	  */                                           
 
    public int getNbPassagers() {
        return this.passagersOrdonnes[0].length;
@@ -323,11 +262,11 @@ public class PassagerParVoiture {
    public int getNbVoitures() {
        return this.passagersOrdonnes.length;
    }
-   
+
    public Cell[][] getPointsDePassage() {
    	return this.pointsDePassage;
    }
-   
+
    public Passager getPassager(int voiture,int index) {
        return this.passagersOrdonnes[voiture][index];
    }
@@ -335,28 +274,25 @@ public class PassagerParVoiture {
    public void setPassager(int voiture, int index, Passager passager) {
        this.passagersOrdonnes[voiture][index] = passager;
    }
-   
+
 	public int getU() {
 		return this.cost;
 	}
-	
+
 	public void setU(int U) {
 		this.U = U;
 	}
-	
-   /**
-    *  Trouver le resultat d'un GroupePassager, la somme des distances entre le 1er et le 2nd, puis le 2nd et le 3ème.... 
-    * @param GroupePassager
-    * @return
-    * @version Build III -  v0.1
- * @param l_b 
-	 * @since Build III -  v0.0
-    */
+
+	/**
+	 *  Trouver le resultat d'un GroupePassager, la somme des distances entre le 1er et le 2nd, puis le 2nd et le 3ème....
+	 * @param l_b .
+	 * @return the total distance
+	 */
    public int getDistanceChemin(ArrayList<Cell> l_b) {
    		int resultat = 0;
    		for (int i = 0; i < this.pointsDePassage.length; i++){
         	for (int j = 0; j < this.pointsDePassage[i].length - 1 ; j++){
-        	   
+
         	   this.closed = new boolean[Execut_Algo_Genetique.sizeGrille_X][Execut_Algo_Genetique.sizeGrille_Y];
                this.open = new PriorityQueue<>((o1, o2) -> {
             	   Cell c1 = (Cell)o1;
@@ -374,60 +310,60 @@ public class PassagerParVoiture {
                    }
                 }
                Execut_Algo_Genetique.grid[this.pointsDePassage[i][j].getRow()][this.pointsDePassage[i][j].getColumn()].finalCost = 0;
-            
+
                //add the start location to open list.
                this.open.add(Execut_Algo_Genetique.grid[this.pointsDePassage[i][j].getRow()][this.pointsDePassage[i][j].getColumn()]);
-               
+
                Cell current;
-               
-               while(true){ 
+
+               while(true){
                    current = open.poll();
                    if(current.getStates()==States.WALL)break;
-                   this.closed[current.row][current.col]=true; 
+                   this.closed[current.row][current.col]=true;
 
                    if(current.equals(Execut_Algo_Genetique.grid[this.pointsDePassage[i][j+1].getRow()][this.pointsDePassage[i][j+1].getColumn()])){
                        break;
-                   } 
-                   Cell t;  
+                   }
+                   Cell t;
                    if(current.row-1>=0){
                        t = Execut_Algo_Genetique.grid[current.row-1][current.col];
-                       this.checkAndUpdateCost(current, t, current.finalCost+COST); 
-                   } 
+                       this.checkAndUpdateCost(current, t, current.finalCost+COST);
+                   }
                    if(current.col-1>=0){
                        t = Execut_Algo_Genetique.grid[current.row][current.col-1];
-                       this.checkAndUpdateCost(current, t, current.finalCost+COST); 
+                       this.checkAndUpdateCost(current, t, current.finalCost+COST);
                    }
                    if(current.col+1<Execut_Algo_Genetique.grid[0].length){
                        t = Execut_Algo_Genetique.grid[current.row][current.col+1];
-                       this.checkAndUpdateCost(current, t, current.finalCost+COST); 
+                       this.checkAndUpdateCost(current, t, current.finalCost+COST);
                    }
                    if(current.row+1<Execut_Algo_Genetique.grid.length){
                        t = Execut_Algo_Genetique.grid[current.row+1][current.col];
-                       this.checkAndUpdateCost(current, t, current.finalCost+COST); 
+                       this.checkAndUpdateCost(current, t, current.finalCost+COST);
                    }
                }
-                
+
                if(closed[this.pointsDePassage[i][j+1].getRow()][this.pointsDePassage[i][j+1].getColumn()]){
-                   //Trace back the path 
+                   //Trace back the path
                     Cell current2 = Execut_Algo_Genetique.grid[this.pointsDePassage[i][j+1].getRow()][this.pointsDePassage[i][j+1].getColumn()];
                     while(current2.parent!=null){
                         current2 = current2.parent;
                         resultat ++;
-                    } 
+                    }
                }else {
             	   System.out.println("No possible path");
             	   return resultat; //TODO
                }
-               
+
            }
        }
         return resultat;
    }
-   
+
    private void checkAndUpdateCost(Cell current, Cell t, int cost){
        if(t.getStates() == States.WALL || this.closed[t.row][t.col])return;
        int t_final_cost = t.heuristicCost+cost;
-       
+
        boolean inOpen = this.open.contains(t);
        if(!inOpen || t_final_cost<t.finalCost){
            t.finalCost = t_final_cost;
@@ -435,13 +371,12 @@ public class PassagerParVoiture {
            if(!inOpen)this.open.add(t);
        }
    }
-   
+
    /**
     * Trouve la samme des distances pour un seul véhicule.
-    * @version Build III -  v0.2
-	 * @since Build III -  v0.2
-    * @param listeDesPoints
-    * @return
+    * @param listeDesPoints where to go
+	* @param nbPassager number of passengers
+    * @return the total distance
     */
    public int getDistanceCheminPourU(Cell[] listeDesPoints, int nbPassager) {
    		int resultat = 0;
@@ -461,72 +396,62 @@ public class PassagerParVoiture {
                 }
              }
             Execut_Algo_Genetique.grid[listeDesPoints[j].getRow()][listeDesPoints[j].getColumn()].finalCost = 0;
-         
+
             //add the start location to open list.
             this.open.add(Execut_Algo_Genetique.grid[listeDesPoints[j].getRow()][listeDesPoints[j].getColumn()]);
-            
+
             Cell current;
-            
-            while(true && open.size()>0){ 
+
+            while(true && open.size()>0){
                 current = open.poll();
                 if(current.getStates()==States.WALL) {
                 	break;
                 }
-                	
-                
-                this.closed[current.row][current.col]=true; 
+
+
+                this.closed[current.row][current.col]=true;
 
                 if(current.equals(Execut_Algo_Genetique.grid[listeDesPoints[j+1].getRow()][listeDesPoints[j+1].getColumn()])){
                     break;
-                } 
-                Cell t;  
+                }
+                Cell t;
                 if(current.row-1>=0){
                     t = Execut_Algo_Genetique.grid[current.row-1][current.col];
-                    this.checkAndUpdateCost(current, t, current.finalCost+COST); 
-                } 
+                    this.checkAndUpdateCost(current, t, current.finalCost+COST);
+                }
                 if(current.col-1>=0){
                     t = Execut_Algo_Genetique.grid[current.row][current.col-1];
-                    this.checkAndUpdateCost(current, t, current.finalCost+COST); 
+                    this.checkAndUpdateCost(current, t, current.finalCost+COST);
                 }
                 if(current.col+1<Execut_Algo_Genetique.grid[0].length){
                     t = Execut_Algo_Genetique.grid[current.row][current.col+1];
-                    this.checkAndUpdateCost(current, t, current.finalCost+COST); 
+                    this.checkAndUpdateCost(current, t, current.finalCost+COST);
                 }
                 if(current.row+1<Execut_Algo_Genetique.grid.length){
                     t = Execut_Algo_Genetique.grid[current.row+1][current.col];
-                    this.checkAndUpdateCost(current, t, current.finalCost+COST); 
+                    this.checkAndUpdateCost(current, t, current.finalCost+COST);
                 }
             }
-             
+
             if(closed[listeDesPoints[j+1].getRow()][listeDesPoints[j+1].getColumn()]){
-                //Trace back the path 
+                //Trace back the path
                  Cell current2 = Execut_Algo_Genetique.grid[listeDesPoints[j+1].getRow()][listeDesPoints[j+1].getColumn()];
                  while(current2.parent!=null){
                      current2 = current2.parent;
                      resultat ++;
-                 } 
+                 }
             }else {
          	   return -1;
             }
         }
-       
+
    	return resultat;
    }
-   
-	/* 
-		           __  __ _      _                      
-		    /\    / _|/ _(_)    | |                     
-		   /  \  | |_| |_ _  ___| |__   __ _  __ _  ___ 
-		  / /\ \ |  _|  _| |/ __| '_ \ / _` |/ _` |/ _ \
-		 / ____ \| | | | | | (__| | | | (_| | (_| |  __/
-		/_/    \_\_| |_| |_|\___|_| |_|\__,_|\__, |\___|
-		                      __/ |     
-		                     |___/      
-		*/  
-		
+
+
 		/**
 		* Affichage de la matrice.
-		* @param passagersOrdonnes2
+		* @param passagersOrdonnes2 .
 		*/
 		protected void prompt(Passager[][] passagersOrdonnes2) {
 		for(int i=0;i<passagersOrdonnes2.length;i++) {

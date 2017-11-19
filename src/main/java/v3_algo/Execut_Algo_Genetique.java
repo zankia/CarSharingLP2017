@@ -8,17 +8,8 @@ import v3_window.Window;
 public class Execut_Algo_Genetique {
 
 
-	/*
-	   _____       _ _   _       _ _           _   _             
-	  |_   _|     (_) | (_)     | (_)         | | (_)            
-	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
-	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
-	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
-	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
-	*/                                                             
-	      
 	/**
-	 * Tableau des passagers 
+	 * Tableau des passagers
 	 */
 	protected static Passager[] lesPassagers;
 	/**
@@ -38,7 +29,7 @@ public class Execut_Algo_Genetique {
      * Nombre de voiture
      */
     protected static  int nbVoiture;
-    /** 
+    /**
      * Nombre de place par voiture.
      */
     protected static final int nbPlaceVoiture = 4;
@@ -63,7 +54,7 @@ public class Execut_Algo_Genetique {
      * Conteur de génération
      */
     int generationCount;
-    
+
     /**
      * Grille
      * @param grid
@@ -74,51 +65,40 @@ public class Execut_Algo_Genetique {
      * @param columns
      */
     static Cell[][] grid;
-    
-    /*                                                   
-    _____                _                   _                  
-   / ____|              | |                 | |                 
-  | |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
-  | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
-  | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
-   \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
 
-	  */
-   
     /**
      * On initialise le programme. <br>
      * On génère la liste des Passagers
-     * @param win
+     * @param win the concerned Window
      */
     public Execut_Algo_Genetique(Window win) {
     	long debut = System.currentTimeMillis(); //Debut du compteur
-    	
+
     	Execut_Algo_Genetique.nbPassager = win.list_client_depot.size();
     	Execut_Algo_Genetique.nbVoiture = win.list_car.size();
     	Execut_Algo_Genetique.sizeGrille_X = win.rows;
     	Execut_Algo_Genetique.sizeGrille_Y = win.columns;
     	Execut_Algo_Genetique.grid = win.grid;
-    	
- 		Execut_Algo_Genetique.lesPassagers = Passager.buildPassager(win.list_client_, win.list_client_depot); 
- 		
- 		Population myPop = this.execute(win.list_block); //exuction de l'algo génétique 
- 		
+
+ 		Execut_Algo_Genetique.lesPassagers = Passager.buildPassager(win.list_client_, win.list_client_depot);
+
+ 		Population myPop = this.execute(win.list_block); //exuction de l'algo génétique
+
  		//this.meilleureSolution = myPop.getMoreCompetent().getU(); //taille de la meilleure solution
  		this.affichage(debut);
     }
- 
+
     /**
      * Execution des itérations
-     * @return
-     * @version Build III -  v0.5
-	 * @since Build III -  v0.2
+	 * @param l_b .
+     * @return the best Population
      */
     public Population execute(ArrayList<Cell> l_b) {
     	this.generationCount = 0;
-    	
+
     	Population myPop = new Population(taillePopulation, true, l_b); //création de la population initialie
     	Population bestPop = myPop;
-    	
+
     	this.meilleureSolution = bestPop.getMoreCompetent().getU();
     	this.meilleurPassagerParVoiture = bestPop.getMoreCompetent();
     	if(Execut_Algo_Genetique.nbVoiture==1) {
@@ -140,29 +120,15 @@ public class Execut_Algo_Genetique {
     			if (this.generationCount == 1 ) {
     				this.premiereSolution = this.meilleureSolution;
     			}
-    			nbIterationMeilleureSolution ++;  
+    			nbIterationMeilleureSolution ++;
     		}
     	}
     	return bestPop;
     }
-    
-    /*
 
-           __  __ _      _                            
-    /\    / _|/ _(_)    | |                     
-   /  \  | |_| |_ _  ___| |__   __ _  __ _  ___ 
-  / /\ \ |  _|  _| |/ __| '_ \ / _` |/ _` |/ _ \
- / ____ \| | | | | | (__| | | | (_| | (_| |  __/
-/_/    \_\_| |_| |_|\___|_| |_|\__,_|\__, |\___|
-                                      __/ |     
-                                     |___/       
-
-
-*/      
     /**
      * Affichage des données dans la console
-     * @version Build III -  v0.2
-	 * @since Build III -  v0.2
+	 * @param debut when the execution started
      */
     public void affichage(long debut) {
     	for(int i = 0; i < Execut_Algo_Genetique.nbPassager; i++){
@@ -177,18 +143,18 @@ public class Execut_Algo_Genetique {
         System.out.println("---------------------");
         System.out.println("Répartition des passagers :");
         this.meilleurPassagerParVoiture.afficherPassagerOnVoitures();
-    
+
         System.out.println("---------------------");
         System.out.println("Matrice des points à parcourir : ");
         this.meilleurPassagerParVoiture.afficherPoints();
-        
+
         long fin = System.currentTimeMillis();
         System.out.println("Méthode exécutée en " + Long.toString(fin - debut) + " millisecondes");
 
     }
-    
-    
-	
-	
-	
+
+
+
+
+
 }

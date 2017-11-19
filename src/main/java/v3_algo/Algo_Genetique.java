@@ -8,52 +8,29 @@ import v3_window.Cell;
 
 /**
  * L'Algorithme Génétique. <br>
- * 
- * 
+ *
+ *
  * @author Romain Duret
- * @version Build III -  v0.6
- * @since Build III -  v0.0
  */
 public class Algo_Genetique {
- 
-	/*
-	   _____       _ _   _       _ _		   _   _		     
-	  |_   _|     (_) | (_)     | (_)		 | | (_)		    
-	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
-	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
-	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
-	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
-	*/														     
-	    
-	
-    
+
+
     private static final double mutationRate = 0.05;
     private static final int tournamentSize = 3;
 
- 
-    /*
-	  __  __      _   _		       _		   
-	 |  \/  |    | | | |		     | |		  
-	 | \  / | ___| |_| |__   ___   __| | ___  ___ 
-	 | |\/| |/ _ \ __| '_ \ / _ \ / _` |/ _ \/ __|
-	 | |  | |  __/ |_| | | | (_) | (_| |  __/\__ \
-	 |_|  |_|\___|\__|_| |_|\___/ \__,_|\___||___/
-											      
-	 */	
-    
+
     /**
      * Evoluer la population : <br>
      * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
      * On croise
-     * et on mute 
+     * et on mute
      * @param pop Population (voitures)
-     * @return
-     * @version Build III -  v0.6
-     * @since Build III -  v0.0
+     * @param l_b .
+     * @return the new population
      */
     public static Population evolvePopulation(Population pop, ArrayList<Cell> l_b) {
 		Population newPopulation  = new Population(pop.getSize(), false, l_b);
- 
+
 		// Garder le meilleur PassagerParVoiture
 		newPopulation.savePassagerOnVoiture(0, pop.getMoreCompetent());
 		int elitismOffset = 1;
@@ -64,26 +41,24 @@ public class Algo_Genetique {
 			PassagerParVoiture newPassagerOnVoiture = tournamentSelection(pop, l_b);
 			newPopulation.savePassagerOnVoiture(i, newPassagerOnVoiture);
 		}
-		
-		
+
+
 		// Mutate population
 		for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
 			mutation(newPopulation.getPassagerOnVoiture(i));
 		}
-		
+
 		for (int i = elitismOffset; i < newPopulation.getSize(); i++) {
 			newPopulation.getPassagerOnVoiture(i).attribuerPointsDePassage();
 		}
 
 		return newPopulation;
     }
-    
- 
+
+
     /**
      * Déclanche une mutation si le facteur random est déclanché. <br>
-     * On teste s'il y a mutation autant de fois qu'il y a de place en tout dans le groupe de voiture/passager 
-     * @version Build III -  v0.6
-     * @since Build III -  v0.0
+     * On teste s'il y a mutation autant de fois qu'il y a de place en tout dans le groupe de voiture/passager
      */
     private static void mutation(PassagerParVoiture PassagerParVoiture) {
 		for (int i = 0; i < PassagerParVoiture.getNbVoitures(); i++) {
@@ -94,15 +69,12 @@ public class Algo_Genetique {
 		    }
 		}
     }
-    
+
     /**
 	 * Evoluer la population : <br>
 	 * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
-     * On croise et on mute 
+     * On croise et on mute
      * @param pop Population (voitures)
-     * @return
-     * @version Build III -  v0.6
-     * @since Build III -  v0.0
      */
 	private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture, int nVoiture){
 		//On génére 2 endroits aléatoire non identiques
@@ -113,14 +85,14 @@ public class Algo_Genetique {
 		while(place_1==place_2) {
 			place_2 = (int)(Math.random() * placeTotal);
 		}
-		
-		//On créé une mémoire provisoire : 
+
+		//On créé une mémoire provisoire :
 		int[] emplacement_1 = new int[3];
 		int[] emplacement_2 = new int[3];
-		
+
 		//Pour chaque place, on diminue place_1/place_2.
 		//Si l'un des deux = 0, on sauvegarde l'emplacement et le type (0 si vide 1 si plein)
-		
+
 		for(int i=0;i<Execut_Algo_Genetique.nbVoiture;i++) {
 			for(int j=0;j<Execut_Algo_Genetique.nbPlaceVoiture;j++) {
 				if(place_1==0 || place_2 == 0) {
@@ -158,25 +130,23 @@ public class Algo_Genetique {
 			PassagerParVoiture.passagersOrdonnes[emplacement_1[1]][emplacement_1[2]] = PassagerParVoiture.passagersOrdonnes[emplacement_2[1]][emplacement_2[2]];
 			PassagerParVoiture.passagersOrdonnes[emplacement_2[1]][emplacement_2[2]] = PassagerTmps;
 		} else if (emplacement_2[0]==1) {
-			
+
 		} else if (emplacement_1[0]==1) {
 			//Croisement avec un bloc vide
-			
+
 		} else {
 			//rien
 		}
-		
+
     }
-    
+
     /**
      * Sélection en roue de la fortune. <br>
      * Pour chaque "étape", on sélectionne 4 passagers tirés au sort. On récupère la taille. <br>
      * Cela donne un poids (50% meilleur, 10% pour le reste, 20% pour un nouveau généré aléatoirement) <br>
      * On tire au sort et on renvoie.
      * @param pop Population (voitures)
-     * @return
-     * @version Build III -  v0.6
-     * @since Build III -  v0.0
+     * @return selected distribution
      */
     private static PassagerParVoiture tournamentSelection(Population pop, ArrayList<Cell> l_b) {
 		Population creation = new Population(4, false, l_b);

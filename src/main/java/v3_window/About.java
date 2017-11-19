@@ -15,10 +15,8 @@ import v3_window.Window;
 
 /**
  * Classe qui permet d'afficher la fenêtre "A propos"
- * 
+ *
  * @author AirDur
- * @version Build III -  v0.6
- * @since Build III -  v0.6
  */
 public class About extends JDialog{
 
@@ -26,7 +24,7 @@ public class About extends JDialog{
 	private static final long serialVersionUID = 1L;
 
 	private final static String file = "lib/Textes.json";
-	// Objets qui permet de lire le document :   
+	// Objets qui permet de lire le document :
 	private JSONParser parser = new JSONParser();
 	protected JSONObject JSON_Window, JSON_Boutons;
 
@@ -34,13 +32,16 @@ public class About extends JDialog{
 	private static final int height = 170;
 	/**
 	 * Constructeur de la fenetre
-	 * @version Build III -  v0.6
-	 * @since Build III -  v0.6
+	 * @param parent the Frame from which the dialog is displayed
+	 * @param modal specifies whether dialog blocks user input to other
+	 *              top-level windows when shown. If true, the modality type
+	 *              property is set to DEFAULT_MODALITY_TYPE,
+	 *              otherwise the dialog is modeless.
 	 */
 	public About(Frame parent, boolean modal){
 		super(parent, modal);
 
-		try								{ this.ouvertureFichier(); 	} 
+		try								{ this.ouvertureFichier(); 	}
 		catch (FileNotFoundException e) { e.printStackTrace();		}
 		catch (IOException e)			{ e.printStackTrace();		}
 		catch (ParseException e)		{ e.printStackTrace();		}
@@ -56,12 +57,12 @@ public class About extends JDialog{
 		JLabel license =	buildLabel("license",	Font.PLAIN,	14);
 		JLabel link =		buildLabel("link",		Font.PLAIN,	16);
 		JLabel dummy = new JLabel("");
-		
+
 		title.setForeground(new java.awt.Color(255, 153, 102));
 		link.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		link.setToolTipText((String) this.JSON_Window.get("tooltip"));
 
-		add(title		); 
+		add(title		);
 		add(version		);
 		add(programmer	);
 		add(license		);
@@ -107,12 +108,10 @@ public class About extends JDialog{
 		    }
 		});
     }
-    
+
     /**
      * Ouvre le fichier contenant les données.
      * Permet à terme de généraliser afin d'avoir plusieurs langages.
-     * @version Build III -  v0.5
-	 * @since Build III -  v0.5
      * @throws FileNotFoundException
      * @throws IOException
      * @throws ParseException
@@ -123,5 +122,5 @@ public class About extends JDialog{
     	this.JSON_Window = (JSONObject) tampon.get("About");
 		this.JSON_Boutons = (JSONObject) this.JSON_Window.get("Button");
     }
-    
+
 }

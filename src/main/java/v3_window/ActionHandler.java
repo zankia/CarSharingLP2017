@@ -9,38 +9,34 @@ import v3_algo.Execut_Algo_Genetique;
 
 /**
  * Fonctions correspond aux actions d'un bouton
- *  @author AirDur
- * @version Build III -  v0.5
- * @since Build III -  v0.5
+ * @author AirDur
  */
 public class ActionHandler implements ActionListener {
-    
+
 	protected Window win;
 	protected String name;
-    
+
     protected ActionHandler(Window win, String name) {
     	this.win = win;
     	this.name = name;
     }
-    
+
     @Override
     /**
      * Classe qui gère les actions
      * @author AirDur
-     * @version Build III -  v0.6
-   	 * @since Build III -  v0.5
      */
     public void actionPerformed(ActionEvent evt) {
         switch(this.name) {
-	        case "New Grid" : 
+	        case "New Grid" :
 	        	//Affiche une nouvelle grille selon les paramètres
 	        	win.realTime = false;
 	        	win.animationButton.setEnabled(true);
 	        	win.slider.setEnabled(true);
 	        	win.initializeGrid();
 	        	break;
-	        	
-	        case "Clear" : 
+
+	        case "Clear" :
 	        	//Efface le parcours (Animation)
 	        	win.deleteCarAndPassagerGrid();
 	        	break;
@@ -60,11 +56,11 @@ public class ActionHandler implements ActionListener {
 	                win.timer.start();
 	        	}
 	        	break;
-	        case "ChangeState" : 
+	        case "ChangeState" :
 	        	win.editButton("ChangeState_2", win.changeStateButton);
 	        	win.typeColoriage = true;
 	        	break;
-	        case "ChangeState_2" : 
+	        case "ChangeState_2" :
 	        	win.editButton("ChangeState", win.changeStateButton);
 	        	win.typeColoriage = false;
 	        	break;
@@ -72,8 +68,8 @@ public class ActionHandler implements ActionListener {
 	            About about = new About(App.mazeFrame,true);
 	            about.setVisible(true);
 	            break;
-	            
+
         }
-        
+
     }
 } // end nested class ActionHandler

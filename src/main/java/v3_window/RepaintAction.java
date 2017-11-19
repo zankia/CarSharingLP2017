@@ -6,34 +6,30 @@ import java.awt.event.ActionListener;
 /**
  * Classe responsable de l'animation.
  * @author AirDur
- * @version Build III -  v0.5
- * @since Build III -  v0.5
  */
 public class RepaintAction implements ActionListener {
-	
+
 	private Window win;
-	
+
 	/**
 	 * Constructeur de RepaintAction
-	 * @param win
+	 * @param win The concerned Window
 	 */
 	public RepaintAction(Window win) {
 		this.win =win;
 	}
-	
+
     @Override
     /**
      * A chaque fois que le temps avance, on va faire : <br>
      * - soit on a selectionné la recherche de solution
      * - soit on a selectionné l'execution de la solution
-     * @version Build III -  v0.5
-     * @since Build III -  v0.5
      */
     public void actionPerformed(ActionEvent evt) {
     	if(win.promptSelected) { //Affiche pour chaque partie la "solution" de l'algorithme.
-    		
+
     	} else if (!win.promptSelected) { //Affiche une étape d'execution
-    		
+
     	}
         // Here we decide whether we can continue or not
         // the search with 'Animation'.
@@ -48,4 +44,4 @@ public class RepaintAction implements ActionListener {
             win.repaint();
         }
     }
-} 
+}

@@ -25,65 +25,53 @@ import java.io.FileReader;
 /**
  * Classe qui gére la création de la fenetre
  * @author AirDur
- * @version Build III -  v0.5
- * @since Build III -  v0.5
  */
 public class Window extends JPanel{
-	
-	
-	/*
-	   _____       _ _   _       _ _           _   _             
-	  |_   _|     (_) | (_)     | (_)         | | (_)            
-	    | |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
-	    | | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
-	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
-	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
-	*/      	
 
-		/**
-	   * Adresse vers le document qui comporte tout les textes
-	   */
+	/**
+	 * Adresse vers le document qui comporte tout les textes
+	 */
 	  private final static String file = "lib/Textes.json";
-	  
+
 	  private static final long serialVersionUID = 1L;
-	  // Objets qui permet de lire le document :   
+	  // Objets qui permet de lire le document :
 	  private JSONParser parser = new JSONParser();
 	  protected static JSONObject JSON_Window;
 
 	protected JSONObject JSON_Boutons;
-	  
-	  //Selecteurs pour le nombre de colonnes et de lignes : 
+
+	  //Selecteurs pour le nombre de colonnes et de lignes :
 	  JSpinner rowsSpinner, columnsSpinner; // Spinners for entering # of rows and columns
-	  
-	  //Variables pour la gestion de la grille : (nombre de ligne, de colonne, taille de la cellule et taille de la flèche 
+
+	  //Variables pour la gestion de la grille : (nombre de ligne, de colonne, taille de la cellule et taille de la flèche
 	  public int rows, columns, squareSize/*, arrowSize*/;
-	  
-	  //Listes de cellules : 
+
+	  //Listes de cellules :
 	  public ArrayList<Cell> list_car  = new ArrayList<Cell>(); // the initial position of cars
 	  public ArrayList<Cell> list_client_  = new ArrayList<Cell>(); // the initial positions of clients
 	  public ArrayList<Cell> list_client_depot  = new ArrayList<Cell>(); //the wanted position of clients
 	  public ArrayList<Cell> list_block  = new ArrayList<Cell>(); //the wanted position of clients
-	  
+
 	  Passager liste_passager;
-	  
+
 	  //Les messages :
-	  JLabel message, car, client, closed, frontier;  
-	  
+	  JLabel message, car, client, closed, frontier;
+
 	  // Les buttons :
 	  JButton newgridButton, clearButton, clear_2Button, animationButton, aboutButton,changeStateButton;
-	  
-	  // Selecteurs : 
+
+	  // Selecteurs :
 	  JSlider slider;
 	  JLabel velocity, rowsLbl, columnsLbl;
-	  
-	  //La Grille : 
+
+	  //La Grille :
 	  public Cell[][] grid;        // the grid
-	  
+
 	  //L'Algorithme :
 	  Execut_Algo_Genetique algo;
-	  
+
 	  //Valeurs importantes :
-	  boolean typeColoriage = false; //type de 
+	  boolean typeColoriage = false; //type de
 	  boolean promptSelected; //Déclare ce qu'on regarde.
 	  boolean realTime;    // Solution is displayed instantly
 	  boolean found;       // flag that the goal was found
@@ -92,70 +80,57 @@ public class Window extends JPanel{
 	  int delay;           // time delay of animation (in msec)
 	  int expanded;        // the number of nodes that have been expanded
 	  Timer timer; // Vitesse d'execution de l'algorithme
-	  
-	  // Controleur de l'animation : 
+
+	  // Controleur de l'animation :
 	  RepaintAction action;
-	  
-	// A vérifier utilité : 
+
+	// A vérifier utilité :
 		  ArrayList<Cell> openSet   = new ArrayList<Cell>();// the OPEN SET
 		  ArrayList<Cell> closedSet = new ArrayList<Cell>();// the CLOSED SET
 		  ArrayList<Cell> graph     = new ArrayList<Cell>();// the set of vertices of the graph
 		                                              // to be explored by Dijkstra's algorithm
-	 
-	  
-	
-	  
-	  /*
-	   _____                _                   _                  
-	  / ____|              | |                 | |                 
-	 | |     ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
-	 | |    / _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
-	 | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
-	  \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|   
-	  
-	  */
-    
+
 	/**
 	 * Constructeur de la fenetre
-	 * @version Build III -  v0.5
-	 * @since Build III -  v0.5
+	 * @param width the width of the Window
+	 * @param height the height of the Window
 	 */
 	 public Window(int width, int height) {
 		 //Initialisations :
-		 
-		 	this.rows    = 41;         
+
+		 	this.rows    = 41;
 			this.columns = 41;
 			this.squareSize = 500/rows;
-			
+
 			//Récupération de document !
-		    try 							{ this.ouvertureFichier(); } 
+		    try 							{ this.ouvertureFichier(); }
 		    catch (FileNotFoundException e) { e.printStackTrace(); }
 		    catch (IOException e) 			{ e.printStackTrace(); }
 		    catch (ParseException e) 		{ e.printStackTrace(); }
-		    
+
 		    // Paramètres général :
 	        setLayout(null);
 	        this.action = new RepaintAction(this);
-	        MouseHandler listener = mouseListener(); 
+	        MouseHandler listener = mouseListener();
 	        setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.blue));
 	        setPreferredSize( new Dimension(width,height) );
 
-	        // Création du message : 
+	        // Création du message :
 	        this.initialistionMessage();
 
-	        // Création des Selectors : 
+	        // Création des Selectors :
 	        this.rowsLbl = this.createRowSelector();
 	        this.columnsLbl = this.createColumnSelector();
 	        this.velocity = this.createSpeedSelector();
 
-	        //Création des buttons : 
+	        //Création des buttons :
 	        this.newgridButton = createButton("New Grid",this.newgridButton);
 	        this.clearButton = createButton("Clear",this.clearButton);
 	        this.clear_2Button = createButton("Clear2", this.clear_2Button);
-	        this.animationButton = createButton("Animation",this.animationButton);							
+	        this.animationButton = createButton("Animation",this.animationButton);
 	        this.aboutButton = createButton("About",this.aboutButton);
 	        this.changeStateButton = createButton("ChangeState",this.changeStateButton);
-	     
+
 	        // we add the contents of the panel
 	        add(this.message);
 	        add(this.rowsLbl);
@@ -189,32 +164,20 @@ public class Window extends JPanel{
 
 	        // we create the timer
 	        this.timer = new Timer(this.delay, this.action);
-	       
-	        //this.randomButton.setEnabled(false); 
-	        
+
+	        //this.randomButton.setEnabled(false);
+
 	        //Création de la grille :
 	        this.createGrid();
 	        this.fillGrid();
-	
+
 	    } // end constructor
-	
-	 /*
-	  __  __      _   _               _     _                   _   _             
-	 |  \/  |    | | | |             | |   | |                 | | (_)            
-	 | \  / | ___| |_| |__   ___   __| |___| |_ _ __ _   _  ___| |_ _  ___  _ __  
-	 | |\/| |/ _ \ __| '_ \ / _ \ / _` / __| __| '__| | | |/ __| __| |/ _ \| '_ \ 
-	 | |  | |  __/ |_| | | | (_) | (_| \__ \ |_| |  | |_| | (__| |_| | (_) | | | |
-	 |_|  |_|\___|\__|_| |_|\___/ \__,_|___/\__|_|   \__,_|\___|\__|_|\___/|_| |_|
-	                                                                              
-	  */                                                                           
-	
+
 
 	/**
 		 * Ajoute un écouteur sur la souris
 		 * @return Un écouteur sur la souris
 		 * @see MouseHandler
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 		 */
 		private MouseHandler mouseListener() {
 			MouseHandler listener = new MouseHandler(this);
@@ -226,8 +189,6 @@ public class Window extends JPanel{
 	    /**
 	     * Ouvre le fichier contenant les données.
 	     * Permet à terme de généraliser afin d'avoir plusieurs langages.
-	     * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 	     * @throws FileNotFoundException
 	     * @throws IOException
 	     * @throws ParseException
@@ -238,20 +199,18 @@ public class Window extends JPanel{
 	    	Window.JSON_Window = (JSONObject) tampon.get("Window");
 			this.JSON_Boutons = (JSONObject) Window.JSON_Window.get("Button");
 	    }
-	    
+
 	    /**
 	     * Créer le curseur de sélection de vitesse
-	     * @return
-	     * @version Build III -  v0.5
-		 * @since Build III -  v0.5
+	     * @return SpeedSelector label
 	     */
 	    private JLabel createSpeedSelector() {
 	    	JLabel velocity = new JLabel((String) Window.JSON_Window.get("labelSpeedSelector"), JLabel.CENTER);
 	        velocity.setFont(new Font("Helvetica",Font.PLAIN,10));
-	        
+
 	        this.slider = new JSlider(0,2000,1000);
 	        this.slider.setToolTipText((String) Window.JSON_Window.get("tooltipSpeedSelector"));
-	        
+
 	        this.delay = 2000-this.slider.getValue();
 	        this.slider.addChangeListener((ChangeEvent evt) -> {
 	            JSlider source = (JSlider)evt.getSource();
@@ -261,45 +220,31 @@ public class Window extends JPanel{
 	        });
 	        return velocity;
 	    }
-	    
-		/*
-		   _____      _           _                      
-		  / ____|    | |         | |                     
-		 | (___   ___| | ___  ___| |_ ___ _   _ _ __ ___ 
-		  \___ \ / _ \ |/ _ \/ __| __/ _ \ | | | '__/ __|
-		  ____) |  __/ |  __/ (__| ||  __/ |_| | |  \__ \
-		 |_____/ \___|_|\___|\___|\__\___|\__,_|_|  |___/
-		 */                                                
-		
-		
+
+
+
 		/**
 		 * Initialise l'affichage du message
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 		 */
 		private void initialistionMessage() {
 			this.message = new JLabel("", JLabel.CENTER);
 	        this.message.setForeground(Color.blue);
 	        this.message.setFont(new Font("Helvetica",Font.PLAIN,16));
 		}
-		
+
 		/**
 		 * Créer un sélecteur de ligne
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 		 */
 		private JLabel createRowSelector() {
 			JLabel rowsLbl = new JLabel((String) Window.JSON_Window.get("labelRow"), JLabel.RIGHT);
 		    rowsLbl.setFont(new Font("Helvetica",Font.PLAIN,13));
-		    SpinnerModel rowModel = new SpinnerNumberModel(this.rows /*initial*/, 5 /*min*/,83 /* max */, 1 /* step */);	    
+		    SpinnerModel rowModel = new SpinnerNumberModel(this.rows /*initial*/, 5 /*min*/,83 /* max */, 1 /* step */);
 		    this.rowsSpinner = new JSpinner(rowModel);
 		    return rowsLbl;
 		}
-		
+
 		/**
 		 * Créer un sélecteur de colonne
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 		 */
 		private JLabel createColumnSelector() {
 		    JLabel columnsLbl = new JLabel((String) Window.JSON_Window.get("labelColumn"), JLabel.RIGHT);
@@ -308,21 +253,13 @@ public class Window extends JPanel{
 		    this.columnsSpinner = new JSpinner(colModel);
 		    return columnsLbl;
 		}
-		
-		/*
-		 ____              _                  
-		 |  _ \            | |                 
-		 | |_) | ___  _   _| |_ ___  _ __  ___ 
-		 |  _ < / _ \| | | | __/ _ \| '_ \/ __|
-		 | |_) | (_) | |_| | || (_) | | | \__ \
-		 |____/ \___/ \__,_|\__\___/|_| |_|___/
-		                                       
-		*/
-		
+
+
 		/**
 		 * Créateur Générique de bouton
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
+		 * @param name name of the button
+		 * @param button the button to fill or replace
+		 * @return the created button
 		 */
 		protected JButton createButton(String name, JButton button) {
 			JSONArray texte = (JSONArray) this.JSON_Boutons.get(name);
@@ -332,7 +269,7 @@ public class Window extends JPanel{
 			button.setToolTipText((String) texte.get(1));
 			return button;
 		}
-		
+
 		protected void editButton(String name, JButton button) {
 			JSONArray texte = (JSONArray) this.JSON_Boutons.get(name);
 			button.setText((String) texte.get(0));
@@ -341,23 +278,10 @@ public class Window extends JPanel{
 			button.setBackground(Color.white);
 			button.setToolTipText((String) texte.get(1));
 		}
-		
-		
-		/*
-		   _____      _ _ _      
-		  / ____|    (_) | |     
-		 | |  __ _ __ _| | | ___ 
-		 | | |_ | '__| | | |/ _ \
-		 | |__| | |  | | | |  __/
-		  \_____|_|  |_|_|_|\___|
-		                         
-		                         
-		*/
+
 
 		/**
 	     * Création de la grille (que du vide)
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 	     */
 		private void createGrid() {
 			this.grid = new Cell[this.rows][this.columns];
@@ -368,14 +292,12 @@ public class Window extends JPanel{
                 }
             }
 		}
-		
+
 	    /**
-	     * Remplissage de la grille 
-	     * @version Build III -  v0.5
-		 * @since Build III -  v0.5
+	     * Remplissage de la grille
 	     */
 	    public void fillGrid() {
-            if (this.searching || this.endOfSearch){ 
+            if (this.searching || this.endOfSearch){
                 for (int r = 0; r < this.rows; r++) {
                     for (int c = 0; c < this.columns; c++) {
                         if (this.grid[r][c].getStates() == States.CAR){
@@ -396,12 +318,12 @@ public class Window extends JPanel{
             /*for(int i = 0; i<this.list_car.size(); i++) {
             	this.list_car.get(i).setGHF(0);
             }*/
-            
+
             this.expanded = 0;
             this.found = false;
             this.searching = false;
             this.endOfSearch = false;
-         
+
             // The first step of the other four algorithms is here
             // 1. OPEN SET: = [So], CLOSED SET: = []
             this.openSet.removeAll(this.openSet);
@@ -409,7 +331,7 @@ public class Window extends JPanel{
         		 this.openSet.add(this.list_car.get(i));
         	}
             this.closedSet.removeAll(this.closedSet);
-            
+
             for(int i = 0; i<this.list_car.size(); i++) {
        		 this.grid[this.list_car.get(i).row][this.list_car.get(i).col].setStates(States.CAR);
             }
@@ -421,13 +343,11 @@ public class Window extends JPanel{
             }
             this. message.setText((String) Window.JSON_Window.get("msgDrawAndSelect"));
             this.timer.stop();
-            super.repaint();   
+            super.repaint();
         }
-	    
+
 	    /**
-	     * Reset de la grille 
-	     * @version Build III -  v0.5
-		 * @since Build III -  v0.5
+	     * Reset de la grille
 	     */
 	    public void resetGrid() {
 	    	for (int r = 0; r < this.rows; r++) {
@@ -440,28 +360,24 @@ public class Window extends JPanel{
           	this.list_client_depot  = new ArrayList<Cell>(); //the wanted position of clients
           	this.list_block  = new ArrayList<Cell>();
 	    }
-	    
+
 	    /**
 		 * Réinitialise la grille selon de nouveaux paramètres (taille de lignes et colonnes)
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 		 */
 		public void initializeGrid() {
             this.rows    = (int)(this.rowsSpinner.getValue());
             this.columns = (int)(this.columnsSpinner.getValue());
             this.squareSize = 500/(this.rows > this.columns ? this.rows : this.columns);
-           
+
             this.grid = new Cell[this.rows][this.columns];
             this.resetGrid();
-            
+
             this.slider.setValue(1000);
             this.fillGrid();
         }
-		
+
 		/**
 		 * Supprime les obstacles
-		 * @version Build III -  v0.5
-		 * @since Build III -  v0.5
 		 */
 		public void deleteWallGrid() {
 			 for (int r = 0; r < this.rows; r++) {
@@ -476,8 +392,6 @@ public class Window extends JPanel{
 		}
 		/**
 		 * Supprime les clients et les passagers
-		 * @version Build III -  v0.6
-		 * @since Build III -  v0.6
 		 */
 		public void deleteCarAndPassagerGrid() {
 			 for (int r = 0; r < this.rows; r++) {
@@ -492,30 +406,17 @@ public class Window extends JPanel{
 			 this.list_client_depot = new ArrayList<Cell>();
 			 super.repaint();
 		}
-		
-	    
+
+
 	    public void repaint() {
 	    	super.repaint();
 	    }
-	    
-	    
-	    /*
-	     _____ _             
-	    / ____| |            
-	   | (___ | |_ ___ _ __  
-	    \___ \| __/ _ \ '_ \ 
-	    ____) | ||  __/ |_) |
-	   |_____/ \__\___| .__/ 
-	                  | |    
-	                  |_|    
-	     */
-	    
-	    
+
+
+
 	    @Override
 	    /**
-	     * Affiche la grille. 
-	     * @version Build III -  v0.5
-		 * @since Build III -  v0.5
+	     * Affiche la grille.
 	     */
         public void paintComponent(Graphics g) {
             super.paintComponent(g);  // Fills the background color.
@@ -526,7 +427,7 @@ public class Window extends JPanel{
             for (int r = 0; r < rows; r++) {
                 for (int c = 0; c < columns; c++) {
                 	switch (this.grid[r][c].getStates()) {
-                		case VOID : 
+                		case VOID :
                 			g.setColor(Color.WHITE); break;
                 		case CAR :
                 			 g.setColor(Color.RED); break;
@@ -556,7 +457,7 @@ public class Window extends JPanel{
 
 		private void plotRoute() {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		 /**
@@ -565,7 +466,7 @@ public class Window extends JPanel{
         private void expandNode(){
            /*
                 Cell current;
-                
+
                     // Here is the 3rd step of the algorithms A* and Greedy
                     // 3. Remove the first state, Si, from OPEN SET,
                     // for which f(Si) â¤ f(Sj) for all other
@@ -573,7 +474,7 @@ public class Window extends JPanel{
                     // (sort first OPEN SET list with respect to 'f')
                     Collections.sort(openSet, new CellComparatorByF());
                     current = openSet.remove(0);
-                
+
                 // ... and add it to CLOSED SET.
                 closedSet.add(0,current);
                 // Update the color of the cell
@@ -601,17 +502,17 @@ public class Window extends JPanel{
                 // 5. For each successor of Si, ...
                 succesors.stream().forEach((cell) -> {
                     // ... if we are running DFS ...
-                   
+
                         int dxg = current.col-cell.col;
                         int dyg = current.row-cell.row;
                         int dxh = targetPos.col-cell.col;
                         int dyh = targetPos.row-cell.row;
-                       
-                            
+
+
                                 cell.g = current.g+Math.abs(dxg)+Math.abs(dyg);
-                            
+
                             cell.h = Math.abs(dxh)+Math.abs(dyh);
-                        
+
                         cell.f = cell.g+cell.h;
                         // ... If Sj is neither in the OPEN SET nor in the CLOSED SET states ...
                         int openIndex   = isInList(openSet,cell);
@@ -626,7 +527,7 @@ public class Window extends JPanel{
                         } else {
                             // ... if already belongs to the OPEN SET, then ...
                             if (openIndex > -1){
-                                // ... compare the new value assessment with the old one. 
+                                // ... compare the new value assessment with the old one.
                                 // If old <= new ...
                                 if (openSet.get(openIndex).f <= cell.f) {
                                     // ... then eject the new node with state Sj.
@@ -643,7 +544,7 @@ public class Window extends JPanel{
                                 }
                                 // ... if already belongs to the CLOSED SET, then ...
                             } else {
-                                // ... compare the new value assessment with the old one. 
+                                // ... compare the new value assessment with the old one.
                                 // If old <= new ...
                                 if (closedSet.get(closedIndex).f <= cell.f) {
                                     // ... then eject the new node with state Sj.
@@ -660,14 +561,14 @@ public class Window extends JPanel{
                                 }
                             }
                         }
-                    
+
                 });
             */
         } //end expandNode()
-        
+
         /**
          * Creates the successors of a state/cell
-         * 
+         *
          * @param current       the cell for which we ask successors
          * @param makeConnected flag that indicates that we are interested only on the coordinates
          *                      of cells and not on the label 'dist' (concerns only Dijkstra's)
@@ -677,17 +578,17 @@ public class Window extends JPanel{
         	return null;
            /*
              int r = current.row;
-           
+
             int c = current.col;
             // We create an empty list for the successors of the current cell.
             ArrayList<Cell> temp = new ArrayList<>();
             // With diagonal movements priority is:
             // 1: Up 2: Up-right 3: Right 4: Down-right
             // 5: Down 6: Down-left 7: Left 8: Up-left
-            
+
             // Without diagonal movements the priority is:
             // 1: Up 2: Right 3: Down 4: Left
-            
+
             // If not at the topmost limit of the grid
             // and the up-side cell is not an obstacle ...
             if (r > 0 && grid[r-1][c] != OBST &&
@@ -706,14 +607,14 @@ public class Window extends JPanel{
                 // the present method createSuccesors() to collaborate
                 // with the method findConnectedComponent(), which creates
                 // the connected component when Dijkstra's initializes.
-              
+
                     // ... update the pointer of the up-side cell so it points the current one ...
                     cell.prev = current;
-                    // ... and add the up-side cell to the successors of the current one. 
+                    // ... and add the up-side cell to the successors of the current one.
                     temp.add(cell);
-                 
+
             }
-           
+
             // If not at the rightmost limit of the grid
             // and the right-side cell is not an obstacle ...
             if (c < columns-1 && grid[r][c+1] != OBST &&
@@ -723,14 +624,14 @@ public class Window extends JPanel{
                           isInList(openSet,new Cell(r,c+1)) == -1 &&
                           isInList(closedSet,new Cell(r,c+1)) == -1)) {
                 Cell cell = new Cell(r,c+1);
-                
+
                     // ... update the pointer of the right-side cell so it points the current one ...
                     cell.prev = current;
-                    // ... and add the right-side cell to the successors of the current one. 
+                    // ... and add the right-side cell to the successors of the current one.
                     temp.add(cell);
-                
+
             }
-          
+
             // If not at the lowermost limit of the grid
             // and the down-side cell is not an obstacle ...
             if (r < rows-1 && grid[r+1][c] != OBST &&
@@ -740,32 +641,32 @@ public class Window extends JPanel{
                           isInList(openSet,new Cell(r+1,c)) == -1 &&
                           isInList(closedSet,new Cell(r+1,c)) == -1)) {
                 Cell cell = new Cell(r+1,c);
-                
+
                    // ... update the pointer of the down-side cell so it points the current one ...
                     cell.prev = current;
-                    // ... and add the down-side cell to the successors of the current one. 
+                    // ... and add the down-side cell to the successors of the current one.
                     temp.add(cell);
-                
+
             }
-            
+
             // If not at the leftmost limit of the grid
             // and the left-side cell is not an obstacle ...
-            if (c > 0 && grid[r][c-1] != OBST && 
+            if (c > 0 && grid[r][c-1] != OBST &&
                     // ... and (only in the case are not running the A* or Greedy)
                     // not already belongs neither to the OPEN SET nor to the CLOSED SET ...
                     ((aStar.isSelected() || greedy.isSelected() || dijkstra.isSelected()) ? true :
                           isInList(openSet,new Cell(r,c-1)) == -1 &&
                           isInList(closedSet,new Cell(r,c-1)) == -1)) {
                 Cell cell = new Cell(r,c-1);
-               
+
                    // ... update the pointer of the left-side cell so it points the current one ...
                     cell.prev = current;
-                    // ... and add the left-side cell to the successors of the current one. 
+                    // ... and add the left-side cell to the successors of the current one.
                     temp.add(cell);
-                
+
             }
-            
-          
+
+
             return temp;
             */
         } // end createSuccesors()

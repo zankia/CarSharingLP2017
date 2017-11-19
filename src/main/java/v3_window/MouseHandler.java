@@ -7,20 +7,18 @@ import java.util.ArrayList;
 
 /**
  * Fonctions correspond aux actions d'un bouton
- *  @author AirDur
- * @version Build III -  v0.6
- * @since Build III -  v0.5
+ * @author AirDur
  */
 public class MouseHandler implements MouseListener, MouseMotionListener {
     //private int cur_row, cur_col, val_car, val_client_depart, val_cient_arrivee;
     private States cur_val;
     private Cell cur_cell;
     private Window win;
-    
+
     public MouseHandler(Window win) {
     	this.win = win;
     }
-    
+
     @Override
     public void mousePressed(MouseEvent evt) {
     	int row = (evt.getY() - 10) / this.win.squareSize;
@@ -64,14 +62,14 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	        } else {
 	        	this.win.repaint();
 	        }
-    	}   
+    	}
     }
 
     @Override
     public void mouseDragged(MouseEvent evt) {
     	if(win.typeColoriage) {
-    		
-    	} else {	
+
+    	} else {
 	        int row = (evt.getY() - 10) / this.win.squareSize;
 	        int col = (evt.getX() - 10) / this.win.squareSize;
 	        if (row >= 0 && row < this.win.rows && col >= 0 && col < this.win.columns){
@@ -81,7 +79,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	                	this.win.fillGrid();
 	                }
 	                if ((row*this.win.columns+col != row*this.win.columns+col) && (cur_val == States.CAR || cur_val == States.START_CLIENT || cur_val == States.END_CLIENT)){
-	                	
+
 	                    States new_val = this.win.grid[row][col].getStates();
 	                    if (new_val == States.VOID){
 	                    	this.win.grid[row][col].setStates(cur_val);
@@ -91,7 +89,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	                        	this.win.list_client_.add(this.win.grid[row][col]);
 	                        } else {
 	                        	this.win.list_client_depot.add(this.win.grid[row][col]);
-	                        	
+
 	                        }
 	                        this.win.grid[row][col].setStates(new_val);
 	                        if (cur_val == States.CAR) {
@@ -101,7 +99,7 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	                        } else {
 	                        	this.win.list_client_depot.add(this.win.grid[row][col]);
 	                        }
-	                       
+
 	                        cur_val = this.win.grid[row][col].getStates();
 	                    }
 	                } else if (this.win.grid[row][col].getStates() != States.WALL && this.win.grid[row][col].getStates() != States.CAR && this.win.grid[row][col].getStates() != States.START_CLIENT && this.win.grid[row][col].getStates() != States.END_CLIENT){
@@ -119,8 +117,8 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
 	        }
     	}
     }
-    
-    
+
+
     @Override
     public void mouseReleased(MouseEvent evt) { }
     @Override
@@ -164,5 +162,5 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     }
     @Override
     public void mouseClicked(MouseEvent evt) { }
-    
+
 } // end nested class MouseHandler

@@ -7,23 +7,12 @@ import v3_window.Cell;
 import v3_window.States;
 /**
  * Passager de voiture.
- * 
+ *
  * @author Romain Duret
- * @version Build III -  v0.0
- * @since Build III -  v0.0
  */
 public class Passager {
 
-	/*
-	   _____	   _ _   _	   _ _		   _   _			 
-	  |_   _|	 (_) | (_)	 | (_)		 | | (_)			
-		| |  _ __  _| |_ _  __ _| |_ ___  __ _| |_ _  ___  _ __  
-		| | | '_ \| | __| |/ _` | | / __|/ _` | __| |/ _ \| '_ \ 
-	   _| |_| | | | | |_| | (_| | | \__ \ (_| | |_| | (_) | | | |
-	  |_____|_| |_|_|\__|_|\__,_|_|_|___/\__,_|\__|_|\___/|_| |_|
-	*/															 
-		  
-	
+
 	/**
 	 * Id unique de Passager
 	 */
@@ -40,33 +29,21 @@ public class Passager {
 	 * Déclare
 	 */
 	private boolean exist;
-	
-	/*												   
-		_____				_				   _				  
-	   / ____|			  | |				 | |				 
-	  | |	 ___  _ __  ___| |_ _ __ _   _  ___| |_ ___ _   _ _ __ 
-	  | |	/ _ \| '_ \/ __| __| '__| | | |/ __| __/ _ \ | | | '__|
-	  | |___| (_) | | | \__ \ |_| |  | |_| | (__| ||  __/ |_| | |   
-	   \_____\___/|_| |_|___/\__|_|   \__,_|\___|\__\___|\__,_|_|  
-	
-	*/
 
 	/**
 	 * Constructeur de passager qui déclare si le passager existe (tableau de passager dans passagerParVoiture) <br>
 	 * Permet de gérer moins de passager que de place dispo.
-	 * @param b
-	 * @version Build III -  v0.5
-	 * @since Build III -  v0.5
+	 * @param b exists
 	 */
 	public Passager(boolean b) {
 		this.exist = b;
 	}
-	
+
 	/**
 	 * Constructeur de Passager
-	 * @version Build III -  v0.0
-	 * @since Build III -  v0.0
-	 */	
+	 * @param cellule_depart passenger position
+	 * @param cellule_arrivee passenger destination
+	 */
 	public Passager(Cell cellule_depart, Cell cellule_arrivee){
 		Passager.nbPassagers ++;
 		this.id = Passager.nbPassagers;
@@ -74,24 +51,13 @@ public class Passager {
 		positionPassagers[1] = cellule_arrivee;
 		this.exist = true;
 	}
-	
-	/*
-	  __  __	  _   _			   _		   
-	 |  \/  |	| | | |			 | |		  
-	 | \  / | ___| |_| |__   ___   __| | ___  ___ 
-	 | |\/| |/ _ \ __| '_ \ / _ \ / _` |/ _ \/ __|
-	 | |  | |  __/ |_| | | | (_) | (_| |  __/\__ \
-	 |_|  |_|\___|\__|_| |_|\___/ \__,_|\___||___/
-												  
-	 */	
-	
-	
-	
+
 
 	/**
 	 * Méthode qui construit un tableau de passager en fonction des passagers dispo.
-	 * @version Build III -  v0.2
-	 * @since Build III -  v0.2
+	 * @param list_client list of clients
+	 * @param list_client_depot list of clients
+	 * @return the created array
 	 */
 	public static Passager[] buildPassager(ArrayList<Cell> list_client, ArrayList<Cell> list_client_depot) {
 		Passager.nbPassagers = 0;
@@ -101,18 +67,8 @@ public class Passager {
 		}
 		return lesPassagers;
 	}
-	
-	/*
-	   _____	  _			   _____	  _   
-	  / ____|	| |	 ___	 / ____|	| |  
-	 | |  __  ___| |_   ( _ )   | (___   ___| |_ 
-	 | | |_ |/ _ \ __|  / _ \/\  \___ \ / _ \ __|
-	 | |__| |  __/ |_  | (_>  <  ____) |  __/ |_ 
-	  \_____|\___|\__|  \___/\/ |_____/ \___|\__|
-												 
-	  */										   
 
-											
+
 	public boolean getExist() {
 		return this.exist;
 	}
@@ -124,25 +80,25 @@ public class Passager {
 	public Cell getDepart() {
 		return this.positionPassagers[1];
 	}
-	
+
 	public int getId() {
 		return this.id;
 	}
 	public void setId(int i) {
 		this.id = i;
 	}
- 
+
 	@Override
 	public String toString() {
 		String passagerString = "";
-		passagerString += "Passager n°"+this.id+" position de départ: "+this.getDepart()+", destination : "+this.getArrivee(); 
+		passagerString += "Passager n°"+this.id+" position de départ: "+this.getDepart()+", destination : "+this.getArrivee();
 		return passagerString;
 	}
 
 	public static int getPireDistance(Passager[] lesPassagers) {
 		int somme = 0;
 		System.out.println(lesPassagers.length);
-		for(int i = 0; i < lesPassagers.length ; i++) { 
+		for(int i = 0; i < lesPassagers.length ; i++) {
 			Passager p = lesPassagers[i];
 			int somme_tempon = 0;
 			boolean[][] closed = new boolean[Execut_Algo_Genetique.sizeGrille_X][Execut_Algo_Genetique.sizeGrille_Y];
@@ -161,29 +117,29 @@ public class Passager {
 
 			Execut_Algo_Genetique.grid[p.getDepart().getRow()][p.getDepart().getColumn()].finalCost = 0;
 			int COST = 1;
-			
+
 			//add the start location to open list.
 			open.add(Execut_Algo_Genetique.grid[p.getDepart().getRow()][p.getDepart().getColumn()]);
-			
+
 			Cell current;
-			
-			while(true && open.size()>0){ 
+
+			while(true && open.size()>0){
 				current = open.poll();
 				if(current.getStates()==States.WALL) {
 					break;
 				}
-	
-				closed[current.row][current.col]=true; 
+
+				closed[current.row][current.col]=true;
 
 				if(current.equals(Execut_Algo_Genetique.grid[p.getArrivee().getRow()][p.getArrivee().getColumn()])){
 					break;
-				} 
-				Cell t;  
+				}
+				Cell t;
 				if(current.row-1>=0){
 					t = Execut_Algo_Genetique.grid[current.row-1][current.col];
 					if(!(t.getStates() == States.WALL || closed[t.row][t.col])) {
 						 int t_final_cost = t.heuristicCost+current.finalCost+COST;
-					       
+
 					       boolean inOpen = open.contains(t);
 					       if(!inOpen || t_final_cost<t.finalCost){
 					           t.finalCost = t_final_cost;
@@ -191,12 +147,12 @@ public class Passager {
 					           if(!inOpen)open.add(t);
 					       }
 					}
-				} 
+				}
 				if(current.col-1>=0){
 					t = Execut_Algo_Genetique.grid[current.row][current.col-1];
 					if(!(t.getStates() == States.WALL || closed[t.row][t.col])) {
 						 int t_final_cost = t.heuristicCost+current.finalCost+COST;
-					       
+
 					       boolean inOpen = open.contains(t);
 					       if(!inOpen || t_final_cost<t.finalCost){
 					           t.finalCost = t_final_cost;
@@ -209,7 +165,7 @@ public class Passager {
 					t = Execut_Algo_Genetique.grid[current.row][current.col+1];
 					if(!(t.getStates() == States.WALL || closed[t.row][t.col])) {
 						 int t_final_cost = t.heuristicCost+current.finalCost+COST;
-					       
+
 					       boolean inOpen = open.contains(t);
 					       if(!inOpen || t_final_cost<t.finalCost){
 					           t.finalCost = t_final_cost;
@@ -222,7 +178,7 @@ public class Passager {
 					t = Execut_Algo_Genetique.grid[current.row+1][current.col];
 					if(!(t.getStates() == States.WALL || closed[t.row][t.col])) {
 						 int t_final_cost = t.heuristicCost+current.finalCost+COST;
-					       
+
 					       boolean inOpen = open.contains(t);
 					       if(!inOpen || t_final_cost<t.finalCost){
 					           t.finalCost = t_final_cost;
@@ -232,18 +188,18 @@ public class Passager {
 					}
 				}
 			}
-			 
+
 			if(closed[p.getArrivee().getRow()][p.getArrivee().getColumn()]){
 				 Cell current2 = Execut_Algo_Genetique.grid[p.getArrivee().getRow()][p.getArrivee().getColumn()];
 				 while(current2.parent!=null){
 					 current2 = current2.parent;
 					 somme_tempon++;
-				 } 
+				 }
 			}
-			
+
 			somme = somme + somme_tempon;
 		}
 		return somme;
 	}
-	
+
 }
