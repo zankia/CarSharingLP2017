@@ -7,7 +7,7 @@ import v3_window.Main;
 import v3_window.Cell;
 
 /**
- * L'Algorithme Génétique. <br>
+ * L'Algorithme GÃ©nÃ©tique. <br>
  * 
  * 
  * @author Romain Duret
@@ -43,7 +43,7 @@ public class Algo_Genetique {
     
     /**
      * Evoluer la population : <br>
-     * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
+     * On garde le meilleur Groupe, on crÃ©er un nouveau groupe de passager <br>
      * On croise
      * et on mute 
      * @param pop Population (voitures)
@@ -80,7 +80,7 @@ public class Algo_Genetique {
     
  
     /**
-     * Déclanche une mutation si le facteur random est déclanché. <br>
+     * DÃ©clanche une mutation si le facteur random est dÃ©clanchÃ©. <br>
      * On teste s'il y a mutation autant de fois qu'il y a de place en tout dans le groupe de voiture/passager 
      * @version Build III -  v0.6
      * @since Build III -  v0.0
@@ -97,7 +97,7 @@ public class Algo_Genetique {
     
     /**
 	 * Evoluer la population : <br>
-	 * On garde le meilleur Groupe, on créer un nouveau groupe de passager <br>
+	 * On garde le meilleur Groupe, on crÃ©er un nouveau groupe de passager <br>
      * On croise et on mute 
      * @param pop Population (voitures)
      * @return
@@ -105,7 +105,7 @@ public class Algo_Genetique {
      * @since Build III -  v0.0
      */
 	private static void randomSwapPassagers(PassagerParVoiture PassagerParVoiture, int nVoiture){
-		//On génére 2 endroits aléatoire non identiques
+		//On gÃ©nÃ©re 2 endroits alÃ©atoire non identiques
 		int placeTotal = Execut_Algo_Genetique.nbPlaceVoiture* Execut_Algo_Genetique.nbVoiture;
 		int place_1 = (int)(Math.random() * placeTotal);
 		int place_2 = (int)(Math.random() * placeTotal);
@@ -114,7 +114,7 @@ public class Algo_Genetique {
 			place_2 = (int)(Math.random() * placeTotal);
 		}
 		
-		//On créé une mémoire provisoire : 
+		//On crÃ©Ã© une mÃ©moire provisoire : 
 		int[] emplacement_1 = new int[3];
 		int[] emplacement_2 = new int[3];
 		
@@ -169,9 +169,9 @@ public class Algo_Genetique {
     }
     
     /**
-     * Sélection en roue de la fortune. <br>
-     * Pour chaque "étape", on sélectionne 4 passagers tirés au sort. On récupère la taille. <br>
-     * Cela donne un poids (50% meilleur, 10% pour le reste, 20% pour un nouveau généré aléatoirement) <br>
+     * SÃ©lection en roue de la fortune. <br>
+     * Pour chaque "Ã©tape", on sÃ©lectionne 4 passagers tirÃ©s au sort. On rÃ©cupÃ¨re la taille. <br>
+     * Cela donne un poids (50% meilleur, 10% pour le reste, 20% pour un nouveau gÃ©nÃ©rÃ© alÃ©atoirement) <br>
      * On tire au sort et on renvoie.
      * @param pop Population (voitures)
      * @return

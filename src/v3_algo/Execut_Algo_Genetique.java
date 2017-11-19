@@ -22,7 +22,7 @@ public class Execut_Algo_Genetique {
 	 */
 	protected static Passager[] lesPassagers;
 	/**
-	 * Nombre d'itération à affectuer après la dernière diminution de taille
+	 * Nombre d'itÃ©ration Ã  affectuer aprÃ¨s la derniÃ¨re diminution de taille
 	 */
 	protected static final int nbIterations = 30;
 	/**
@@ -31,7 +31,7 @@ public class Execut_Algo_Genetique {
     protected static int nbPassager;
 
     /**
-     * Taille de la population utilisée par l'algo génétique
+     * Taille de la population utilisÃ©e par l'algo gÃ©nÃ©tique
      */
     protected static int taillePopulation = 10;
     /**
@@ -48,19 +48,19 @@ public class Execut_Algo_Genetique {
     protected static int sizeGrille_X;
     protected static int sizeGrille_Y;
     /**
-     * Premiere solution trouvée (distance)
+     * Premiere solution trouvÃ©e (distance)
      */
     int premiereSolution = 0;
     /**
-     * Meilleure soltuion trouvée (distance)
+     * Meilleure soltuion trouvÃ©e (distance)
      */
     int meilleureSolution;
     /**
-     * Meilleure combinaison de Passager distribué dans des voitures
+     * Meilleure combinaison de Passager distribuÃ© dans des voitures
      */
     PassagerParVoiture meilleurPassagerParVoiture;
     /**
-     * Conteur de génération
+     * Conteur de gÃ©nÃ©ration
      */
     int generationCount;
     
@@ -87,7 +87,7 @@ public class Execut_Algo_Genetique {
    
     /**
      * On initialise le programme. <br>
-     * On génère la liste des Passagers
+     * On gÃ©nÃ¨re la liste des Passagers
      * @param win
      */
     public Execut_Algo_Genetique(Window win) {
@@ -101,14 +101,14 @@ public class Execut_Algo_Genetique {
     	
  		Execut_Algo_Genetique.lesPassagers = Passager.buildPassager(win.list_client_, win.list_client_depot); 
  		
- 		Population myPop = this.execute(win.list_block); //exuction de l'algo génétique 
+ 		Population myPop = this.execute(win.list_block); //exuction de l'algo gÃ©nÃ©tique 
  		
  		//this.meilleureSolution = myPop.getMoreCompetent().getU(); //taille de la meilleure solution
  		this.affichage(debut);
     }
  
     /**
-     * Execution des itérations
+     * Execution des itÃ©rations
      * @return
      * @version Build III -  v0.5
 	 * @since Build III -  v0.2
@@ -116,7 +116,7 @@ public class Execut_Algo_Genetique {
     public Population execute(ArrayList<Cell> l_b) {
     	this.generationCount = 0;
     	
-    	Population myPop = new Population(taillePopulation, true, l_b); //création de la population initialie
+    	Population myPop = new Population(taillePopulation, true, l_b); //crÃ©ation de la population initialie
     	Population bestPop = myPop;
     	
     	this.meilleureSolution = bestPop.getMoreCompetent().getU();
@@ -160,7 +160,7 @@ public class Execut_Algo_Genetique {
 
 */      
     /**
-     * Affichage des données dans la console
+     * Affichage des donnÃ©es dans la console
      * @version Build III -  v0.2
 	 * @since Build III -  v0.2
      */
@@ -171,19 +171,19 @@ public class Execut_Algo_Genetique {
     	System.out.println("---------------------");
         System.out.println("Solution found ! Number of generations created : "+ this.generationCount);
         System.out.println("Distance: " + (float)this.meilleureSolution/100+" Km");
-        System.out.println("Distance au début : " + (float)this.premiereSolution/100+" Km");
+        System.out.println("Distance au dÃ©but : " + (float)this.premiereSolution/100+" Km");
         System.out.println("Distance total 1 par 1 : " + (float)Passager.getPireDistance(lesPassagers)/100 + "Km");
 
         System.out.println("---------------------");
-        System.out.println("Répartition des passagers :");
+        System.out.println("RÃ©partition des passagers :");
         this.meilleurPassagerParVoiture.afficherPassagerOnVoitures();
     
         System.out.println("---------------------");
-        System.out.println("Matrice des points à parcourir : ");
+        System.out.println("Matrice des points Ã  parcourir : ");
         this.meilleurPassagerParVoiture.afficherPoints();
         
         long fin = System.currentTimeMillis();
-        System.out.println("Méthode exécutée en " + Long.toString(fin - debut) + " millisecondes");
+        System.out.println("MÃ©thode exÃ©cutÃ©e en " + Long.toString(fin - debut) + " millisecondes");
 
     }
     

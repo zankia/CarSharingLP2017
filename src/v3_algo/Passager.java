@@ -29,15 +29,15 @@ public class Passager {
 	 */
 	private int id;
 	/**
-	 * PositionPassager de départ et point d'arrivée.
+	 * PositionPassager de dÃ©part et point d'arrivÃ©e.
 	 */
 	private Cell[] positionPassagers = new Cell[2] ;
 	/**
-	 * Nombre de passager totaux (inutile si Base de donnée : SELECT COUNT(*)
+	 * Nombre de passager totaux (inutile si Base de donnÃ©e : SELECT COUNT(*)
 	 */
 	private static int nbPassagers = 0;
 	/**
-	 * Déclare
+	 * DÃ©clare
 	 */
 	private boolean exist;
 	
@@ -52,8 +52,8 @@ public class Passager {
 	*/
 
 	/**
-	 * Constructeur de passager qui déclare si le passager existe (tableau de passager dans passagerParVoiture) <br>
-	 * Permet de gérer moins de passager que de place dispo.
+	 * Constructeur de passager qui dÃ©clare si le passager existe (tableau de passager dans passagerParVoiture) <br>
+	 * Permet de gÃ©rer moins de passager que de place dispo.
 	 * @param b
 	 * @version Build III -  v0.5
 	 * @since Build III -  v0.5
@@ -89,7 +89,7 @@ public class Passager {
 	
 
 	/**
-	 * Méthode qui construit un tableau de passager en fonction des passagers dispo.
+	 * MÃ©thode qui construit un tableau de passager en fonction des passagers dispo.
 	 * @version Build III -  v0.2
 	 * @since Build III -  v0.2
 	 */
@@ -135,7 +135,7 @@ public class Passager {
 	@Override
 	public String toString() {
 		String passagerString = "";
-		passagerString += "Passager n°"+this.id+" position de départ: "+this.getDepart()+", destination : "+this.getArrivee(); 
+		passagerString += "Passager nÂ°"+this.id+" position de dÃ©part: "+this.getDepart()+", destination : "+this.getArrivee(); 
 		return passagerString;
 	}
 

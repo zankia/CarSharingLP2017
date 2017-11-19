@@ -28,9 +28,9 @@ public class Main {
      */
     public static final int height = 545;
     /**
-     * Titre-légende de la fenetre
+     * Titre-lÃ©gende de la fenetre
      */
-    public static final String title = "Algorithme Génétique";
+    public static final String title = "Algorithme GÃ©nÃ©tique";
     /**
      * @param args the command line arguments
      */

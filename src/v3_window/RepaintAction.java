@@ -24,15 +24,15 @@ public class RepaintAction implements ActionListener {
     @Override
     /**
      * A chaque fois que le temps avance, on va faire : <br>
-     * - soit on a selectionné la recherche de solution
-     * - soit on a selectionné l'execution de la solution
+     * - soit on a selectionnÃ© la recherche de solution
+     * - soit on a selectionnÃ© l'execution de la solution
      * @version Build III -  v0.5
      * @since Build III -  v0.5
      */
     public void actionPerformed(ActionEvent evt) {
     	if(win.promptSelected) { //Affiche pour chaque partie la "solution" de l'algorithme.
     		
-    	} else if (!win.promptSelected) { //Affiche une étape d'execution
+    	} else if (!win.promptSelected) { //Affiche une Ã©tape d'execution
     		
     	}
         // Here we decide whether we can continue or not

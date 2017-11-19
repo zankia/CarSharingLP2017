@@ -25,7 +25,7 @@ public class ActionHandler implements ActionListener {
     
     @Override
     /**
-     * Classe qui gère les actions
+     * Classe qui gÃ¨re les actions
      * @author AirDur
      * @version Build III -  v0.6
    	 * @since Build III -  v0.5
@@ -33,7 +33,7 @@ public class ActionHandler implements ActionListener {
     public void actionPerformed(ActionEvent evt) {
         switch(this.name) {
 	        case "New Grid" : 
-	        	//Affiche une nouvelle grille selon les paramètres
+	        	//Affiche une nouvelle grille selon les paramÃ¨tres
 	        	win.realTime = false;
 	        	win.animationButton.setEnabled(true);
 	        	win.slider.setEnabled(true);
@@ -45,12 +45,12 @@ public class ActionHandler implements ActionListener {
 	        	win.deleteCarAndPassagerGrid();
 	        	break;
 	        case "Clear2" :
-	        	//Enlève tout les murs de la grille.
+	        	//EnlÃ¨ve tout les murs de la grille.
 	        	win.deleteWallGrid();
 	        	break;
 	        case "Animation" :
-	        	//Affiche pour chaque étape de l'algo génétique le parcours des voitures.
-	        	if(!win.endOfSearch) { //Ne peut pas se déclancher si le truc marche pas.
+	        	//Affiche pour chaque Ã©tape de l'algo gÃ©nÃ©tique le parcours des voitures.
+	        	if(!win.endOfSearch) { //Ne peut pas se dÃ©clancher si le truc marche pas.
 	        		win.realTime = false;
 	                win.searching = true;
 	                win.message.setText((String) win.JSON_Window.get("msgSelectStepByStepEtc"));

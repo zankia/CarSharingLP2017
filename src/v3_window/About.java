@@ -14,7 +14,7 @@ import org.json.simple.parser.ParseException;
 import v3_window.Window;
 
 /**
- * Classe qui permet d'afficher la fenêtre "A propos"
+ * Classe qui permet d'afficher la fenÃªtre "A propos"
  * 
  * @author AirDur
  * @version Build III -  v0.6
@@ -109,8 +109,8 @@ public class About extends JDialog{
     }
     
     /**
-     * Ouvre le fichier contenant les données.
-     * Permet à terme de généraliser afin d'avoir plusieurs langages.
+     * Ouvre le fichier contenant les donnÃ©es.
+     * Permet Ã  terme de gÃ©nÃ©raliser afin d'avoir plusieurs langages.
      * @version Build III -  v0.5
 	 * @since Build III -  v0.5
      * @throws FileNotFoundException

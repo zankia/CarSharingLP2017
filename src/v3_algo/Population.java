@@ -70,7 +70,7 @@ public class Population {
 	 */	
     
     /**
-     * Sauvegarde un groupe de Passager réparti dans des voitures à un certain emplacement
+     * Sauvegarde un groupe de Passager rÃ©parti dans des voitures Ã  un certain emplacement
      * @param index
      * @param PassagerParVoiture
      * @version Build III -  v0.5
