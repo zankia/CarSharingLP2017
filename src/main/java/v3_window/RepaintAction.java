@@ -8,16 +8,16 @@ import java.awt.event.ActionListener;
  * @author AirDur
  */
 public class RepaintAction implements ActionListener {
+    private Window win;
 
-	private Window win;
+    /**
+     * Constructeur de RepaintAction
+     * @param win The concerned Window
+     */
+    public RepaintAction(Window win) {
+        this.win = win;
+    }
 
-	/**
-	 * Constructeur de RepaintAction
-	 * @param win The concerned Window
-	 */
-	public RepaintAction(Window win) {
-		this.win =win;
-	}
 
     @Override
     /**
@@ -26,11 +26,11 @@ public class RepaintAction implements ActionListener {
      * - soit on a selectionné l'execution de la solution
      */
     public void actionPerformed(ActionEvent evt) {
-    	if(win.promptSelected) { //Affiche pour chaque partie la "solution" de l'algorithme.
+        if (win.promptSelected) { //Affiche pour chaque partie la "solution" de l'algorithme.
 
-    	} else if (!win.promptSelected) { //Affiche une étape d'execution
+        } else if (!win.promptSelected) { //Affiche une étape d'execution
 
-    	}
+        }
         // Here we decide whether we can continue or not
         // the search with 'Animation'.
         // In the case of DFS, BFS, A* and Greedy algorithms

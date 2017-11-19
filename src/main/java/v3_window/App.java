@@ -7,18 +7,17 @@ import javax.swing.JFrame;
 
 /**
  * Classe qui permet d'afficher la fenetre.
- * 
- * 
+ *
+ *
  * @author AirDur
  * @author Nikos Kanargias, Hellenic Open University student, PLI31 2012-13 - (http://youtu.be/0ol_PptA7rM)
  *
  */
 public class App {
-	
-	/**
-	 * Le contenu principal du programme
-	 */
-    public static JFrame mazeFrame; 
+    /**
+     * Le contenu principal du programme
+     */
+    public static JFrame mazeFrame;
     /**
      * Largeur
      */
@@ -31,17 +30,18 @@ public class App {
      * Titre-légende de la fenetre
      */
     public static final String title = "Algorithme Génétique";
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         mazeFrame = new JFrame(title);
-        
+
         mazeFrame.setContentPane(new Window(width,height));
-        
+
         mazeFrame.pack();
         mazeFrame.setResizable(false);
-        
+
         // the form is located in the center of the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         double screenWidth = screenSize.getWidth();
@@ -52,6 +52,6 @@ public class App {
         mazeFrame.setLocation(x,y);
         mazeFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mazeFrame.setVisible(true);
-        
+
     } // end main()
 }
