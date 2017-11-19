@@ -1,6 +1,6 @@
 # CarShare
 
-Blablabla.
+Carshare is an automated carshare simulation software
 
 ## Getting Started
 
@@ -8,68 +8,49 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Avoir Java.
+* Java Development Kit (JDK), version 1.7 or better
 
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
+Note: any gradle command can be executed with the given `gradlew` file.
 
 ### Installing
 
-A step by step series of examples that tell you have to get a development env running
+This project is built with gradle.
 
-Say what the step will be
-
-```
-Give the example
-```
-
-And repeat
+To compile the project, simply run
 
 ```
-until finished
+gradle build
 ```
 
-End with an example of getting some data out of the system or using it for a little demo
+then you can use the generated jar in the `build folder`.
 
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Alternately here is the command to directly compile and run
 
 ```
-Give an example
+gradle run
 ```
 
-### And coding style tests
 
-Explain what these tests test and why
+### Running the tests
+
+Same as before, to run the tests, you only need
 
 ```
-Give an example
+gradle test
 ```
-
-## Built With
-
-* [Eclipse](https://eclipse.org/)
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+*TODO*
 
 ## Authors
 
-* **Christophe Coillot** - *Ingénieur en Recherche, Laboratoire Charles Coulomb* - Algorithms, supervisor
-* **Etienne Callies** - *École Polytechnique* - 
-* **Guillermo Durand** - *École Polytechnique* - 
-* **Corentin Lecomte** - *École Polytechnique* - 
-* **Clément Choukroun** - *École Polytechnique* - 
-* **Thibault Ferber** - *École Polytechnique* - 
+* **Christophe Coillot** - *IngÃ©nieur en Recherche, Laboratoire Charles Coulomb* - Algorithms, supervisor
+* **Etienne Callies** - *Ã‰cole Polytechnique* - 
+* **Guillermo Durand** - *Ã‰cole Polytechnique* - 
+* **Corentin Lecomte** - *Ã‰cole Polytechnique* - 
+* **ClÃ©ment Choukroun** - *Ã‰cole Polytechnique* - 
+* **Thibault Ferber** - *Ã‰cole Polytechnique* - 
 * **Hugo de WISPELAERE** - *License Professionnel Assistant Chef de Projet* - Refactoring
 * **Paul Di BARTOLOMEO** - *License Professionnel Assistant Chef de Projet* - Genetic algorithm 
 * **Romain HAGEMANN** - *License Professionnel Assistant Chef de Projet* - Refactoring
@@ -81,10 +62,3 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 ## License
 
 This project is licensed under the  GNU GENERAL PUBLIC LICENSE - see the [LICENSE](LICENSE.md) file for details
-
-## Acknowledgments
-
-* Hat tip to anyone who's code was used
-* Inspiration
-* etc
-
