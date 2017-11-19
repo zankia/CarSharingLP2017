@@ -14,9 +14,10 @@ gradle/
 *.rar
 *.tag.gz
 
-# Eclipse specific files
+# IDE specific files
 .project
 .classpath
+.settings/
 
 # Crash logs
 hs_err_pid*
