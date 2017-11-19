@@ -1,3 +1,23 @@
-*.class
-
+# Binaries
 /bin/
+/build/
+*.class
+.gradle/
+gradle/
+
+# Log files
+*.log
+
+# Package files
+*.jar
+*.zip
+*.rar
+*.tag.gz
+
+# IDE specific files
+.project
+.classpath
+.settings/
+
+# Crash logs
+hs_err_pid*
