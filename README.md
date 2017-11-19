@@ -64,12 +64,12 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Authors
 
-* **Christophe Coillot** - *Ingénieur en Recherche, Laboratoire Charles Coulomb* - Algorithms, supervisor
-* **Etienne Callies** - *École Polytechnique* - 
-* **Guillermo Durand** - *École Polytechnique* - 
-* **Corentin Lecomte** - *École Polytechnique* - 
-* **Clément Choukroun** - *École Polytechnique* - 
-* **Thibault Ferber** - *École Polytechnique* - 
+* **Christophe Coillot** - *IngÃ©nieur en Recherche, Laboratoire Charles Coulomb* - Algorithms, supervisor
+* **Etienne Callies** - *Ã‰cole Polytechnique* - 
+* **Guillermo Durand** - *Ã‰cole Polytechnique* - 
+* **Corentin Lecomte** - *Ã‰cole Polytechnique* - 
+* **ClÃ©ment Choukroun** - *Ã‰cole Polytechnique* - 
+* **Thibault Ferber** - *Ã‰cole Polytechnique* - 
 * **Hugo de WISPELAERE** - *License Professionnel Assistant Chef de Projet* - Refactoring
 * **Paul Di BARTOLOMEO** - *License Professionnel Assistant Chef de Projet* - Genetic algorithm 
 * **Romain HAGEMANN** - *License Professionnel Assistant Chef de Projet* - Refactoring
