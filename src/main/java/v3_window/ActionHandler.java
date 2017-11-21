@@ -47,7 +47,8 @@ public class ActionHandler implements ActionListener {
                 if (!win.endOfSearch) { //Ne peut pas se déclancher si le truc marche pas.
                     win.realTime = false;
                     win.searching = true;
-                    win.message.setText((String) win.JSON_Window.get("msgSelectStepByStepEtc"));
+                    win.message.setText((String)
+                            Window.JSON_Window.get("msgSelectStepByStepEtc"));
                     win.promptSelected = true;
                     win.algo = new Execut_Algo_Genetique(win);
                     win.timer.setDelay(win.delay);
@@ -61,6 +62,14 @@ public class ActionHandler implements ActionListener {
             case "ChangeState_2":
                 win.editButton("ChangeState", win.changeStateButton);
                 win.typeColoriage = false;
+                break;
+            case "mapType":
+                win.editButton("mapType_2", win.mapType);
+                win.map.setVisible(true);
+                break;
+            case "mapType_2":
+                win.editButton("mapType", win.mapType);
+                win.map.setVisible(false);
                 break;
             case "About":
                 About about = new About(App.mazeFrame, true);

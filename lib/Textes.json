@@ -2,33 +2,35 @@
 	"Window": {
 		"msgDrawAndSelect" : "",
 		"msgSelectStepByStepEtc" : "",
-		"msgNoSolution" : "Aucun chemin jusqu'à la cible !!!",
+		"msgNoSolution" : "Aucun chemin jusqu'a la cible !!!",
 		"labelRow" : "Nmbr de lignes (5-83):",
 		"labelColumn" : "Nmbr de colonnes (5-83):",
 		"labelSpeedSelector" : "Vitesse : ",
-		"tooltipSpeedSelector" : "Regule le temps entre chaque étape (de 0 à 2 secondes)",
+		"tooltipSpeedSelector" : "Regule le temps entre chaque etape (de 0 a 2 secondes)",
 		"Titre" : "Algorithmes",
 		"Button": {
-			"New Grid" : ["Nouvelle Grille","Redessine la grille avec les nouveaux paramètres."],
-			"Clear" : ["RàZ Voiture/Client", "Permet d'enlever les traces de la recherche."],
-			"Clear2" : ["RàZ Obstacle", "Permet d'enlever les obstacles."],
+			"New Grid" : ["Nouvelle Grille","Redessine la grille avec les nouveaux parametres."],
+			"Clear" : ["Reset Voiture/Client", "Permet d'enlever les traces de la recherche."],
+			"Clear2" : ["Reset Obstacle", "Permet d'enlever les obstacles."],
 			"Animation" : ["Animation Algo" , "Affiche l'execution de l'algorithme (recherche de chemin)"],
 			"About" : ["A propos", "Permet de connaitre les informations de l'application."],
 			"ChangeState" : ["Mode Ajout V/C", "Permet de changer entre le mode dessin d'obstacle et le mode ajout client/voiture."],
-			"ChangeState_2" : ["Mode Dessin Obs", "Permet de changer entre le mode dessin d'obstacle et le mode ajout client/voiture."]
+			"ChangeState_2" : ["Mode Dessin Obs", "Permet de changer entre le mode dessin d'obstacle et le mode ajout client/voiture."],
+			"mapType" : ["Map OSM", "Permet de changer la carte entre OpenStreetMap et une grille"],
+			"mapType_2" : ["Map Grille", "Permet de changer la carte entre OpenStreetMap et une grille"]
 		}
-		"car" : "Voiture numéro ",
-		"client_start" : "Départ du Client numéro ",
-		"client_end" : "Arrivée du Client numéro ",
+		"car" : "Voiture numero ",
+		"client_start" : "Depart du Client numero ",
+		"client_end" : "Arrivee du Client numero ",
 		"nothing" : "Rien"
 	}
 	"About" : {
-		"title" : "Algorithme Génétique",
+		"title" : "Algorithme Genetique",
 		"version" : "Build III - v0.6",
 		"programmer" : "Romain Duret and more",
 		"license" : "GNU GENERAL PUBLIC LICENSE",
 		"link" : "<html><a href=\\\"\\\">Code and documentation</a></html>",
-		"tooltip" : "Cliquez sur le lien pour retrouver le code et la documentation sur GitHub", 
+		"tooltip" : "Cliquez sur le lien pour retrouver le code et la documentation sur GitHub",
 		"github_link" : "https://github.com/AirDur/CarSharingLP2017"
 	}
 }

@@ -1,24 +1,20 @@
 package v3_window;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-
 import javax.swing.*;
-import javax.swing.event.*;
-
 import javax.swing.Timer;
-
+import javax.swing.event.*;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
-import v3_algo.Passager;
+import org.openstreetmap.gui.jmapviewer.JMapViewer;
 import v3_algo.Execut_Algo_Genetique;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import v3_algo.Passager;
 
 /**
  * Classe qui gére la création de la fenetre
@@ -55,7 +51,7 @@ public class Window extends JPanel {
     JLabel message, car, client, closed, frontier;
 
     // Les buttons :
-    JButton newgridButton, clearButton, clear_2Button, animationButton, aboutButton,changeStateButton;
+    JButton newgridButton, clearButton, clear_2Button, animationButton, aboutButton,changeStateButton,mapType;
 
     // Selecteurs :
     JSlider slider;
@@ -78,6 +74,12 @@ public class Window extends JPanel {
     int expanded;        // the number of nodes that have been expanded
     Timer timer; // Vitesse d'execution de l'algorithme
 
+
+    /**
+     * OpenStreetMap
+     */
+    JMapViewer map;
+
     // Controleur de l'animation :
     RepaintAction action;
 
@@ -99,6 +101,7 @@ public class Window extends JPanel {
         this.columns = 41;
         this.squareSize = 500/rows;
 
+
         //Récupération de document !
         try {
             this.ouvertureFichier();
@@ -113,7 +116,7 @@ public class Window extends JPanel {
         // Paramètres général :
         setLayout(null);
         this.action = new RepaintAction(this);
-        MouseHandler listener = mouseListener();
+        mouseListener();
         setBorder(BorderFactory.createMatteBorder(2,2,2,2,Color.blue));
         setPreferredSize(new Dimension(width,height));
 
@@ -126,12 +129,13 @@ public class Window extends JPanel {
         this.velocity = this.createSpeedSelector();
 
         //Création des buttons :
-        this.newgridButton = createButton("New Grid",this.newgridButton);
-        this.clearButton = createButton("Clear",this.clearButton);
-        this.clear_2Button = createButton("Clear2", this.clear_2Button);
-        this.animationButton = createButton("Animation",this.animationButton);
-        this.aboutButton = createButton("About",this.aboutButton);
-        this.changeStateButton = createButton("ChangeState",this.changeStateButton);
+        this.newgridButton = createButton("New Grid");
+        this.clearButton = createButton("Clear");
+        this.clear_2Button = createButton("Clear2");
+        this.animationButton = createButton("Animation");
+        this.aboutButton = createButton("About");
+        this.changeStateButton = createButton("ChangeState");
+        this.mapType = createButton("mapType");
 
         // we add the contents of the panel
         add(this.message);
@@ -144,6 +148,7 @@ public class Window extends JPanel {
         add(this.clear_2Button);
         add(this.animationButton);
         add(this.changeStateButton);
+        add(this.mapType);
         add(this.slider);
         add(this.velocity);
         add(this.aboutButton);
@@ -159,9 +164,10 @@ public class Window extends JPanel {
         this.clear_2Button.setBounds(520, 125, 170, 25);
         this.animationButton.setBounds(520, 155, 170, 25);
         this.changeStateButton.setBounds(520, 185, 170, 25);
-        this.aboutButton.setBounds(520, 215, 170, 25);
-        this.velocity.setBounds(520, 250, 170, 10);
-        this.slider.setBounds(520, 265, 170, 25);
+        this.mapType.setBounds(520, 215, 170, 25);
+        this.aboutButton.setBounds(520, 245, 170, 25);
+        this.velocity.setBounds(520, 280, 170, 10);
+        this.slider.setBounds(520, 295, 170, 25);
 
         // we create the timer
         this.timer = new Timer(this.delay, this.action);
@@ -170,7 +176,11 @@ public class Window extends JPanel {
 
         //Création de la grille :
         this.createGrid();
-        this.fillGrid();
+
+        map = new JMapViewer();
+        add(map);
+        map.setBounds(10, 10, 500, 500);
+        map.setVisible(false);
 
     } // end constructor
 
@@ -262,12 +272,11 @@ public class Window extends JPanel {
     /**
      * Créateur Générique de bouton
      * @param name name of the button
-     * @param button the button to fill or replace
      * @return the created button
      */
-    protected JButton createButton(String name, JButton button) {
+    private JButton createButton(String name) {
         JSONArray texte = (JSONArray) this.JSON_Boutons.get(name);
-        button = new JButton((String) texte.get(0));
+        JButton button = new JButton((String) texte.get(0));
         button.addActionListener(new ActionHandler(this, name));
         button.setBackground(Color.white);
         button.setToolTipText((String) texte.get(1));
@@ -293,7 +302,6 @@ public class Window extends JPanel {
         for (int r = 0; r < this.rows; r++) {
             for (int c = 0; c < this.columns; c++) {
                 this.grid[r][c] = new Cell(r, c, States.VOID);
-                this.grid[r][c].setStates(States.VOID);
             }
         }
     }
@@ -442,7 +450,6 @@ public class Window extends JPanel {
 
         g.setColor(Color.DARK_GRAY);
         g.fillRect(10, 10, columns*squareSize+1, rows*squareSize+1);
-
         for (int r = 0; r < rows; r++) {
             for (int c = 0; c < columns; c++) {
                 switch (this.grid[r][c].getStates()) {
@@ -595,9 +602,9 @@ public class Window extends JPanel {
      *                      of cells and not on the label 'dist' (concerns only Dijkstra's)
      * @return              the successors of the cell as a list
      */
+   /*
     private ArrayList<Cell> createSuccesors(Cell current, boolean makeConnected) {
         return null;
-       /*
          int r = current.row;
 
         int c = current.col;
@@ -689,6 +696,6 @@ public class Window extends JPanel {
 
 
         return temp;
-        */
     } // end createSuccesors()
+    */
 }
